@@ -113,15 +113,20 @@ function endAttach(e) {
 	}
 }
 
+function dt2p(x1, y1, x2, y2) {
+  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+}
+
 function attachMove(e) {
 	if(this._states.attaching) {
 		var wire = this._aux.attaching.wire;
     var from = this._aux.attaching.from;
 		var SVGbox = this._svg.getBoundingClientRect();
 		var mouse = { x: e.x - SVGbox.left, y: e.y - SVGbox.top };
-    var port = { x: parseFloat(from.owner.x) + parseFloat(from.attr('cx')), y: parseFloat(from.owner.y) + parseFloat(from.attr('cy')) };
+    var port = { x: from.owner.x *1 + from.attr('cx') *1, y: from.owner.y *1 + from.attr('cy') *1 };
 
-    var cp = this._aux.attaching.from.id == 'in0' ? -100 : 100;
+    var dt = dt2p(port.x, port.y, mouse.x, mouse.y)/2;
+    var cp = this._aux.attaching.from.dir === 'in' ? -dt : dt;
 	  var d = Sticky.describeJoint(port.x, port.y, mouse.x, mouse.y, cp);
 		this._aux.attaching.wire.setAttribute('d', d);
 	}

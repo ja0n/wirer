@@ -2,6 +2,9 @@ var Wrapper = function(el, that) {
 	// this._el = el;
 	this._el = lokor();
 
+	// this.ports.in = new Array(2);
+	// this.ports.out = new Array(2);
+
 	arrangePorts.call(this);
 
 	var main = this._el.getElementById('main');
@@ -17,8 +20,10 @@ Wrapper.prototype = {
 	_id: null,
 	_container: null,
 	_ports: {
-		in0: { conn: [], side: 'left' },
-		out0: { conn: [], side: 'right' }
+		// in: null,
+		// out: null
+		in: [[], [], []],
+		out: [[], []]
 	},
 	get _svg() { return getSvg(this._el); },
   get x () { return this._el.getAttribute('x'); },
@@ -127,37 +132,63 @@ function lokor() {
 
 function arrangePorts() {
 	var radius = 10;
+	var dist = 10; //distance beetween ports
 	var strokeWidth = 3.5;
 	var ports = this._ports;
 	var port = null;
-	var rectBox = this._el.getElementById('main').getBBox();
-	rectBox.width = this._el.getElementById('main').getAttribute('width');
-	rectBox.height = this._el.getElementById('main').getAttribute('height');
-  var attrs = { id: null, cx: 12.5, cy: 27.5, r: radius, fill: 'yellow', stroke: 'black', 'stroke-width': strokeWidth };
+	var main = this._el.getElementById('main');
+	var rectBox = main.getBBox();
+	var maxPorts = Math.max(ports.in.length, ports.out.length);
+	var Radius = radius + strokeWidth/2; //total radius -> circle radius plus its stroke width
+	var tRadius = dist + Radius;
+	var height = (dist + Radius * 2) * maxPorts + dist; //dist + diameter * number of ports + final dist
+	var width = main.getAttribute('width') * 1;
 
-	var margin = radius + strokeWidth/2;
+	main.setAttribute('height', height);
 
-	for (var name in ports) {
-		var that = this;
-		attrs.id = name;
-		switch (ports[name].side) {
-			case 'top': attrs.cx = rectBox.width/2; attrs.cy = margin; break;
-			case 'right': attrs.cx = rectBox.width + margin; attrs.cy = rectBox.height/2; break;
-			case 'bottom': attrs.cx = rectBox.width/2; attrs.cy = rectBox.height; break;
-			case 'left': attrs.cx = margin; attrs.cy = rectBox.height/2; break;
-		}
-		port = Sticky.createElement('circle', attrs);
-		port.owner = this;
-		port.type = 'port';
+  var attrs = { id: null, r: radius, fill: 'yellow', stroke: 'black', 'stroke-width': strokeWidth };
+	var i, y, ds;
+	// attrs.cx = margin; attrs.cy = rectBox.height/2;
 
-		port.attr = function(key, value) {
-			if(value) return this.setAttribute(key, value);
-			else return this.getAttribute(key);
-		};
+	ds = height/ports.in.length;
+	y = ds/2;
 
-		//port.addEventListener('mousedown', startAttach.bind(this));
-		//port.addEventListener('mouseup', endAttach.bind(this));
-  	this._el.appendChild(port);
+	for (i = 0; i < ports.in.length; i++, y+=ds) {
+		port = createPort(i, this, 'in', attrs);
+		port.attr('cx', Radius);
+		// port.attr('cy', tRadius + i * (2*Radius + dist));
+		port.attr('cy', y);
+		this._el.appendChild(port);
+	}
+	//
+	ds = height/ports.out.length;
+	y = ds/2; //initially get half the distance cuz we drawin a circle, then we increment by the total distance
+						//cuz it means the missing half for the previous circle and the initial half for the next circle
+						//so every 'y' means one center of circle
+	for (i = 0; i < ports.out.length; i++, y+=ds) {
+		console.log(test);
+
+		port = createPort(i, this, 'out', attrs);
+		port.attr('cx', width + Radius);
+		// port.attr('cy', tRadius + i * (2*Radius + dist));
+		port.attr('cy', y);
+		this._el.appendChild(port);
 	}
 
+}
+
+function createPort(id, owner, dir, attrs) {
+	if(['in','out'].indexOf(dir) === -1) throw 'port direction must be \'in\' or \'out\'';
+	var port = Sticky.createElement('circle', attrs);
+	port.id = id;
+	port.owner = owner;
+	port.type = 'port';
+	port.dir = dir; //dir -> direction, not directory
+
+	port.attr = function(key, value) {
+		if(value) return this.setAttribute(key, value);
+		else return this.getAttribute(key);
+	};
+
+	return port;
 }
