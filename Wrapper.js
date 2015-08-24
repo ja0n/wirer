@@ -1,6 +1,5 @@
 var Wrapper = function(el, that) {
-	// this._el = el;
-	this._el = lokor();
+	this._el = SVGBuilder();
 
 	// this.ports.in = new Array(2);
 	// this.ports.out = new Array(2);
@@ -12,7 +11,7 @@ var Wrapper = function(el, that) {
 	main.addEventListener('mouseup', turnDrag.bind(this, false), true);
 	main.addEventListener('mouseout', turnDrag.bind(this, false), true);
 
-	main.addEventListener('mousemove', dragMove.bind(this), true);
+	main.addEventListener('mousemove', dragMove.bind(this), false);
 	//this._svg.addEventListener('mousemove', attachMove.bind(this), true);
 };
 
@@ -26,8 +25,8 @@ Wrapper.prototype = {
 		out: [[], []]
 	},
 	get _svg() { return getSvg(this._el); },
-  get x () { return this._el.getAttribute('x'); },
-  get y () { return this._el.getAttribute('y'); },
+  get x () { return this._el.getAttribute('x') * 1; }, // multiplication by one to convert from string to number
+  get y () { return this._el.getAttribute('y') * 1; }, //
 	get text () { return this._el.innerHTML; },
   set x (val) { return this._el.setAttribute('x', val); },
   set y (val) { return this._el.setAttribute('y', val); },
@@ -83,24 +82,7 @@ function getSvg(el) {
   return getSvg(el.parentNode);
 }
 
-function getPosition(el) {
-
-    var elPos = el.getBoundingClientRect();
-    var vpPos = getSvg(el).getBoundingClientRect();
-
-
-    return {
-        top: elPos.top - vpPos.top,
-        left: elPos.left - vpPos.left,
-        width: elPos.width,
-        bottom: elPos.bottom - vpPos.top,
-        height: elPos.height,
-        right: elPos.right - vpPos.left
-    };
-
-}
-
-function lokor() {
+function SVGBuilder() {
   var svg = Sticky.createElement('svg');
   var strokeWidth = 3;
   var marginLeft = 10;
@@ -166,7 +148,6 @@ function arrangePorts() {
 						//cuz it means the missing half for the previous circle and the initial half for the next circle
 						//so every 'y' means one center of circle
 	for (i = 0; i < ports.out.length; i++, y+=ds) {
-		console.log(test);
 
 		port = createPort(i, this, 'out', attrs);
 		port.attr('cx', width + Radius);
@@ -177,17 +158,22 @@ function arrangePorts() {
 
 }
 
-function createPort(id, owner, dir, attrs) {
+function createPort(id, wrapper, dir, attrs) {
 	if(['in','out'].indexOf(dir) === -1) throw 'port direction must be \'in\' or \'out\'';
 	var port = Sticky.createElement('circle', attrs);
 	port.id = id;
-	port.owner = owner;
+	port.wrapper = wrapper;
 	port.type = 'port';
 	port.dir = dir; //dir -> direction, not directory
 
 	port.attr = function(key, value) {
 		if(value) return this.setAttribute(key, value);
 		else return this.getAttribute(key);
+	};
+
+	port.getPoint = function() {
+		return { x: this.wrapper.x + this.attr('cx') *1, y: this.wrapper.y + this.attr('cy') *1 };
+		// *1 -> convert from string to number
 	};
 
 	return port;

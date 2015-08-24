@@ -13,11 +13,12 @@ var Sticky = function(sel) {
   }).bind(this));
 
   this._svg.addEventListener('mouseup', (function(e) {
+    console.log(e.target);
     if(e.target.type === 'port') return endAttach.call(this, e);
 
     if(this._states.attaching) {
       this._states.attaching = false;
-      this._svg.removeChild(this._aux.attaching.wire);
+      this._svg.removeChild(this._aux.attaching.wire._el);
     }
   }).bind(this));
 
@@ -66,10 +67,13 @@ Sticky.prototype = {
   _objects: [
 
   ],
+  _wires: [
+
+  ],
   Wrapper: function(name, attrs) {
     var el = Sticky.createElement(name, attrs);
     var wrapper = new Wrapper(el, this);
-    wrapper._id = _uid++;
+    wrapper._id = this._uid++;
     this._objects.push(wrapper);
 
     return wrapper;
@@ -89,45 +93,37 @@ Sticky.prototype = {
 };
 
 function startAttach(e) {
-  console.log('eae');
-	var wire = Sticky.createElement('path', { stroke: 'black', 'stroke-width': 6, fill: 'none' });
-	this._states.attaching = true;
-	this._aux.attaching.from = e.target;
-	this._aux.attaching.wire = wire;
-  this._svg.appendChild(wire);
-
-	// if(val) {
-	// 	var SVGbox = this._svg.getBoundingClientRect();
-	// 	var OffsetX = e.x - SVGbox.left;
-	// 	var OffsetY =  e.y - SVGbox.top;
-	// 	this._aux.mouseDown = { x: OffsetX - this.x, y: OffsetY - this.y };
-	// }
+  var wire = new Wire(e.target);
+  wire._inverted = e.target.dir === 'in';
+  this._states.attaching = true;
+  this._aux.attaching.from = e.target;
+  this._aux.attaching.wire = wire;
+  this._svg.appendChild(wire._el);
 }
 
 function endAttach(e) {
-	 if(this._states.attaching) {
+  if(this._states.attaching) {
     this._states.attaching = false;
-		console.log(this._aux.attaching.from);
-		console.log(e.target);
+    var wire = this._aux.attaching.wire;
+    wire._cp2 = e.target;
+    wire.seal();
+    wire.render();
+    this._wires.push(wire);
+    delete this._aux.attaching.wire;
 
-	}
+  }
 }
 
-function dt2p(x1, y1, x2, y2) {
-  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-}
 
 function attachMove(e) {
-	if(this._states.attaching) {
-		var wire = this._aux.attaching.wire;
+  if(this._states.attaching) {
+    var wire = this._aux.attaching.wire;
     var from = this._aux.attaching.from;
-		var SVGbox = this._svg.getBoundingClientRect();
-		var mouse = { x: e.x - SVGbox.left, y: e.y - SVGbox.top };
-    var port = { x: from.owner.x *1 + from.attr('cx') *1, y: from.owner.y *1 + from.attr('cy') *1 };
+    var SVGbox = this._svg.getBoundingClientRect();
+    var offset = wire._inverted ? 1 : -1; //pixel for removing the wire from the way so we can detect the event on port
+    var mouse = { x: e.x - SVGbox.left + offset, y: e.y - SVGbox.top };
+    var port = wire._cp1.getPoint();
 
-    var dt = dt2p(port.x, port.y, mouse.x, mouse.y)/2;
-    var cp = this._aux.attaching.from.dir === 'in' ? -dt : dt;
-	  var d = Sticky.describeJoint(port.x, port.y, mouse.x, mouse.y, cp);
-		this._aux.attaching.wire.setAttribute('d', d);
-	}
+    wire._render(port, mouse, wire._inverted);
+  }
 }

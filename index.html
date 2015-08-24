@@ -17,24 +17,23 @@
     <div id="test">
 
     </div>
-    <script src="wrapper.js"></script>
-    <script src="sticky.js"></script>
+    <script src="Wrapper.js"></script>
+    <script src="Wire.js"></script>
+    <script src="Sticky.js"></script>
     <script>
       var test = new Sticky('#test');
       var style = "fill:red; stroke: black; stroke-width: 5; opacity: 0.9";
       var obj = { x: 10, y: 10, width: 150, height: 50, rx: 20, ry: 20, style: style };
       var rect = new Sticky.Wrapper('rect', obj);
       var rect2 = new Sticky.Wrapper('rect', obj);
+      var rect3 = new Sticky.Wrapper('rect', obj);
       rect2.x = 330; rect2.y = 200;
-
-      var txt = Sticky.describeJoint(100, 50, 330, 250, 80);
-      var path = Sticky.createElement('path', { stroke: '#00FF00', 'stroke-width': 5, fill: 'none' });
-      path.setAttribute( 'd' , txt );
+      rect3.x = 70; rect3.y = 230;
 
 
-      test._svg.appendChild(path);
       test.addObj(rect);
       test.addObj(rect2);
+      test.addObj(rect3);
     </script>
   </body>
 </html>
