@@ -13,7 +13,6 @@ var Sticky = function(sel) {
   }).bind(this));
 
   this._svg.addEventListener('mouseup', (function(e) {
-    console.log(e.target);
     if(e.target.type === 'port') return endAttach.call(this, e);
 
     if(this._states.attaching) {
@@ -32,11 +31,6 @@ var Sticky = function(sel) {
 };
 
 //static methods
-Sticky.Wrapper = function(name, attrs) {
-  var el = Sticky.createElement(name, attrs);
-
-  return new Wrapper(el, this);
-};
 
 Sticky.createElement = function(name, attrs) {
   var el = document.createElementNS('http://www.w3.org/2000/svg', name);
@@ -44,15 +38,6 @@ Sticky.createElement = function(name, attrs) {
   for(var key in attrs) el.setAttribute(key, attrs[key]);
 
   return el;
-};
-
-Sticky.describeJoint = function(x1, y1, x2, y2, pad) {
-  var d = [
-    "M", x1, y1,
-    "C", x1 + pad, y1, x2 - pad, y2, x2, y2
-  ].join(" ");
-
-  return d;
 };
 
 //prototype
@@ -96,7 +81,6 @@ function startAttach(e) {
   var wire = new Wire(e.target);
   wire._inverted = e.target.dir === 'in';
   this._states.attaching = true;
-  this._aux.attaching.from = e.target;
   this._aux.attaching.wire = wire;
   this._svg.appendChild(wire._el);
 }
@@ -118,7 +102,6 @@ function endAttach(e) {
 function attachMove(e) {
   if(this._states.attaching) {
     var wire = this._aux.attaching.wire;
-    var from = this._aux.attaching.from;
     var SVGbox = this._svg.getBoundingClientRect();
     var offset = wire._inverted ? 1 : -1; //pixel for removing the wire from the way so we can detect the event on port
     var mouse = { x: e.x - SVGbox.left + offset, y: e.y - SVGbox.top };

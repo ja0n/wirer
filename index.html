@@ -22,14 +22,28 @@
     <script src="Sticky.js"></script>
     <script>
       var test = new Sticky('#test');
-      var style = "fill:red; stroke: black; stroke-width: 5; opacity: 0.9";
-      var obj = { x: 10, y: 10, width: 150, height: 50, rx: 20, ry: 20, style: style };
-      var rect = new Sticky.Wrapper('rect', obj);
-      var rect2 = new Sticky.Wrapper('rect', obj);
-      var rect3 = new Sticky.Wrapper('rect', obj);
+
+      var rect = new Wrapper(0, 1);
+      var rect2 = new Wrapper(1, 0);
+      var rect3 = new Wrapper();
       rect2.x = 330; rect2.y = 200;
       rect3.x = 70; rect3.y = 230;
 
+      rect._behavior = function() {
+        return [3, 3];
+      };
+
+      rect2._behavior = function(args) {
+        var i, j;
+        for(i = 0; i < args.length; i++)
+    			for(j = 0; j < args[i].length; j++)
+    			   alert(args[i][j]);
+      };
+
+      rect3._behavior = function(p1, p2) {
+        alert(p1 + p2);
+        return [p1 + p2, p1 + p2];
+      };
 
       test.addObj(rect);
       test.addObj(rect2);

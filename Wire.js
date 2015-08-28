@@ -1,5 +1,5 @@
 var Wire = function(p1, p2) {
-  this._el = Sticky.createElement('path', { stroke: 'red', 'stroke-width': 6, fill: 'none', opacity: 0.5 });
+  this._el = Sticky.createElement('path', { stroke: 'red', 'stroke-width': 6, fill: 'none', opacity: 0.8 });
   this._cp1 = p1;
   this._cp2 = p2;
 };
@@ -30,6 +30,7 @@ Wire.prototype = {
   _cp1: new Wire.Point(null, null),
   _cp2: new Wire.Point(null, null),
   _inverted: false,
+  _behavior: null,
   _render: function(p1, p2, inv) {
     inv = inv ? -1 : 1;
     var offset = Wire.dt2p(p1.x, p1.y, p2.x, p2.y)/2;
@@ -37,19 +38,21 @@ Wire.prototype = {
     this._el.setAttribute('d', d);
   },
   seal: function() {
-    var main1 = this._cp1.wrapper._el.getElementById('main');
-    var main2 = this._cp2.wrapper._el.getElementById('main');
+    var wrapper1 = this._cp1.wrapper;
+    var wrapper2 = this._cp2.wrapper;
     var that = this;
 
-    main1.addEventListener('mousemove', att.bind(this._cp1.wrapper));
-    main2.addEventListener('mousemove', att.bind(this._cp2.wrapper));
+    wrapper1.main.addEventListener('mousemove', att.bind(wrapper1));
+    wrapper2.main.addEventListener('mousemove', att.bind(wrapper2));
+
+    wrapper1._ports[this._cp1.dir][this._cp1.id].push(this._cp2);
+    wrapper2._ports[this._cp2.dir][this._cp2.id].push(this._cp1);
 
     function att() {
       if(this._states.dragging) that.render();
     }
   },
   render: function() {
-    // var inv = this._inverted ? -1 : 1;
     this._render(this._cp1.getPoint(), this._cp2.getPoint(), this._inverted);
   }
 
