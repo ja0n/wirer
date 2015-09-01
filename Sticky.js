@@ -98,7 +98,6 @@ function endAttach(e) {
   }
 }
 
-
 function attachMove(e) {
   if(this._states.attaching) {
     var wire = this._aux.attaching.wire;

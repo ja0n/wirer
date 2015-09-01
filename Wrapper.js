@@ -17,7 +17,7 @@ var Wrapper = function(In, Out) {
   for(i = 0; i < Out; i++)
     this._ports.out.push([]);
 
-  arrangePorts.call(this);
+  arrangePorts.call(this, In, Out);
 
   var main = this._el.getElementById('main');
   main.addEventListener('mousedown', turnDrag.bind(this, true), true);
@@ -134,7 +134,7 @@ function SVGBuilder() {
   return svg;
 }
 
-function arrangePorts() {
+function arrangePorts(In, Out) {
   var radius = 10;
   var dist = 10; //distance beetween ports
   var strokeWidth = 3.5;
@@ -142,7 +142,8 @@ function arrangePorts() {
   var port = null;
   var main = this._el.getElementById('main');
   var rectBox = main.getBBox();
-  var maxPorts = Math.max(ports.in.length, ports.out.length);
+  var maxPorts = Math.max(In, Out);
+  // var maxPorts = Math.max(ports.in.length, ports.out.length);
   var Radius = radius + strokeWidth/2; //total radius -> circle radius plus its stroke width
   var tRadius = dist + Radius;
   var height = (dist + Radius * 2) * maxPorts + dist; //dist + diameter * number of ports + final dist
