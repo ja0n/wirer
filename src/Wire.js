@@ -26,15 +26,18 @@ Wire.prototype = {
     this._el.setAttribute('d', d);
   },
   seal() {
-    var wrapper1 = this._cp1.wrapper;
-    var wrapper2 = this._cp2.wrapper;
+    if(this._cp1.dir == this._cp2.dir) return false;
+    var wrapper1 = this._cp1._brick;
+    var wrapper2 = this._cp2._brick;
     var that = this;
 
-    wrapper1.main.addEventListener('mousemove', att.bind(wrapper1));
-    wrapper2.main.addEventListener('mousemove', att.bind(wrapper2));
-
-    wrapper1._ports[this._cp1.dir][this._cp1.id].push(this._cp2);
-    wrapper2._ports[this._cp2.dir][this._cp2.id].push(this._cp1);
+    if(this._cp1.attach(this._cp2)) {
+      wrapper1.main.addEventListener('mousemove', att.bind(wrapper1));
+      wrapper2.main.addEventListener('mousemove', att.bind(wrapper2));
+      return true;
+    } else {
+      return false;
+    }
 
     function att() {
       if(this._states.dragging) that.render();

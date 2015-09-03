@@ -1,5 +1,5 @@
 //constructor
-function Stricky(sel) {
+function Sticky(sel) {
   this.el = document.querySelector(sel);
   if(!this.el) throw "Couldn't find element :(";
   this._svg = Sticky.createElement('svg', { class: 'svg-content', width: 1200, height: 500 });
@@ -73,8 +73,8 @@ Sticky.prototype = {
     this._svg.appendChild(wrapper._el);
   },
   startAttach(port) {
-    var wire = new Wire(port);
-    wire._inverted = port.dir === 'in';
+    var wire = new Wire(port.wrapper);
+    wire._inverted = port.wrapper.dir === 'in';
     this._states.attaching = true;
     this._aux.attaching.wire = wire;
     this._svg.appendChild(wire._el);
@@ -84,10 +84,15 @@ Sticky.prototype = {
     if(this._states.attaching) {
       this._states.attaching = false;
       var wire = this._aux.attaching.wire;
-      wire._cp2 = port;
-      wire.seal();
-      wire.render();
-      this._wires.push(wire);
+      wire._cp2 = port.wrapper;
+
+      if(wire.seal()) {
+        wire.render();
+        this._wires.push(wire);
+
+      } else {
+        this._svg.removeChild(wire._el);
+      }
       delete this._aux.attaching.wire;
 
     }

@@ -1,6 +1,4 @@
-function Brick(In, Out) {
-  In = In !== undefined ? In : 1;
-  Out = Out !== undefined ? Out : 1;
+function Brick(In = 1, Out = 1) {
 
   this._el = SVGBuilder();
   this._id = null;
@@ -13,12 +11,12 @@ function Brick(In, Out) {
   this._aux = { attaching: {} };
   this._states = { dragging: false };
 
-  var i;
-  for(i = 0; i < In; i++)
-    this._ports.in.push([]);
-
-  for(i = 0; i < Out; i++)
-    this._ports.out.push([]);
+  // var i;
+  // for(i = 0; i < In; i++)
+  //   this._ports.in.push([]);
+  //
+  // for(i = 0; i < Out; i++)
+  //   this._ports.out.push([]);
 
   arrangePorts.call(this, In, Out);
 
@@ -138,8 +136,7 @@ function arrangePorts(In, Out) {
   var dist = 10; //distance beetween ports
   var strokeWidth = 3.5;
   var ports = this._ports;
-  var port = null;
-  var main = this._el.getElementById('main');
+  var main = this.main;
   var rectBox = main.getBBox();
   var maxPorts = Math.max(In, Out);
   // var maxPorts = Math.max(ports.in.length, ports.out.length);
@@ -148,60 +145,36 @@ function arrangePorts(In, Out) {
   var height = (dist + Radius * 2) * maxPorts + dist; //dist + diameter * number of ports + final dist
   var width = main.getAttribute('width') * 1;
 
+  this._ports.in = [];
+  this._ports.out = [];
+
   main.setAttribute('height', height);
 
   var attrs = { id: null, r: radius, fill: '#B8D430', stroke: 'black', 'stroke-width': strokeWidth };
   var i, y, ds;
   // attrs.cx = margin; attrs.cy = rectBox.height/2;
 
-  ds = height/ports.in.length;
+  ds = height/In;
   y = ds/2;
 
-  for (i = 0; i < ports.in.length; i++, y+=ds) {
-    port = createPort(i, this, 'in', attrs);
+  for (i = 0; i < In; i++, y+=ds) {
+    let port = new Port(i, 'in', this);
     port.attr('cx', Radius);
-    // port.attr('cy', tRadius + i * (2*Radius + dist));
     port.attr('cy', y);
-    this._el.appendChild(port);
+    ports.in.push(port);
+    this._el.appendChild(port._el);
   }
   //
-  ds = height/ports.out.length;
+  ds = height/Out;
   y = ds/2; //initially get half the distance cuz we drawin a circle, then we increment by the total distance
             //cuz it means the missing half for the previous circle and the initial half for the next circle
             //so every 'y' means one center of circle
-  for (i = 0; i < ports.out.length; i++, y+=ds) {
-
-    port = createPort(i, this, 'out', attrs);
+  for (i = 0; i < Out; i++, y+=ds) {
+    let port = new Port(i, 'out', this);
     port.attr('cx', width + Radius);
-    // port.attr('cy', tRadius + i * (2*Radius + dist));
     port.attr('cy', y);
-    this._el.appendChild(port);
+    ports.out.push(port);
+    this._el.appendChild(port._el);
   }
 
-}
-
-function createPort(id, wrapper, dir, attrs) {
-  if(['in','out'].indexOf(dir) === -1) throw 'port direction must be \'in\' or \'out\'';
-  var port = Sticky.createElement('circle', attrs);
-  port.id = id;
-  port.wrapper = wrapper;
-  port.type = 'port';
-  port.dir = dir; //dir -> direction, not directory
-
-  port.attr = function(key, value) {
-    if(value) return this.setAttribute(key, value);
-    else return this.getAttribute(key);
-  };
-
-  port.getPoint = function() {
-    return { x: this.wrapper.x + this.attr('cx') *1, y: this.wrapper.y + this.attr('cy') *1 };
-    // *1 -> convert from string to number
-  };
-
-  port.value = function() {
-    this.wrapper.getValue();
-    // this.wrapper.getValue(this.id);
-  };
-
-  return port;
 }

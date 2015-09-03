@@ -27,8 +27,12 @@
       var rect = new Brick(0, 1);
       var rect2 = new Brick(1, 0);
       var rect3 = new Brick();
+      var rect4 = new Brick(0, 1);
+      var rect5 = new Brick(0, 1);
       rect2.x = 330; rect2.y = 200;
       rect3.x = 70; rect3.y = 230;
+      rect4.y = 100;
+      rect5.y = 150;
 
       rect._behavior = function() {
         return [3, 3];
@@ -49,6 +53,8 @@
       test.addObj(rect);
       test.addObj(rect2);
       test.addObj(rect3);
+      test.addObj(rect4);
+      test.addObj(rect5);
     </script>
   </body>
 </html>
