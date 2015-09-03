@@ -55,9 +55,9 @@ Sticky.prototype = {
   _wires: [
 
   ],
-  Wrapper: function(name, attrs) {
+  Brick: function(name, attrs) {
     var el = Sticky.createElement(name, attrs);
-    var wrapper = new Wrapper(el, this);
+    var wrapper = new Brick(el, this);
     wrapper._id = this._uid++;
     this._objects.push(wrapper);
 

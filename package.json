@@ -1,0 +1,31 @@
+{
+  "name": "sticky",
+  "version": "0.0.1",
+  "description": "wirable logic bricks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ja0n/sticky.git"
+  },
+  "keywords": [
+    "sticky",
+    "logic",
+    "brick",
+    "wire",
+    "visual",
+    "transpiler"
+  ],
+  "author": "ja0n",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ja0n/sticky/issues"
+  },
+  "homepage": "https://github.com/ja0n/sticky#readme",
+  "devDependencies": {
+    "gulp-babel": "^5.2.1",
+    "gulp-watch": "^4.3.5"
+  }
+}

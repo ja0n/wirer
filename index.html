@@ -17,16 +17,16 @@
     <div id="test">
 
     </div>
-    <script src="Port.js"></script>
-    <script src="Wrapper.js"></script>
-    <script src="Wire.js"></script>
-    <script src="Sticky.js"></script>
+    <script src="dist/Port.js"></script>
+    <script src="dist/Brick.js"></script>
+    <script src="dist/Wire.js"></script>
+    <script src="dist/Sticky.js"></script>
     <script>
       var test = new Sticky('#test');
 
-      var rect = new Wrapper(0, 1);
-      var rect2 = new Wrapper(1, 0);
-      var rect3 = new Wrapper();
+      var rect = new Brick(0, 1);
+      var rect2 = new Brick(1, 0);
+      var rect3 = new Brick();
       rect2.x = 330; rect2.y = 200;
       rect3.x = 70; rect3.y = 230;
 

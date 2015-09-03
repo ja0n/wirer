@@ -1,4 +1,4 @@
-var Wrapper = function(In, Out) {
+var Brick = function(In, Out) {
   In = In !== undefined ? In : 1;
   Out = Out !== undefined ? Out : 1;
 
@@ -28,7 +28,7 @@ var Wrapper = function(In, Out) {
   //this._svg.addEventListener('mousemove', attachMove.bind(this), true);
 };
 
-Wrapper.prototype = {
+Brick.prototype = {
   get main() { return this._el.getElementById('main'); },
   get _svg() { return getSvg(this._el); },
   get x () { return this._el.getAttribute('x') * 1; }, // multiplication by one to convert from string to number
