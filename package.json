@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/ja0n/sticky#readme",
   "devDependencies": {
+    "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
     "gulp-watch": "^4.3.5"
   }

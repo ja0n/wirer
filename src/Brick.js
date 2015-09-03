@@ -1,4 +1,4 @@
-var Brick = function(In, Out) {
+function Brick(In, Out) {
   In = In !== undefined ? In : 1;
   Out = Out !== undefined ? Out : 1;
 
@@ -9,6 +9,9 @@ var Brick = function(In, Out) {
     in: [],
     out: []
   };
+
+  this._aux = { attaching: {} };
+  this._states = { dragging: false };
 
   var i;
   for(i = 0; i < In; i++)
@@ -26,36 +29,32 @@ var Brick = function(In, Out) {
 
   main.addEventListener('mousemove', dragMove.bind(this), false);
   //this._svg.addEventListener('mousemove', attachMove.bind(this), true);
-};
+
+  return this;
+}
 
 Brick.prototype = {
   get main() { return this._el.getElementById('main'); },
   get _svg() { return getSvg(this._el); },
-  get x () { return this._el.getAttribute('x') * 1; }, // multiplication by one to convert from string to number
+  get x () { return this._el.getAttribute('x') * 1; }, // multiply by one just to convert from string to number
   get y () { return this._el.getAttribute('y') * 1; }, //
   get text () { return this._el.innerHTML; },
   set x (val) { return this._el.setAttribute('x', val); },
   set y (val) { return this._el.setAttribute('y', val); },
   set text (val) { return (this._el.innerHTML = val); },
-  _states: {
-    dragging: false
-  },
-  attr: function(key, value) {
+
+  attr(key, value) {
     if (value) return this._el.setAttribute(key, value);
     else if (key) return this._el.getAttribute(key);
   },
-  detach: function() {
+  detach() {
     this._el.parentNode.removeChild(this._el);
     return this;
   },
-  _aux: {
-    attaching: {},
+  arrangePorts() {
 
   },
-  arrangePorts: function() {
-
-  },
-  getValue: function(id) {
+  getValue(id) {
     // var args = this._
     var args = [];
     var In = this._ports.in;
@@ -68,8 +67,8 @@ Brick.prototype = {
 
     console.log(id);
 
-    if(id)  return (this._behavior(args))[id];
-    else     return this._behavior(args);
+    if (id) return (this._behavior(args))[id];
+    else    return this._behavior(args);
   }
 };
 
