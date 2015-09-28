@@ -1,6 +1,7 @@
-function Brick(In = 1, Out = 1) {
+// var Port = require('./Port');
 
-  this._el = SVGBuilder();
+function Brick({ data_in = 1, data_out = 1, flux_in = 1, flux_out = 1, ...opts } = {}) {
+  this._el = SVGBuilder(opts);
   this._id = null;
   this._container = null;
   this._ports = {
@@ -18,14 +19,16 @@ function Brick(In = 1, Out = 1) {
   // for(i = 0; i < Out; i++)
   //   this._ports.out.push([]);
 
-  arrangePorts.call(this, In, Out);
+  console.log({ data_in, data_out, flux_in, flux_out });
 
-  var main = this._el.getElementById('main');
-  main.addEventListener('mousedown', turnDrag.bind(this, true), true);
-  main.addEventListener('mouseup', turnDrag.bind(this, false), true);
-  main.addEventListener('mouseout', turnDrag.bind(this, false), true);
+  arrangePorts.call(this, { data_in, data_out, flux_in, flux_out });
 
-  main.addEventListener('mousemove', dragMove.bind(this), false);
+  // var main = this._el.getElementById('main');
+  // main.addEventListener('mousedown', turnDrag.bind(this, true), true);
+  // main.addEventListener('mouseup', turnDrag.bind(this, false), true);
+  // main.addEventListener('mouseout', turnDrag.bind(this, false), true);
+  //
+  // main.addEventListener('mousemove', dragMove.bind(this), false);
   //this._svg.addEventListener('mousemove', attachMove.bind(this), true);
 
   return this;
@@ -70,30 +73,6 @@ Brick.prototype = {
   }
 };
 
-function turnDrag(val, e) {
-  this._states.dragging = val;
-  if(val) {
-    var SVGbox = this._svg.getBoundingClientRect();
-    var OffsetX = e.x - SVGbox.left;
-    var OffsetY =  e.y - SVGbox.top;
-    this._aux.mouseDown = { x: OffsetX - this.x, y: OffsetY - this.y };
-  }
-
-}
-
-function dragMove(e) {
-  if(this._states.dragging) {
-    var SVGbox = this._svg.getBoundingClientRect();
-    var OffsetX = e.x - SVGbox.left;
-    var OffsetY =  e.y - SVGbox.top;
-
-    var firstState = this._aux.mouseDown;
-    this.x = OffsetX - firstState.x;
-    this.y = OffsetY - firstState.y;
-
-  }
-}
-
 function getSvg(el) {
   if(el.parentNode.nodeName === 'svg') {
     return el.parentNode;
@@ -101,44 +80,48 @@ function getSvg(el) {
   return getSvg(el.parentNode);
 }
 
-function SVGBuilder() {
+function SVGBuilder({ strokeWidth = 3, marginLeft = 10, width = 150, opacity = 1,
+                      height = 50, rx = 20, ry = 20, fill = '#1F8244', stroke = '#000000' }) {
   var svg = Sticky.createElement('svg');
-  var strokeWidth = 3;
-  var marginLeft = 10;
 
   var attrs = {
     x: marginLeft + strokeWidth/2,
     y: strokeWidth/2,
-    width: 150,
-    height: 50,
-    rx: 20,
-    ry: 20,
+    width,
+    height,
+    rx,
+    ry,
     'stroke-width': strokeWidth,
-    style: 'fill: rgb(32, 134, 70); stroke: black; opacity: 1',
-    id: 'main'
+    style: 'fill: ' + fill + '; stroke: ' + stroke + '; opacity: ' + opacity,
+    id: 'main',
+    type: 'block'
   };
 
   var rect = Sticky.createElement('rect', attrs);
-
-  // var forei = Sticky.createElement('foreignObject', { width: 100, height: 40 });
-  // var body = Sticky.createElement('body', { xmlns: 'http://www.w3.org/1999/xhtml' });
-  // var input = Sticky.createElement('input', { type: 'text' });
-  // body.appendChild(input);
-  // forei.appendChild(body);
-  // rect.appendChild(forei);
+  // var foreign = Sticky.createElement('foreignObject', { width: 100, height: 40 });
+  //
+  // foreign.setAttribute('width', 500);
+  // foreign.setAttribute('height',500);
+  //
+  // // var input = Sticky.createElement('input', { type: 'text' });
+  // var input = document.createElement('input');
+  // input.setAttribute('type', 'text');
+  // input.setAttribute('width', '100');
+  // foreign.appendChild(input);
+  // svg.appendChild(foreign);
 
   svg.appendChild(rect);
   return svg;
 }
 
-function arrangePorts(In, Out) {
+function arrangePorts({ data_in = 1, data_out = 1, flux_in = 1, flux_out = 1 } = {}) {
   var radius = 10;
   var dist = 10; //distance beetween ports
   var strokeWidth = 3.5;
   var ports = this._ports;
   var main = this.main;
   var rectBox = main.getBBox();
-  var maxPorts = Math.max(In, Out);
+  var maxPorts = Math.max(data_in + flux_in, data_out + flux_out);
   // var maxPorts = Math.max(ports.in.length, ports.out.length);
   var Radius = radius + strokeWidth/2; //total radius -> circle radius plus its stroke width
   var tRadius = dist + Radius;
@@ -147,30 +130,49 @@ function arrangePorts(In, Out) {
 
   this._ports.in = [];
   this._ports.out = [];
+  this._ports.flux_in = [];
+  this._ports.flux_out = [];
 
   main.setAttribute('height', height);
 
   var attrs = { id: null, r: radius, fill: '#B8D430', stroke: 'black', 'stroke-width': strokeWidth };
+  var flux_attrs = { id: null, r: radius, fill: '#2549e4', stroke: 'black', 'stroke-width': strokeWidth };
   var i, y, ds;
   // attrs.cx = margin; attrs.cy = rectBox.height/2;
 
-  ds = height/In;
+  ds = height/(data_in + flux_in);
   y = ds/2;
 
-  for (i = 0; i < In; i++, y+=ds) {
-    let port = new Port(i, 'in', this);
+  for (i = 0; i < flux_in; i++, y+=ds) {
+    let port = new FluxPort(i, 'in', this);
+    port.attr('cx', Radius);
+    port.attr('cy', y);
+    ports.flux_in.push(port);
+    this._el.appendChild(port._el);
+  }
+
+  for (i = 0; i < data_in; i++, y+=ds) {
+    let port = new DataPort(i, 'in', this);
     port.attr('cx', Radius);
     port.attr('cy', y);
     ports.in.push(port);
     this._el.appendChild(port._el);
   }
-  //
-  ds = height/Out;
+
+  ds = height/(data_out + flux_out);
   y = ds/2; //initially get half the distance cuz we drawin a circle, then we increment by the total distance
-            //cuz it means the missing half for the previous circle and the initial half for the next circle
+            //cuz it means the missing half for the current circle and the initial half for the next circle
             //so every 'y' means one center of circle
-  for (i = 0; i < Out; i++, y+=ds) {
-    let port = new Port(i, 'out', this);
+  for (i = 0; i < flux_out; i++, y+=ds) {
+    let port = new FluxPort(i, 'out', this);
+    port.attr('cx', width + Radius);
+    port.attr('cy', y);
+    ports.flux_out.push(port);
+    this._el.appendChild(port._el);
+  }
+
+  for (i = 0; i < data_out; i++, y+=ds) {
+    let port = new DataPort(i, 'out', this);
     port.attr('cx', width + Radius);
     port.attr('cy', y);
     ports.out.push(port);
