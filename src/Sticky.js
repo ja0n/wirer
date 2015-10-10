@@ -184,14 +184,15 @@ Sticky.prototype = {
     //return a new block
   },
   run() {
-    let block = this._objects[0], flux, id;
+    let block = this._objects[0], flow, id;
 
-    // flux = start.behavior(); //an ActuatorBrick should return the flux_out port id
+    // flow = start.behavior(); //an ActuatorBrick should return the flow_out port id
                              //it'll be useful for if block
     do {
-      flux = block.behavior();
-      id = (block._ports['flux_out'][flux]._conn[0]) ?
-            (block._ports['flux_out'][flux]._conn[0]).brick :
+      flow = block.behavior(this.findById.bind(this));
+      // console.log(block._ports);
+      id = (block._ports['flow_out'][flow]._conn[0]) ?
+            (block._ports['flow_out'][flow]._conn[0]).brick :
               null;
       block = this.findById(id);
     } while(block);
@@ -201,7 +202,6 @@ Sticky.prototype = {
 
 
 };
-
 
 function turnDrag(val, e) {
   this._states.dragging = val;

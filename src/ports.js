@@ -10,8 +10,8 @@ DataPort.prototype = {
   __proto__: Object.create(Port.prototype)
 };
 
-function FluxPort(id, dir, brick) {
-  Port.call(this, { id, dir, brick, type: 'flux' });
+function FlowPort(id, dir, brick) {
+  Port.call(this, { id, dir, brick, type: 'flow' });
 
   this._maxcon = 1;
 
@@ -22,6 +22,6 @@ function FluxPort(id, dir, brick) {
   return this;
 }
 
-FluxPort.prototype = {
+FlowPort.prototype = {
   __proto__: Object.create(Port.prototype)
 };

@@ -1,7 +1,7 @@
 
 function Port({ id, type, dir, brick }) {
   if(['in','out'].indexOf(dir) == -1) throw "port direction must be 'in' or 'out'";
-  if(['data','flux'].indexOf(type) == -1) throw "type must be 'data' or 'flux'";
+  if(['data','flow'].indexOf(type) == -1) throw "type must be 'data' or 'flow'";
   // var attrs = { width: 30, height: 30, fill: '#B8D430', stroke: 'black', 'stroke-width': 3 };
   var attrs = { r: 10, fill: '#B8D430', stroke: 'black', 'stroke-width': 3.5 };
 
@@ -40,7 +40,7 @@ Port.prototype = {
     if(this.canAttach(to)) {
       this._conn.push({ brick: to._brick._id, id: to.id });
       to._conn.push({ brick: this._brick._id, id: this.id });
-      console.log(this, to);
+      // console.log(this, to);
       return true;
     }
     return false;
