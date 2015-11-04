@@ -1,4 +1,6 @@
-function Wire(p1, p2) {
+import Sticky from './Sticky.js';
+
+export default function Wire(p1, p2) {
   this._el = Sticky.createElement('path', { stroke: 'red', 'stroke-width': 6, fill: 'none', opacity: 0.8 });
   this._cp1 = p1;
   this._cp2 = p2;

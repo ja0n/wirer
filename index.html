@@ -8,63 +8,19 @@
       height: 400px;
     }
     .svg-container {
-      display: inline-block;
+      height: auto;
+      /*display: inline-block;*/
       /*width: ;*/
       /*height: 500px;*/
     }
     </style>
-    <script src="./node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js"></script>
-    <script src="dist/Port.js"></script>
-    <script src="dist/Brick.js"></script>
-    <script src="dist/Wire.js"></script>
-    <script src="dist/bricks.js"></script>
-    <script src="dist/ports.js"></script>
-    <script src="dist/Sticky.js"></script>
   </head>
   <body>
     <div id="test">
 
     </div>
-    <input type="button" value="Run" onclick="test.run()"/>
+    <input id="run" type="button" value="Run"/>
     <!-- <script src="dist/bundle.js"></script> -->
-    <script>
-      var test = new Sticky('#test');
-
-      var rect = new ActuatorBrick();
-      var rect2 = new ActuatorBrick();
-      var rect3 = new SourceBrick();
-      var rect4 = new AlertBrick();
-      rect3.x = 330; rect3.y = 100;
-      rect2.x = 330; rect2.y = 200;
-      rect.x = 130; rect.y = 230;
-
-      rect.behavior = function() {
-        alert('hello');
-        return 0;
-      };
-
-      rect2.behavior = function() {
-        alert('world');
-        return 0;
-      };
-
-      rect3.behavior = function() {
-        return [text];
-        return ["FODA-SE"];
-      };
-
-      rect4.behavior = function(findById) {
-        var conn = (this._ports['in'][0]._conn[0]);
-        console.log(conn);
-        var brick = findById(conn.brick);
-        var data = brick.behavior()[conn.id];
-        alert(data);
-      };
-
-      test.addObj(rect);
-      test.addObj(rect2);
-      test.addObj(rect3);
-      test.addObj(rect4);
-    </script>
+    <script src="bundle.js"></script>
   </body>
 </html>

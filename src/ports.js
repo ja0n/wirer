@@ -1,4 +1,6 @@
-function DataPort(id, dir, brick) {
+import Port from './Port.js';
+
+export function DataPort(id, dir, brick) {
   Port.call(this, { id, dir, brick, type: 'data' });
 
   var opts = { fill: '#B8D43' };
@@ -10,7 +12,7 @@ DataPort.prototype = {
   __proto__: Object.create(Port.prototype)
 };
 
-function FlowPort(id, dir, brick) {
+export function FlowPort(id, dir, brick) {
   Port.call(this, { id, dir, brick, type: 'flow' });
 
   this._maxcon = 1;
