@@ -1,5 +1,5 @@
 import Wire from './Wire.js';
-import Brick2 from './Brick2.js';
+import Brick from './Brick.js';
 // import { StartBrick, ActuatorBrick } from './bricks';
 // var EventEmitter = require('events').eventEmitter;
 // var Brick = require('./Brick');
@@ -20,14 +20,24 @@ export default class Sticky {
     this._state = null;
 
     svg.addEventListener('mousedown', e => {
-      if(e.target.type === 'port' && e.target.dir === 'out')
+      if(e.target.type === 'port' && e.target.dir === 'out') {
         return this.startAttach(e.target);
-      if(e.target.type === 'block')
-        return this.startDrag(e.target);
+      }
 
+      if(e.target.type === 'block' || e.target.type === 'title') {
+        this.dragging = e.target.parentNode;
+        var wrapper = this.dragging.wrapper;
+        var SVGbox = wrapper._svg.getBoundingClientRect();
+        var OffsetX = e.x - SVGbox.left;
+        var OffsetY =  e.y - SVGbox.top;
+        this._aux.mouseDown = { x: OffsetX - wrapper.x, y: OffsetY - wrapper.y };
+        this._svg.appendChild(this.dragging);
+        wrapper.wires.forEach(wire => this._svg.appendChild(wire._el));
+      }
     });
 
     svg.addEventListener('mouseup', e => {
+      this.dragging = null;
       if(e.target.type === 'port')
         return this.endAttach(e.target);
 
@@ -41,10 +51,25 @@ export default class Sticky {
       return this.attachMove(e);
     });
 
+    svg.addEventListener('mousemove', e => {
+      if (this.dragging) {
+        var wrapper = this.dragging.wrapper;
+        var SVGbox = wrapper._svg.getBoundingClientRect();
+        var OffsetX = e.x - SVGbox.left;
+        var OffsetY =  e.y - SVGbox.top;
+
+        var firstState = this._aux.mouseDown;
+        wrapper.x = OffsetX - firstState.x;
+        wrapper.y = OffsetY - firstState.y;
+        wrapper.updateWires();
+      }
+    });
+
     this._svg = svg;
     this.el.appendChild(this._svg);
 
-    this.registerBlock('start', { width: 35, height: 60, rx: 10, ry: 10, fill: '#AF2B37', ports: { data_in: 0, data_out: 0, flow_in: 0, flow_out: 1 },
+    this.registerBlock('start', {
+      width: 35, height: 60, rx: 10, ry: 10, fill: '#AF2B37', ports: { data_in: 0, data_out: 0, flow_in: 0, flow_out: 1 },
       title: 'Start Block',
       icon: 'img/icon.png',
       behavior: () => 0
@@ -81,13 +106,6 @@ export default class Sticky {
     obj._id = this._uid++;
     this._objects.push(obj);
     this.addElement(obj._el);
-
-    let main = obj.main;
-    main.addEventListener('mousedown', turnDrag.bind(obj, true), true);
-    main.addEventListener('mouseup', turnDrag.bind(obj, false), true);
-    main.addEventListener('mouseout', turnDrag.bind(obj, false), true);
-
-    main.addEventListener('mousemove', dragMove.bind(obj), false);
   }
   removeObj(obj) {
     let index = this._objects.indexOf(obj);
@@ -109,7 +127,11 @@ export default class Sticky {
     this._aux['wire'] = wire;
     this.addElement(wire._el);
   }
-
+  startDrag(port) {
+    this.setState('attaching');
+    this._aux['wire'] = wire;
+    this.addElement(wire._el);
+  }
   endAttach(port) {
     if(this.isState('attaching')) {
       this.setState(null);
@@ -171,7 +193,7 @@ export default class Sticky {
   }
   createBlock(name) {
     if(!this._blocks[name]) throw "Block not registered";
-    return new Brick2(this._blocks[name]);
+    return new Brick(this._blocks[name]);
   }
   findById(id) {
     if(!id) return null;
@@ -198,31 +220,7 @@ export default class Sticky {
     } while(block);
 
 
-  behavior: () => 0  //return json;
+  // behavior: () => 0  //return json;
   }
 
-}
-
-function turnDrag(val, e) {
-  this._states.dragging = val;
-  if(val) {
-    var SVGbox = this._svg.getBoundingClientRect();
-    var OffsetX = e.x - SVGbox.left;
-    var OffsetY =  e.y - SVGbox.top;
-    this._aux.mouseDown = { x: OffsetX - this.x, y: OffsetY - this.y };
-  }
-
-}
-
-function dragMove(e) {
-  if(this._states.dragging) {
-    var SVGbox = this._svg.getBoundingClientRect();
-    var OffsetX = e.x - SVGbox.left;
-    var OffsetY =  e.y - SVGbox.top;
-
-    var firstState = this._aux.mouseDown;
-    this.x = OffsetX - firstState.x;
-    this.y = OffsetY - firstState.y;
-
-  }
 }

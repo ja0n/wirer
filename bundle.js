@@ -44,7 +44,17 @@
 /* 0 */
 /***/ function(module, exports) {
 
-	document.write('hello world');
+	"use strict";
+
+	function test(a, b) {
+	  for (var _len = arguments.length, rest = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+	    rest[_key - 2] = arguments[_key];
+	  }
+
+	  console.log(rest);
+	}
+
+	console.log(test({ a: 3, c: 4, d: 5 }));
 
 /***/ }
 /******/ ]);

@@ -1,32 +1,24 @@
-// var Port = require('./Port');
-function Brick({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1, ...opts } = {}) {
-  this._el = SVGBuilder(opts);
+import { DataPort, FlowPort } from './ports.js';
+import blockBuilder from './blockBuilder.js';
+
+export default function Brick({ title, ports, icon, gui }) {
+  this._el = blockBuilder(arguments[0]);
+  this._el.wrapper = this;
+
   this._id = null;
   this._container = null;
+
   this._ports = {
     in: [],
     out: []
   };
 
+  this.wires = [];
+
   this._aux = { attaching: {} };
   this._states = { dragging: false };
 
-  // var i;
-  // for(i = 0; i < In; i++)
-  //   this._ports.in.push([]);
-  //
-  // for(i = 0; i < Out; i++)
-  //   this._ports.out.push([]);
-
-  arrangePorts.call(this, { data_in, data_out, flow_in, flow_out });
-
-  // var main = this._el.getElementById('main');
-  // main.addEventListener('mousedown', turnDrag.bind(this, true), true);
-  // main.addEventListener('mouseup', turnDrag.bind(this, false), true);
-  // main.addEventListener('mouseout', turnDrag.bind(this, false), true);
-  //
-  // main.addEventListener('mousemove', dragMove.bind(this), false);
-  //this._svg.addEventListener('mousemove', attachMove.bind(this), true);
+  arrangePorts.call(this, ports);
 
   return this;
 }
@@ -53,6 +45,9 @@ Brick.prototype = {
   arrangePorts() {
 
   },
+  updateWires() {
+    this.wires.forEach( wire => wire.render() );
+  },
   getValue(id) {
     // var args = this._
     var args = [];
@@ -76,40 +71,6 @@ function getSvg(el) {
     return el.parentNode;
   }
   return getSvg(el.parentNode);
-}
-
-function SVGBuilder({ strokeWidth = 3, marginLeft = 10, width = 150, opacity = 1,
-                      height = 50, rx = 20, ry = 20, fill = '#1F8244', stroke = '#000000' }) {
-  var svg = Sticky.createElement('svg');
-
-  var attrs = {
-    x: marginLeft + strokeWidth/2,
-    y: strokeWidth/2,
-    width,
-    height,
-    rx,
-    ry,
-    'stroke-width': strokeWidth,
-    style: 'fill: ' + fill + '; stroke: ' + stroke + '; opacity: ' + opacity,
-    id: 'main',
-    type: 'block'
-  };
-
-  var rect = Sticky.createElement('rect', attrs);
-  // var foreign = Sticky.createElement('foreignObject', { width: 100, height: 40 });
-  //
-  // foreign.setAttribute('width', 500);
-  // foreign.setAttribute('height',500);
-  //
-  // // var input = Sticky.createElement('input', { type: 'text' });
-  // var input = document.createElement('input');
-  // input.setAttribute('type', 'text');
-  // input.setAttribute('width', '100');
-  // foreign.appendChild(input);
-  // svg.appendChild(foreign);
-
-  svg.appendChild(rect);
-  return svg;
 }
 
 function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } = {}) {

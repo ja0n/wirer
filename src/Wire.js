@@ -10,7 +10,6 @@ export default function Wire(p1, p2) {
   return this;
 }
 
-
 //static methods
 
 Wire.describeJoint = (x1, y1, x2, y2, offset) =>
@@ -31,19 +30,15 @@ Wire.prototype = {
     if(this._cp1.dir == this._cp2.dir) return false;
     var wrapper1 = this._cp1._brick;
     var wrapper2 = this._cp2._brick;
-    var that = this;
 
     if(this._cp1.attach(this._cp2)) {
-      wrapper1.main.addEventListener('mousemove', att.bind(wrapper1));
-      wrapper2.main.addEventListener('mousemove', att.bind(wrapper2));
+      wrapper1.wires.push(this);
+      wrapper2.wires.push(this);
       return true;
     } else {
       return false;
     }
 
-    function att() {
-      if(this._states.dragging) that.render();
-    }
   },
   render() {
     this._render(this._cp1.getPoint(), this._cp2.getPoint(), this._inverted);

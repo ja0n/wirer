@@ -6,6 +6,11 @@
       border: 1px solid black;
       width: 800px;
       height: 400px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      cursor: default;
     }
     .svg-container {
       height: auto;
@@ -14,6 +19,7 @@
       /*height: 500px;*/
     }
     </style>
+    <script src="/webpack-dev-server.js"></script>
   </head>
   <body>
     <div id="test">
@@ -21,6 +27,6 @@
     </div>
     <input id="run" type="button" value="Run"/>
     <!-- <script src="dist/bundle.js"></script> -->
-    <script src="bundle.js"></script>
+    <script src="/bundle.js"></script>
   </body>
 </html>
