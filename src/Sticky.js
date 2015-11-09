@@ -9,7 +9,7 @@ export default class Sticky {
   constructor(id) {
     this.el = document.getElementById(id);
     if(!this.el) throw "Couldn't find element :(";
-    let svg = Sticky.createElement('svg', { class: 'svg-content', viewBox: "0 0 800 400", preserveAspectRatio: "xMidYMid meet" });
+    let svg = Sticky.createElement('svg', { class: 'svg-content', viewBox: "0 0 1000 600", preserveAspectRatio: "xMidYMid meet" });
     // let svg = Sticky.createElement('svg', { class: 'svg-content', width: 800, height: 400 });
 
     this._uid = 0;
@@ -19,7 +19,13 @@ export default class Sticky {
     this._wires = [];
     this._state = null;
 
+    let lastDownTarget;
+
     svg.addEventListener('mousedown', e => {
+      // lastDownTarget = svg;
+      if(e.target.type === 'wire') {
+        return this.selectedWire = e.target.wrapper;
+      }
       if(e.target.type === 'port' && e.target.dir === 'out') {
         return this.startAttach(e.target);
       }
@@ -34,7 +40,23 @@ export default class Sticky {
         this._svg.appendChild(this.dragging);
         wrapper.wires.forEach(wire => this._svg.appendChild(wire._el));
       }
-    });
+    }, false);
+
+
+    document.addEventListener('mousedown', e => {
+      // lastDownTarget = e.target;
+      // console.log(lastDownTarget);
+    }, false);
+
+    document.addEventListener('keydown', e => {
+      // if (lastDownTarget == svg) {
+        if (e.keyCode == 46) this.selectedWire.delete();
+      // }
+    }, false);
+
+    svg.addEventListener('keydown', e => {
+      console.log(e);
+    }, false);
 
     svg.addEventListener('mouseup', e => {
       this.dragging = null;
@@ -70,7 +92,7 @@ export default class Sticky {
 
     this.registerBlock('start', {
       width: 35, height: 60, rx: 10, ry: 10, fill: '#AF2B37', ports: { data_in: 0, data_out: 0, flow_in: 0, flow_out: 1 },
-      title: 'Start Block',
+      title: '',
       icon: 'img/icon.png',
       behavior: () => 0
     });

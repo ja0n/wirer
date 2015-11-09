@@ -2,6 +2,8 @@ import Sticky from './Sticky.js';
 
 export default function Wire(p1, p2) {
   this._el = Sticky.createElement('path', { stroke: 'red', 'stroke-width': 6, fill: 'none', opacity: 0.8 });
+  this._el.type = 'wire';
+  this._el.wrapper = this;
   this._cp1 = p1;
   this._cp2 = p2;
   this._inverted = false;
@@ -40,8 +42,28 @@ Wire.prototype = {
     }
 
   },
+  delete() {
+    console.log('test');
+    var wrapper1 = this._cp1._brick;
+    var wrapper2 = this._cp2._brick;
+    spliceByIndex(wrapper1.wires, this);
+    spliceByIndex(wrapper2.wires, this);
+    this._cp1.dettach(this._cp2);
+    this._el.parentNode.removeChild(this._el);
+  },
   render() {
     this._render(this._cp1.getPoint(), this._cp2.getPoint(), this._inverted);
   }
 
 };
+
+
+function spliceByIndex(arr, obj) {
+  let index = arr.indexOf(obj);
+  console.log(index);
+  if (index != -1) {
+    arr.splice(index, 1);
+    return true;
+  }
+  return false;
+}

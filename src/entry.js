@@ -35,26 +35,8 @@ let rect4 = canvas.createBlock('Alert');
 let rect5 = canvas.createBlock('Sum');
 let rect6 = canvas.createBlock('Source');
 let rect7 = canvas.createBlock('Source');
-
-rect6.behavior = function() {
-  return [4];
-};
-
-rect7.behavior = function() {
-  return [2];
-};
-
-rect5.behavior = function(findById) {
-  console.log(findById);
-  var val1 = (this._ports['in'][0]._conn[0]);
-  var val2 = (this._ports['in'][1]._conn[0]);
-  var brick = findById(val1.brick);
-  var data = brick.behavior()[val2.id];
-  brick = findById(val2.brick);
-  data += brick.behavior()[val2.id];
-
-  return [data];
-};
+let rect8 = canvas.createBlock('Alert');
+let rect9 = canvas.createBlock('Sum');
 
 rect3.x = 330; rect3.y = 100;
 rect2.x = 330; rect2.y = 200;
@@ -72,27 +54,48 @@ rect2.behavior = function() {
 };
 
 rect3.behavior = function() {
-  return ["FODA-SE"];
+  return ["nayn cat"];
+};
+
+rect5.behavior = function(findById) {
+  var val1 = (this._ports['in'][0]._conn[0]);
+  var val2 = (this._ports['in'][1]._conn[0]);
+  var brick = findById(val1.brick);
+  var data = brick.behavior(findById)[val2.id];
+  brick = findById(val2.brick);
+  data += brick.behavior(findById)[val2.id];
+
+  return [data];
+};
+
+rect6.behavior = function() {
+  return [4];
+};
+
+rect7.behavior = function() {
+  return [2];
 };
 
 rect4.behavior = function(findById) {
-  var conn = (this._ports['in'][0]._conn[0]);
-  console.log(conn);
+  var conn = this._ports['in'][0]._conn[0];
   var brick = findById(conn.brick);
   var data = brick.behavior(findById)[conn.id];
   alert(data);
+  return 0;
 };
 
+rect8.behavior = rect4.behavior;
+rect9.behavior = rect5.behavior;
+
 canvas.addObj(rect);
-// canvas.addObj(rect2);
+canvas.addObj(rect2);
 // canvas.addObj(rect3);
 canvas.addObj(rect4);
 canvas.addObj(rect5);
 canvas.addObj(rect6);
 canvas.addObj(rect7);
-
-console.log(canvas);
-
+canvas.addObj(rect8);
+canvas.addObj(rect9);
 
 document.getElementById('run').onclick = function() {
   canvas.run();

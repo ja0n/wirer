@@ -46,6 +46,13 @@ Port.prototype = {
     }
     return false;
   },
+  dettach(to) {
+    let index1 = this._conn.indexOf({ brick: to._brick._id, id: to.id });
+    let index2 = this._conn.indexOf({ brick: this._brick._id, id: this.id });
+    this._conn.splice(index1, 1);
+    to._conn.splice(index2, 1);
+
+  },
   canAttach(to) {
     return (this.available && to.available && this.type === to.type) ? true : false;
   }
