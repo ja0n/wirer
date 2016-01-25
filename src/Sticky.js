@@ -1,10 +1,6 @@
 import Wire from './Wire.js';
 import Brick from './Brick.js';
-// import { StartBrick, ActuatorBrick } from './bricks';
-// var EventEmitter = require('events').eventEmitter;
-// var Brick = require('./Brick');
 
-//constructor
 export default class Sticky {
   constructor(id) {
     this.el = document.getElementById(id);
@@ -104,7 +100,6 @@ export default class Sticky {
                    "#2E2C75", "#673A7E", "#CC0071", "#F80120",
                    "#F35B20", "#FB9A00", "#FFCC00", "#FEF200"];
 
-
     return this;
   }
 
@@ -187,23 +182,14 @@ export default class Sticky {
       wire._render(port, mouse, wire._inverted);
     }
   }
-  toJSON() {
-    var json = this._objects.map(obj => ({
-      id: obj._id,
-      x: obj.x,
-      y: obj.y,
-      con: obj._ports.out.map(port => port._conn)
-    }));
-
-    return json;
-  }
-  clearCanvas() {
-    let length = this._objects.length;
-    for(let i = 0; i < length; i++) {
-      this.removeElement(this._objects[i]._el);
+  clearCanvas(start = true) {
+    for (let obj of this._objects) {
+      this.removeElement(obj._el);
     }
 
     this._objects = [];
+
+    if (!start) return;
 
     var start = this.createBlock('start');
     start.x = 10; start.y = this._svg.getAttribute('height')/2;
@@ -212,37 +198,77 @@ export default class Sticky {
   }
   registerBlock(name, obj) {
     this._blocks[name] = obj;
+    this._blocks[name].id = name;
+
+    if (obj.behavior && (typeof obj.behavior !== 'function')) {
+      this._blocks[name].behavior = new Function('findById', obj.behavior);
+    }
   }
   createBlock(name) {
-    if(!this._blocks[name]) throw "Block not registered";
+    if (!this._blocks[name]) throw "Block not registered";
     return new Brick(this._blocks[name]);
   }
   findById(id) {
-    if(!id) return null;
-    for(let obj of this._objects) {
-      if(obj._id === id) return obj;
+    if (!id) return null;
+    for (let obj of this._objects) {
+      if (obj._id === id) return obj;
     }
-    // for(let i = 0; i < this._objects.length; i++) {
-    //   obj = this._objects[i];
-    //   if(obj._id === id) return obj;
-    // }
+  }
+  toJSON() {
+    var fluxgram = this._objects.map(obj => {
+      let object = {
+        refBlock: obj._refBlock,
+        id: obj._id,
+        x: obj.x,
+        y: obj.y,
+        ports: {} // flow_in, flow_out, in, out
+      };
+
+      for (let type in obj._ports) {
+        object.ports[type] = obj._ports[type].map(port => port._conn);
+      }
+
+      return object;
+    });
+
+    // var refBlock = this._blocks.map(block => ({
+    //   // ...block,
+    //   behavior: block.behavior.toString
+    // }));
+
+    let refBlock = {};
+
+    return { refBlock, fluxgram };
+  }
+  loadJSON(data) {
+    this.clearCanvas(false);
+
+    for (let block of data) {
+      let refBlock = this._blocks[block.refBlock];
+      let obj = this.createBlock(block.refBlock, refBlock);
+      obj.x = block.x;
+      obj.y = block.y;
+      this.addObj(obj);
+    }
   }
   run() {
-    let block = this._objects[0], flow, id;
+    let block = this._objects[0], flow, id, refBlock;
 
-    // flow = start.behavior(); //an ActuatorBrick should return the flow_out port id
-                             //it'll be useful for if block
+    // flow = start.behavior();
+    // an ActuatorBrick should return the flow_out port id
+    // it'll be useful for if block
+
     do {
-      flow = block.behavior(this.findById.bind(this));
+      refBlock = this._blocks[block._refBlock];
+      flow = refBlock.behavior.call(block, this.findById.bind(this));
       // console.log(block._ports);
       id = (block._ports['flow_out'][flow]._conn[0]) ?
             (block._ports['flow_out'][flow]._conn[0]).brick :
               null;
       block = this.findById(id);
     } while(block);
-
-
-  // behavior: () => 0  //return json;
   }
+  compile() {
 
+  }
 }
