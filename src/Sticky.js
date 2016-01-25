@@ -248,6 +248,7 @@ export default class Sticky {
       let obj = this.createBlock(block.refBlock, refBlock);
       obj.x = block.x;
       obj.y = block.y;
+      obj.value = block.value;
       this.addObj(obj);
     }
   }

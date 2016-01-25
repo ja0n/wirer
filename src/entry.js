@@ -136,6 +136,7 @@ const loadTest = [
     "id": 1,
     "x": 61,
     "y": 246,
+    "value": "hello",
     "ports": {
       "in": [],
       "out": [],
@@ -162,6 +163,7 @@ const loadTest = [
     "id": 2,
     "x": 244,
     "y": 170,
+    "value": "world",
     "ports": {
       "in": [],
       "out": [],
