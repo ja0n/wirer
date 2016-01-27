@@ -120,7 +120,7 @@ export default class Sticky {
     return brick;
   }
   addObj(obj) {
-    obj._id = this._uid++;
+    if (!obj._id) obj._id = this._uid++;
     this._objects.push(obj);
     this.addElement(obj._el);
   }
@@ -138,7 +138,7 @@ export default class Sticky {
     this._svg.removeChild(el);
   }
   startAttach(port) {
-    var wire = new Wire(port.wrapper);
+    let wire = new Wire(port.wrapper);
     wire._inverted = port.wrapper.dir === 'in';
     this.setState('attaching');
     this._aux['wire'] = wire;
@@ -209,7 +209,7 @@ export default class Sticky {
     return new Brick(this._blocks[name]);
   }
   findById(id) {
-    if (!id) return null;
+    if (id == undefined) return null;
     for (let obj of this._objects) {
       if (obj._id === id) return obj;
     }
@@ -249,7 +249,41 @@ export default class Sticky {
       obj.x = block.x;
       obj.y = block.y;
       obj.value = block.value;
+      obj._id = block.id;
       this.addObj(obj);
+    }
+
+    // load wires
+    // PLEASE REFACTORATE ME
+
+    for (let block of data) {
+      let blocky = this.findById(block.id);
+
+      for (let port of block.ports.out) {
+        let blocky2 = this.findById(port.brick);
+        let wire = new Wire(blocky._ports['out'][0], blocky2._ports['in'][0]);
+        this.addElement(wire._el);
+        if (wire.seal()) {
+          wire.render();
+          this._wires.push(wire);
+        } else {
+          this.removeElement(wire._el);
+        }
+      }
+
+      for (let port of block.ports.flow_out) {
+        let blocky2 = this.findById(port[0].brick);
+        let wire = new Wire(blocky._ports['flow_out'][0], blocky2._ports['flow_in'][0]);
+        this.addElement(wire._el);
+
+        if (wire.seal()) {
+          wire.render();
+          this._wires.push(wire);
+        } else {
+          this.removeElement(wire._el);
+        }
+      }
+
     }
   }
   run() {

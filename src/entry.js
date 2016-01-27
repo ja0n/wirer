@@ -175,9 +175,7 @@ const loadTest = [
           }
         ]
       ],
-      "flow_out": [
-        []
-      ]
+      "flow_out": []
     }
   }
 ];
