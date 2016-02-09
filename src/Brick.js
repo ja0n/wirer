@@ -1,11 +1,12 @@
 import { DataPort, FlowPort } from './ports.js';
 import blockBuilder from './blockBuilder.js';
 
-export default function Brick({ title, ports, icon, gui, id, x, y }) {
+export default function Brick({ behavior, title, ports, icon, gui, id, x, y }) {
   this._el = blockBuilder(arguments[0]);
   this._el.wrapper = this;
 
-  this._id = id;
+  // this._id = id;
+  this.behavior = behavior;
   this._container = null;
   this._refBlock = id;
   this.x = x || 0;
@@ -55,14 +56,12 @@ Brick.prototype = {
     // var args = this._
     var args = [];
     var In = this._ports.in;
-    var i, j;
-    for(i = 0; i < In.length; i++) {
+
+    for (let i = 0; i < In.length; i++) {
       args.push([]);
-      for(j = 0; j < In[i].length; j++)
+      for (let j = 0; j < In[i].length; j++)
         args[i].push(In[i][j].value());
     }
-
-    console.log(id);
 
     if (id) return (this._behavior(args))[id];
     else    return this._behavior(args);

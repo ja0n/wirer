@@ -43,7 +43,6 @@ Wire.prototype = {
 
   },
   delete() {
-    console.log('test');
     var wrapper1 = this._cp1._brick;
     var wrapper2 = this._cp2._brick;
     spliceByIndex(wrapper1.wires, this);
