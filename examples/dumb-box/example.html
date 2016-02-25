@@ -4,7 +4,7 @@
     <style>
       #test {
         border: 1px solid black;
-        width: 1000px;
+        width: 800px;
         height: 600px;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -19,6 +19,10 @@
     <div id="test"></div>
     <canvas id="canvas" width="400" height="450"></canvas>
     <br/>
+    <input id="left" type="button" value="left"/> 
+    <input id="right" type="button" value="right"/> 
+    <input id="top" type="button" value="top"/> 
+    <input id="down" type="button" value="down"/> 
     <input id="run" type="button" value="Run"/> 
 
 
@@ -80,21 +84,24 @@
           var rect = canvas.createBlock('Push' + direction);
           canvas.addObj(rect);
         }
-
-
       });
 
       document.getElementById('run').onclick = function() {
         sum = [];
         canvas.run();
         for (var i = 0; i < sum.length; i++) {
-        console.log(sum[i]);
+          console.log(sum[i]);
           game.player.pushMove(sum[i]);
         }
 
       };
 
-
+      ['Left', 'Top', 'Right', 'Down'].forEach(function(dir) {
+        document.getElementById(dir.toLowerCase()).onclick = function() {
+          var rect = canvas.createBlock('Push' + dir);
+          canvas.addObj(rect);
+        };
+      });
       var map = [
         "10100000",
         "00110101",

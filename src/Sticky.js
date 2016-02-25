@@ -5,7 +5,7 @@ export default class Sticky {
   constructor(id) {
     this.el = document.getElementById(id);
     if(!this.el) throw "Couldn't find element :(";
-    let svg = Sticky.createElement('svg', { class: 'svg-content', viewBox: "0 0 1000 600", preserveAspectRatio: "xMidYMid meet" });
+    let svg = Sticky.createElement('svg', { class: 'svg-content', viewBox: "0 0 800 600", preserveAspectRatio: "xMidYMid meet" });
     // let svg = Sticky.createElement('svg', { class: 'svg-content', width: 800, height: 400 });
     this._uid = 0;
     this._aux = {};
