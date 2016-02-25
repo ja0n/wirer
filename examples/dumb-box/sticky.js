@@ -56,27 +56,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _Wire = __webpack_require__(1);
 	
 	var _Wire2 = _interopRequireDefault(_Wire);
 	
-	var _Brick2 = __webpack_require__(2);
+	var _Brick2 = __webpack_require__(3);
 	
 	var _Brick3 = _interopRequireDefault(_Brick2);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
-	
-	var Sticky = (function () {
+	var Sticky = function () {
 	  function Sticky(id) {
 	    var _this = this;
 	
@@ -84,7 +84,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.el = document.getElementById(id);
 	    if (!this.el) throw "Couldn't find element :(";
-	    var svg = Sticky.createElement('svg', { class: 'svg-content', viewBox: "0 0 1000 600", preserveAspectRatio: "xMidYMid meet" });
+	    var svg = Sticky.createElement('svg', { class: 'svg-content', viewBox: "0 0 800 600", preserveAspectRatio: "xMidYMid meet" });
 	    // let svg = Sticky.createElement('svg', { class: 'svg-content', width: 800, height: 400 });
 	    this._uid = 0;
 	    this._aux = {};
@@ -183,6 +183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  //static methods
 	
+	
 	  _createClass(Sticky, [{
 	    key: 'Brick',
 	    value: function Brick(name, attrs) {
@@ -216,27 +217,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	          if (obj._ports[port_type][0]) {
 	            // if there's any connection
-	            var _iteratorNormalCompletion2 = true;
-	            var _didIteratorError2 = false;
-	            var _iteratorError2 = undefined;
+	            var _iteratorNormalCompletion3 = true;
+	            var _didIteratorError3 = false;
+	            var _iteratorError3 = undefined;
 	
 	            try {
-	              for (var _iterator2 = obj._ports[port_type][Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	              for (var _iterator3 = obj._ports[port_type][Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
 	                // port.dettach();
 	
-	                var port = _step2.value;
+	                var port = _step3.value;
 	              }
 	            } catch (err) {
-	              _didIteratorError2 = true;
-	              _iteratorError2 = err;
+	              _didIteratorError3 = true;
+	              _iteratorError3 = err;
 	            } finally {
 	              try {
-	                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-	                  _iterator2.return();
+	                if (!_iteratorNormalCompletion3 && _iterator3.return) {
+	                  _iterator3.return();
 	                }
 	              } finally {
-	                if (_didIteratorError2) {
-	                  throw _iteratorError2;
+	                if (_didIteratorError3) {
+	                  throw _iteratorError3;
 	                }
 	              }
 	            }
@@ -257,27 +258,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	
-	      var _iteratorNormalCompletion3 = true;
-	      var _didIteratorError3 = false;
-	      var _iteratorError3 = undefined;
+	      var _iteratorNormalCompletion2 = true;
+	      var _didIteratorError2 = false;
+	      var _iteratorError2 = undefined;
 	
 	      try {
-	        for (var _iterator3 = obj.wires[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-	          var _wire = _step3.value;
+	        for (var _iterator2 = obj.wires[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	          var _wire = _step2.value;
 	
 	          _wire.delete();
 	        }
 	      } catch (err) {
-	        _didIteratorError3 = true;
-	        _iteratorError3 = err;
+	        _didIteratorError2 = true;
+	        _iteratorError2 = err;
 	      } finally {
 	        try {
-	          if (!_iteratorNormalCompletion3 && _iterator3.return) {
-	            _iterator3.return();
+	          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	            _iterator2.return();
 	          }
 	        } finally {
-	          if (_didIteratorError3) {
-	            throw _iteratorError3;
+	          if (_didIteratorError2) {
+	            throw _iteratorError2;
 	          }
 	        }
 	      }
@@ -651,13 +652,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 	
 	  return Sticky;
-	})();
-	
+	}();
+
 	exports.default = Sticky;
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -665,10 +666,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	exports.default = Wire;
-	//import Sticky from './Sticky.js';
+	
+	var _utils = __webpack_require__(2);
+	
+	var _utils2 = _interopRequireDefault(_utils);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function Wire(p1, p2) {
-	  this._el = Sticky.createElement('path', { stroke: 'red', 'stroke-width': 6, fill: 'none', opacity: 0.8 });
+	  this._el = (0, _utils2.default)('path', { stroke: 'red', 'stroke-width': 6, fill: 'none', opacity: 0.8 });
 	  this._el.type = 'wire';
 	  this._el.wrapper = this;
 	  this._cp1 = p1;
@@ -734,6 +740,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = createElement;
+	function createElement(name, attrs) {
+	  var el = document.createElementNS('http://www.w3.org/2000/svg', name);
+	
+	  for (var key in attrs) {
+	    el.setAttribute(key, attrs[key]);
+	  }return el;
+	}
+
+/***/ },
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -743,9 +767,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = Brick;
 	
-	var _ports = __webpack_require__(3);
+	var _ports = __webpack_require__(4);
 	
-	var _blockBuilder = __webpack_require__(5);
+	var _blockBuilder = __webpack_require__(6);
 	
 	var _blockBuilder2 = _interopRequireDefault(_blockBuilder);
 	
@@ -930,7 +954,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -941,7 +965,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.DataPort = DataPort;
 	exports.FlowPort = FlowPort;
 	
-	var _Port = __webpack_require__(4);
+	var _Port = __webpack_require__(5);
 	
 	var _Port2 = _interopRequireDefault(_Port);
 	
@@ -976,8 +1000,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 4 */
-/***/ function(module, exports) {
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -985,7 +1009,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	exports.default = Port;
-	//import Sticky from './Sticky.js';
+	
+	var _utils = __webpack_require__(2);
+	
+	var _utils2 = _interopRequireDefault(_utils);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function Port(_ref) {
 	  var id = _ref.id;
@@ -999,7 +1028,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var attrs = { r: 10, fill: '#B8D430', stroke: 'black', 'stroke-width': 3.5 };
 	
 	  // Object.assign(attrs, { wrapper: this, type: 'port', dir: dir });
-	  this._el = Sticky.createElement('circle', attrs);
+	  this._el = (0, _utils2.default)('circle', attrs);
 	  this._el.wrapper = this;
 	  this._el.type = 'port';
 	  this._el.dir = dir;
@@ -1057,8 +1086,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	// module.exports = Port;
 
 /***/ },
-/* 5 */
-/***/ function(module, exports) {
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -1066,7 +1095,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	exports.default = blockBuilder;
-	//import Sticky from './Sticky.js';
+	
+	var _utils = __webpack_require__(2);
+	
+	var _utils2 = _interopRequireDefault(_utils);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// function SVGBuilder({ strokeWidth, marginLeft, width, opacity, height, rx, ry, fill, stroke, ...rest }) {
 	function blockBuilder(_ref) {
@@ -1092,7 +1126,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  fill = fill || '#1F8244';
 	  stroke = '#000000';
 	
-	  var svg = Sticky.createElement('svg');
+	  var svg = (0, _utils2.default)('svg');
 	
 	  var attrs = {
 	    x: marginLeft + strokeWidth / 2,
@@ -1106,9 +1140,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    id: 'main'
 	  };
 	
-	  var rect = Sticky.createElement('rect', attrs);
+	  var rect = (0, _utils2.default)('rect', attrs);
 	  rect.type = 'block';
-	  var text = Sticky.createElement('text', { x: 25, y: 30, style: 'cursor: default' });
+	  var text = (0, _utils2.default)('text', { x: 25, y: 30, style: 'cursor: default' });
 	  text.type = 'title';
 	  var txtNode = document.createTextNode(title);
 	  text.appendChild(txtNode);

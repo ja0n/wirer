@@ -1,4 +1,4 @@
-import Sticky from './Sticky.js';
+import createElement from './utils.js';
 
 export default function Port({ id, type, dir, brick }) {
   if (['in','out'].indexOf(dir) == -1) throw "port direction must be 'in' or 'out'";
@@ -7,7 +7,7 @@ export default function Port({ id, type, dir, brick }) {
   var attrs = { r: 10, fill: '#B8D430', stroke: 'black', 'stroke-width': 3.5 };
 
   // Object.assign(attrs, { wrapper: this, type: 'port', dir: dir });
-  this._el = Sticky.createElement('circle', attrs);
+  this._el = createElement('circle', attrs);
   this._el.wrapper = this;
   this._el.type = 'port';
   this._el.dir = dir;

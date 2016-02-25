@@ -82,6 +82,8 @@
 
         if (direction) {
           var rect = canvas.createBlock('Push' + direction);
+          rect.x = 150; rect.y = 200;
+          
           canvas.addObj(rect);
         }
       });
@@ -99,6 +101,7 @@
       ['Left', 'Top', 'Right', 'Down'].forEach(function(dir) {
         document.getElementById(dir.toLowerCase()).onclick = function() {
           var rect = canvas.createBlock('Push' + dir);
+          rect.x = 150; rect.y = 200;
           canvas.addObj(rect);
         };
       });

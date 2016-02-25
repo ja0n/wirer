@@ -1,4 +1,4 @@
-import Sticky from './Sticky.js';
+import createElement from './utils.js';
 
 // function SVGBuilder({ strokeWidth, marginLeft, width, opacity, height, rx, ry, fill, stroke, ...rest }) {
 export default function blockBuilder({ strokeWidth, marginLeft, width, opacity, height, rx, ry, fill, stroke, title }) {
@@ -13,7 +13,7 @@ export default function blockBuilder({ strokeWidth, marginLeft, width, opacity, 
     fill = fill || '#1F8244';
     stroke = '#000000';
 
-    var svg = Sticky.createElement('svg');
+    var svg = createElement('svg');
 
     var attrs = {
       x: marginLeft + strokeWidth/2,
@@ -27,9 +27,9 @@ export default function blockBuilder({ strokeWidth, marginLeft, width, opacity, 
       id: 'main'
     };
 
-    var rect = Sticky.createElement('rect', attrs);
+    var rect = createElement('rect', attrs);
     rect.type = 'block';
-    var text = Sticky.createElement('text', { x: 25, y: 30, style: 'cursor: default' });
+    var text = createElement('text', { x: 25, y: 30, style: 'cursor: default' });
     text.type = 'title';
     var txtNode = document.createTextNode(title);
     text.appendChild(txtNode);

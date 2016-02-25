@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/Sticky.js',
   devtool: 'source-map',
   output: {
     path: __dirname + '/dist',

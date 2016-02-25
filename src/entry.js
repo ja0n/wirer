@@ -1,5 +1,5 @@
 import Sticky from './Sticky.js';
-console.log(Sticky);
+
 var canvas = new Sticky('test');
 
 canvas.registerBlock('Source', {
