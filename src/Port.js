@@ -1,4 +1,4 @@
-//import Sticky from './Sticky.js';
+import Sticky from './Sticky.js';
 
 export default function Port({ id, type, dir, brick }) {
   if (['in','out'].indexOf(dir) == -1) throw "port direction must be 'in' or 'out'";

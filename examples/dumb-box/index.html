@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <canvas id="canvas" width="600" height="450"></canvas>
+
+    <script src="dumb-box.js"></script>
+    <script>
+      var game = new DumbBox('canvas');
+
+      var map = [
+        "10101010",
+        "00110101",
+        "01000111",
+        "00101000",
+        "10001011"
+      ];
+
+      var map2 = [
+        "0000000000",
+        "0000000000",
+        "0000000000"
+      ];
+      game.loadMap(50, map, { 0: 'red', 1: 'blue' });
+      game.start();
+    </script>
+  </body>
+</html>
