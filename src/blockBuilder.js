@@ -1,4 +1,4 @@
-import Sticky from './Sticky.js';
+//import Sticky from './Sticky.js';
 
 // function SVGBuilder({ strokeWidth, marginLeft, width, opacity, height, rx, ry, fill, stroke, ...rest }) {
 export default function blockBuilder({ strokeWidth, marginLeft, width, opacity, height, rx, ry, fill, stroke, title }) {

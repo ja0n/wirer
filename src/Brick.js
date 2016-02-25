@@ -81,7 +81,8 @@ function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } =
   var strokeWidth = 3.5;
   var ports = this._ports;
   var main = this.main;
-  var rectBox = main.getBBox();
+  // var rectBox = main.getBBox ? main.getBBox() : main.getBoundingClientRect();
+  var rectBox =  main.getBoundingClientRect();
   var maxPorts = Math.max(data_in + flow_in, data_out + flow_out);
   // var maxPorts = Math.max(ports.in.length, ports.out.length);
   var Radius = radius + strokeWidth/2; //total radius -> circle radius plus its stroke width
