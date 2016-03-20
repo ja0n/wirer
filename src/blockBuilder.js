@@ -23,7 +23,8 @@ export default function blockBuilder({ strokeWidth, marginLeft, width, opacity, 
       rx,
       ry,
       'stroke-width': strokeWidth,
-      style: 'fill: ' + fill + '; stroke: ' + stroke + '; opacity: ' + opacity,
+      style: `fill: ${fill}; stroke: ${stroke}; opacity: ${opacity};`,
+      class: 'sticky-block',
       id: 'main'
     };
 
@@ -44,7 +45,7 @@ blockBuilder.prototype = {
 
 };
 
-      let test = {
+let test = {
   fill: '#31dfaf',
   border: '#e695bf',
   ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },

@@ -18,7 +18,9 @@ export default class Sticky {
 
     svg.addEventListener('mousedown', e => {
       // lastDownTarget = svg;
+      this.lastSelected = null;
       if (e.target.type === 'wire') {
+        this.lastSelected = e.target.wrapper;
         return this.selectedWire = e.target.wrapper;
       }
       if (e.target.type === 'port' && e.target.dir === 'out') {
@@ -26,6 +28,7 @@ export default class Sticky {
       }
 
       if (e.target.type === 'block' || e.target.type === 'title') {
+        this.lastSelected = e.target.parentNode.wrapper;
         this.dragging = e.target.parentNode;
         var wrapper = this.dragging.wrapper;
         var SVGbox = wrapper._svg.getBoundingClientRect();
@@ -35,6 +38,7 @@ export default class Sticky {
         this._svg.appendChild(this.dragging);
         wrapper.wires.forEach(wire => this._svg.appendChild(wire._el));
       }
+
     }, false);
 
 
@@ -45,8 +49,10 @@ export default class Sticky {
 
     document.addEventListener('keydown', e => {
       // if (lastDownTarget == svg) {
-        if (e.keyCode == 46) this.selectedWire.delete();
-      // }
+      if (e.keyCode == 46) {
+        console.log(this.lastSelected);
+        this.lastSelected.delete();
+      }
     }, false);
 
     svg.addEventListener('keydown', e => {

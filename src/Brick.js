@@ -49,6 +49,10 @@ Brick.prototype = {
   arrangePorts() {
 
   },
+  delete() {
+    this.wires.forEach( wire => wire.delete() );
+    this.detach();
+  },
   updateWires() {
     this.wires.forEach( wire => wire.render() );
   },
