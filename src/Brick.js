@@ -50,7 +50,9 @@ Brick.prototype = {
 
   },
   delete() {
-    this.wires.forEach( wire => wire.delete() );
+    for (let i = this.wires.length - 1; i >= 0; i--)
+      this.wires[i].delete();
+
     this.detach();
   },
   updateWires() {

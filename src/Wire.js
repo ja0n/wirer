@@ -59,7 +59,7 @@ Wire.prototype = {
 
 function spliceByIndex(arr, obj) {
   let index = arr.indexOf(obj);
-  console.log(index);
+
   if (index != -1) {
     arr.splice(index, 1);
     return true;
