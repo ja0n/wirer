@@ -17,6 +17,7 @@ export default class Sticky {
     let lastDownTarget;
 
     svg.addEventListener('mousedown', e => {
+      normalizeEvent(e);
       // lastDownTarget = svg;
       this.lastSelected = null;
       if (e.target.type === 'wire') {
@@ -71,10 +72,14 @@ export default class Sticky {
     });
 
     svg.addEventListener('mousemove', e => {
+      normalizeEvent(e);
+
       return this.attachMove(e);
     });
 
     svg.addEventListener('mousemove', e => {
+      normalizeEvent(e);
+
       if (this.dragging) {
         var wrapper = this.dragging.wrapper;
         var SVGbox = wrapper._svg.getBoundingClientRect();
@@ -136,7 +141,7 @@ export default class Sticky {
     for (let port_type of Object.keys(obj._ports)) {
       if (obj._ports[port_type][0]) { // if there's any connection
         for (let port of obj._ports[port_type]) {
-          // port.dettach(); 
+          // port.dettach();
 	}
       }
     }
@@ -144,7 +149,7 @@ export default class Sticky {
     for (let wire of obj.wires) {
       wire.delete();
     }
-    
+
     this.removeElement(obj._el);
     if (update)
       return this._objects.splice(index, 1);
@@ -341,3 +346,9 @@ export default class Sticky {
 
   }
 }
+
+
+const normalizeEvent = e => {
+  if (!e.x) e.x = e.clientX;
+  if (!e.y) e.y = e.clientY;
+};
