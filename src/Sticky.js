@@ -4,8 +4,11 @@ import Brick from './Brick.js';
 export default class Sticky {
   constructor(id) {
     this.el = document.getElementById(id);
-    if(!this.el) throw "Couldn't find element :(";
-    let svg = Sticky.createElement('svg', { class: 'svg-content', viewBox: "0 0 800 600", preserveAspectRatio: "xMidYMid meet" });
+
+    if (!this.el)
+      throw "Couldn't find element :(";
+
+    const svg = Sticky.createElement('svg', { class: 'svg-content', viewBox: "0 0 800 600", preserveAspectRatio: "xMidYMid meet" });
     // let svg = Sticky.createElement('svg', { class: 'svg-content', width: 800, height: 400 });
     this._uid = 0;
     this._aux = {};
@@ -20,10 +23,12 @@ export default class Sticky {
       normalizeEvent(e);
       // lastDownTarget = svg;
       this.lastSelected = null;
+
       if (e.target.type === 'wire') {
         this.lastSelected = e.target.wrapper;
         return this.selectedWire = e.target.wrapper;
       }
+
       if (e.target.type === 'port' && e.target.dir === 'out') {
         return this.startAttach(e.target);
       }
@@ -95,6 +100,7 @@ export default class Sticky {
 
     this._svg = svg;
     this.el.appendChild(this._svg);
+    this.matchViewBox();
 
     this.registerBlock('start', {
       width: 35, height: 60, rx: 10, ry: 10, fill: '#AF2B37', ports: { data_in: 0, data_out: 0, flow_in: 0, flow_out: 1 },
@@ -117,9 +123,15 @@ export default class Sticky {
   static createElement(name, attrs) {
     var el = document.createElementNS('http://www.w3.org/2000/svg', name);
 
-    for (let key in attrs) el.setAttribute(key, attrs[key]);
+    for (let key in attrs)
+      el.setAttribute(key, attrs[key]);
 
     return el;
+  }
+  matchViewBox() {
+    const { width, height } = this._svg.getBoundingClientRect();
+
+    this._svg.setAttribute('viewBox', `0, 0, ${width} ${height}`);
   }
   Brick(name, attrs) {
     var el = Sticky.createElement(name, attrs);
