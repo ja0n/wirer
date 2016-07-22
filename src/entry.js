@@ -6,8 +6,31 @@ canvas.registerBlock('Source', {
   fill: '#4fec2f',
   ports: { data_in: 0, data_out: 1, flow_in: 0, flow_out: 0 },
   title: 'Source Block',
+  gui: {
+    // text: { label: 'Text', type: 'text' },
+    number: { label: 'Number', type: 'number' }
+  },
   behavior: function() {
-    return this.value;
+    return [this.inputs.number];
+  }
+});
+
+canvas.registerBlock('Comparison', {
+  fill: '#4fec2f',
+  ports: { data_in: 2, data_out: 1, flow_in: 0, flow_out: 0 },
+  title: 'Comparison Block',
+  gui: {
+    op: { label: 'Operation', type: 'select', options: ['==', '!=', '===', '!==', '>', '>=', '<', '<='] },
+  },
+  behavior: function(findById) {
+    var conn1 = (this._ports['in'][0]._conn[0]);
+    var conn2 = (this._ports['in'][1]._conn[0]);
+    var brick1 = findById(conn1.brick);
+    var brick2 = findById(conn2.brick);
+    var val1 = brick1.behavior(findById)[conn1.id];
+    var val2 = brick2.behavior(findById)[conn2.id];
+
+    return [eval(`${val1} ${this.inputs.op} ${val2}`)];
   }
 });
 
@@ -15,7 +38,8 @@ canvas.registerBlock('Actuator', {
   fill: '#673A7E',
   ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
   title: 'Actuator Block',
-  behavior: `console.log(this);
+  behavior: `
+    console.log(this);
     alert(this.value);
     return 0;
   `
@@ -62,6 +86,7 @@ let rect6 = canvas.createBlock('Source');
 let rect7 = canvas.createBlock('Source');
 let rect8 = canvas.createBlock('Alert');
 let rect9 = canvas.createBlock('Sum');
+let rect10 = canvas.createBlock('Comparison');
 
 rect.x = 130; rect.y = 230;
 rect2.x = 330; rect2.y = 200;
@@ -84,6 +109,7 @@ canvas.addObj(rect6);
 canvas.addObj(rect7);
 canvas.addObj(rect8);
 canvas.addObj(rect9);
+canvas.addObj(rect10);
 
 document.getElementById('run').onclick = function() {
   canvas.run();

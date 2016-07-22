@@ -1,16 +1,32 @@
 import { DataPort, FlowPort } from './ports.js';
 import blockBuilder from './blockBuilder.js';
 
-export default function Brick({ behavior, title, ports, icon, gui, id, x, y }) {
-  this._el = blockBuilder(arguments[0]);
-  this._el.wrapper = this;
+export default function Brick(custom = {}) {
+  const cfg = {
+    strokeWidth: 3,
+    marginLeft: 10,
+    width: 220,
+    opacity: 1,
+    height: 50,
+    rx: 20,
+    ry: 20,
+    fill: '#1F8244',
+    stroke: '#000000',
+    gui: {},
+    ...custom
+  };
+
+  const { behavior, title, ports, icon, gui, id, x, y } = cfg;
 
   // this._id = id;
+  this.inputs = {};
+  this._el = blockBuilder(this, cfg);
   this.behavior = behavior;
   this._container = null;
   this._refBlock = id;
   this.x = x || 0;
   this.y = y || 0;
+
 
   this._ports = {
     in: [],
@@ -22,7 +38,7 @@ export default function Brick({ behavior, title, ports, icon, gui, id, x, y }) {
   this._aux = { attaching: {} };
   this._states = { dragging: false };
 
-  arrangePorts.call(this, ports);
+  arrangePorts.call(this, ports, gui);
 
   return this;
 }
@@ -81,7 +97,7 @@ function getSvg(el) {
   return getSvg(el.parentNode);
 }
 
-function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } = {}) {
+function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } = {}, gui = {}) {
   var radius = 10;
   var dist = 10; //distance beetween ports
   var strokeWidth = 3.5;
@@ -93,7 +109,7 @@ function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } =
   // var maxPorts = Math.max(ports.in.length, ports.out.length);
   var Radius = radius + strokeWidth/2; //total radius -> circle radius plus its stroke width
   var tRadius = dist + Radius;
-  var height = (dist + Radius * 2) * maxPorts + dist; //dist + diameter * number of ports + final dist
+  var height = (dist + Radius * 2) * Math.max(maxPorts, 1 + Object.keys(gui).length) + dist; //dist + diameter * number of ports + final dist
   var width = main.getAttribute('width') * 1;
 
   this._ports.in = [];

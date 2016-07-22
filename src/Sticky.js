@@ -103,7 +103,12 @@ export default class Sticky {
     this.matchViewBox();
 
     this.registerBlock('start', {
-      width: 35, height: 60, rx: 10, ry: 10, fill: '#AF2B37', ports: { data_in: 0, data_out: 0, flow_in: 0, flow_out: 1 },
+      width: 35,
+      height: 60,
+      rx: 10,
+      ry: 10,
+      fill: '#AF2B37',
+      ports: { data_in: 0, data_out: 0, flow_in: 0, flow_out: 1 },
       title: '',
       icon: 'img/icon.png',
       behavior: () => 0
@@ -300,10 +305,10 @@ export default class Sticky {
       console.log(blocky, block.id);
 
       for (let port of block.ports.out) {
-	if (!port[0]) {
-	  console.log('end of flux');
-	  break;
-	}
+        if (!port[0]) {
+          console.log('end of flux');
+          break;
+        }
         let blocky2 = this.findById(port[0].brick);
         let wire = new Wire(blocky._ports['out'][0], blocky2._ports['in'][port[0].id]);
         this.addElement(wire._el);
@@ -317,10 +322,10 @@ export default class Sticky {
 
       for (let port of block.ports.flow_out) {
         console.log(port);
-	if (!port[0]) {
-	  console.log('end of flux');
-	  break;
-	}
+        if (!port[0]) {
+          console.log('end of flux');
+          break;
+        }
         let blocky2 = this.findById(port[0].brick);
         let wire = new Wire(blocky._ports['flow_out'][0], blocky2._ports['flow_in'][0]);
         this.addElement(wire._el);
@@ -361,6 +366,6 @@ export default class Sticky {
 
 
 const normalizeEvent = e => {
-  if (!e.x) e.x = e.clientX;
-  if (!e.y) e.y = e.clientY;
+  if (e.x == undefined) e.x = e.clientX;
+  if (e.y == undefined) e.y = e.clientY;
 };
