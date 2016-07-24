@@ -12,7 +12,7 @@ export default class Sticky {
     // let svg = Sticky.createElement('svg', { class: 'svg-content', width: 800, height: 400 });
     this._uid = 0;
     this._aux = {};
-    this._blocks = {};
+    this.blocks = {};
     this._objects = [];
     this._wires = [];
     this._state = null;
@@ -102,17 +102,6 @@ export default class Sticky {
     this.el.appendChild(this._svg);
     this.matchViewBox();
 
-    this.registerBlock('start', {
-      width: 35,
-      height: 60,
-      rx: 10,
-      ry: 10,
-      fill: '#AF2B37',
-      ports: { data_in: 0, data_out: 0, flow_in: 0, flow_out: 1 },
-      title: '',
-      icon: 'img/icon.png',
-      behavior: () => 0
-    });
     // this.registerBlock('actuator', ActuatorBrick);
 
     this.clearCanvas();
@@ -133,6 +122,7 @@ export default class Sticky {
 
     return el;
   }
+
   matchViewBox() {
     const { width, height } = this._svg.getBoundingClientRect();
 
@@ -159,7 +149,7 @@ export default class Sticky {
       if (obj._ports[port_type][0]) { // if there's any connection
         for (let port of obj._ports[port_type]) {
           // port.dettach();
-	}
+        }
       }
     }
 
@@ -239,16 +229,32 @@ export default class Sticky {
     this.addObj(start);
   }
   registerBlock(name, obj) {
-    this._blocks[name] = obj;
-    this._blocks[name].id = name;
-
-    if (obj.behavior && (typeof obj.behavior !== 'function')) {
-      this._blocks[name].behavior = new Function('findById', obj.behavior);
+    this.blocks[name] = {
+      ...obj,
+      id: name,
+      behavior: typeof obj.behavior !== 'function' ? new Function('findById', obj.behavior) : obj.behavior
+    }
+  }
+  static registerBlock(name, obj) {
+    this.prototype.__blocks[name] = {
+      ...obj,
+      id: name,
+      behavior: typeof obj.behavior !== 'function' ? new Function('findById', obj.behavior) : obj.behavior
     }
   }
   createBlock(name, data = {}) {
-    if (!this._blocks[name]) throw "Block not registered";
-    return Object.assign(new Brick(this._blocks[name]), data);
+    const cfg = this.blocks[name] || this.__blocks[name];
+
+    if (!cfg) throw "Block not registered";
+
+    return Object.assign(new Brick(cfg), data);
+  }
+  static createBlock(name, data = {}) {
+    const cfg = this.prototype.__blocks[name];
+
+    if (!cfg) throw "Block not registered";
+
+    return Object.assign(new Brick(cfg), data);
   }
   findById(id) {
     if (id == undefined) return null;
@@ -349,7 +355,7 @@ export default class Sticky {
     // it'll be useful for if block
 
     do {
-      refBlock = this._blocks[block._refBlock];
+      refBlock = this.blocks[block._refBlock] || this.__blocks[block._refBlock];
       flow = refBlock.behavior.call(block, this.findById.bind(this));
       // console.log(block._ports);
       id = (block._ports['flow_out'][flow]._conn[0]) ?
@@ -363,6 +369,21 @@ export default class Sticky {
 
   }
 }
+
+Sticky.prototype.__blocks = {
+  'start': {
+    id: 'start',
+    width: 35,
+    height: 60,
+    rx: 10,
+    ry: 10,
+    fill: '#AF2B37',
+    ports: { data_in: 0, data_out: 0, flow_in: 0, flow_out: 1 },
+    title: '',
+    icon: 'img/icon.png',
+    behavior: () => 0
+  }
+};
 
 
 const normalizeEvent = e => {
