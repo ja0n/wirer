@@ -42,13 +42,37 @@
 
     </style>
     <script src="http://localhost:8080/webpack-dev-server.js"></script>
+    <script src="/sticky.js"></script>
   </head>
   <body>
     <div id="test">
 
     </div>
     <input id="run" type="button" value="Run"/>
-    <!-- <script src="dist/bundle.js"></script> -->
-    <script src="/bundle.js"></script>
+    <script>
+      var canvas = new Sticky('test');
+
+      var rect1 = canvas.createBlock('Source');
+      var rect2 = canvas.createBlock('Source');
+      var rect3 = canvas.createBlock('Alert');
+      var rect4 = canvas.createBlock('Sum');
+      var rect5 = canvas.createBlock('Comparison');
+
+      rect1.x = 130; rect1.y = 230;
+      rect2.x = 330; rect2.y = 200;
+      rect3.x = 330; rect3.y = 100;
+      rect4.x = 130; rect4.y = 300;
+
+      canvas.addObj(rect1);
+      canvas.addObj(rect2);
+      canvas.addObj(rect3);
+      canvas.addObj(rect4);
+      canvas.addObj(rect5);
+
+      document.getElementById('run').onclick = function() {
+        canvas.run();
+      };
+
+    </script>
   </body>
 </html>
