@@ -439,10 +439,23 @@ Sticky.prototype.__blocks = {
       const conn2 = (this._ports['in'][1]._conn[0]);
       const brick1 = findById(conn1.brick);
       const brick2 = findById(conn2.brick);
-      const val1 = brick.behavior(findById)[conn1.id];
-      const val2 = brick.behavior(findById)[conn2.id];
+      const val1 = brick1.behavior(findById)[conn1.id];
+      const val2 = brick2.behavior(findById)[conn2.id];
 
       return [val1 + val2];
+    }
+  },
+  'If': {
+    id: 'If',
+    fill: '#3e67c2',
+    ports: { data_in: 1, data_out: 0, flow_in: 1, flow_out: 2 },
+    title: 'If Block',
+    behavior: function(findById) {
+      const conn = this._ports['in'][0]._conn[0];
+      const brick = findById(conn.brick);
+      const data = brick.behavior(findById)[conn.id];
+
+      return data ? 0 : 1;
     }
   },
 };

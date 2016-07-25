@@ -57,6 +57,7 @@
       var rect3 = canvas.createBlock('Alert');
       var rect4 = canvas.createBlock('Sum');
       var rect5 = canvas.createBlock('Comparison');
+      var rect6 = canvas.createBlock('If');
 
       rect1.x = 130; rect1.y = 230;
       rect2.x = 330; rect2.y = 200;
@@ -68,6 +69,7 @@
       canvas.addObj(rect3);
       canvas.addObj(rect4);
       canvas.addObj(rect5);
+      canvas.addObj(rect6);
 
       document.getElementById('run').onclick = function() {
         canvas.run();
