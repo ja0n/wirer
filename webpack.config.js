@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 
 module.exports = {
+  mode: 'development',
   entry: './src/Sticky.js',
   devtool: 'source-map',
   output: {
@@ -11,13 +12,13 @@ module.exports = {
     umdNamedDefine: true
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js?$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel'
+        loader: 'babel-loader'
       }
-      // { test: /\.css$/, loader: "style!css" },
+      // { test: /\.css$/, loader: "style-loader!css" },
     ]
   }
 };

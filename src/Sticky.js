@@ -222,11 +222,11 @@ export default class Sticky {
 
     if (!start) return;
 
-    var start = this.createBlock('start');
-    start.x = 10; start.y = this._svg.getAttribute('height')/2;
-    start.behavior = () => 0;
+    const startBlock = this.createBlock('start');
+    startBlock.x = 10; startBlock.y = this._svg.getAttribute('height')/2;
+    startBlock.behavior = () => 0;
 
-    this.addObj(start);
+    this.addObj(startBlock);
   }
   registerBlock(name, obj) {
     this.blocks[name] = {
