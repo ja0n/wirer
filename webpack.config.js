@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
   mode: 'development',
@@ -11,11 +12,17 @@ module.exports = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
+  devServer: {
+    publicPath: 'build',
+    contentBase: [path.join(__dirname, 'examples'), path.join(__dirname, 'dist')],
+    compress: true,
+    port: 9000
+  },
   module: {
     rules: [
       {
         test: /\.js?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
         loader: 'babel-loader'
       }
       // { test: /\.css$/, loader: "style-loader!css" },

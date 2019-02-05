@@ -1,17 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Sticky.js example - Alert</title>
+    <link href="/themes/default.css" rel="stylesheet">
     <style>
-    #test {
-      border: 1px solid black;
-      width: 800px;
-      height: 600px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      cursor: default;
-    }
     .svg-container {
       /*height: auto;*/
       /*display: inline-block;*/
@@ -35,20 +27,27 @@
       margin: 0;
     }
 
+    .sticky-gui label {
+      display: flex;
+    }
+
     .sticky-gui input, select {
       width: 60%;
       display: inline-block;
     }
 
     </style>
-    <script src="http://localhost:8080/webpack-dev-server.js"></script>
-    <script src="/dist/sticky.js"></script>
+    <script src="/webpack-dev-server.js"></script>
+    <script src="/sticky.js"></script>
   </head>
   <body>
-    <div id="test">
-
+    <div id="container">
+      <div id="test"></div>
+      <ul class="button-list">
+        <li><button id="run" type="button">Run</button></li>
+      </ul>
     </div>
-    <input id="run" type="button" value="Run"/>
+
     <script>
       var canvas = new Sticky('test');
 
