@@ -50,14 +50,16 @@ DumbBox.prototype = {
     ctx.fill();
   },
   loadMap: function(size, map, colors) {
+    var initialPos = map.initialPos;
     this.map = {
+      initialPos: initialPos,
       size: size,
       data: map,
       colors: colors,
       coord: (x, y) => this.map.data[y][x]
     };
-    this.map.data = map.map(line => Array.from(line));
-    this.player = new Player(1, 0, this.map);
+    this.map.data = map.tiled.map(line => Array.from(line));
+    this.player = new Player(initialPos[0], initialPos[1], this.map);
   },
   drawMap: function() {
     var map = this.map.data;
@@ -86,6 +88,10 @@ DumbBox.prototype = {
   },
   clearCanvas: function() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+  },
+  reset: function() {
+    this.player.x = this.map.initialPos[0];
+    this.player.y = this.map.initialPos[1];
   },
   start: function() {
     var lastTime = null;
