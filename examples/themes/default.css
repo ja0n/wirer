@@ -1,53 +1,53 @@
-      body {
-        font-family: 'Work Sans', sans-serif;
-      }
+body {
+  font-family: 'Work Sans', sans-serif;
+}
 
-      #test {
-        border: 1px solid black;
-        width: 800px;
-        height: 600px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        cursor: default;
-      }
+#test {
+  border: 1px solid black;
+  width: 800px;
+  height: 600px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
 
-      #container {
-        display: inline-block;
-        position: relative;
-        vertical-align: top;
-      }
-      .button-list {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        width: 120px;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
+#container {
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+}
+.button-list {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 120px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
-      .button-list button {
-        width: 100%;
-        background: #111;
-        text-align: center;
-        touch-callout: none;
-        user-select: none;
-        display: inline-block;
-        border: .2em solid;
-        position: relative;
-        cursor: pointer;display: block;
-        padding:1em 2em;
-        text-transform: uppercase;
-        font-weight: bold;
-        overflow: hidden;
-        opacity: 0.9;
-        color: #FFF;
-      }
+.button-list button {
+  width: 100%;
+  background: #111;
+  text-align: center;
+  touch-callout: none;
+  user-select: none;
+  display: inline-block;
+  border: .2em solid;
+  position: relative;
+  cursor: pointer;display: block;
+  padding:1em 2em;
+  text-transform: uppercase;
+  font-weight: bold;
+  overflow: hidden;
+  opacity: 0.9;
+  color: #FFF;
+}
 
-      .button-list button:active {
-        opacity: 1;
-        background: white;
-        color: inherit;
-      }
+.button-list button:active {
+  opacity: 1;
+  background: white;
+  color: inherit;
+}
