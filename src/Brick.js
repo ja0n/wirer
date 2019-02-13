@@ -128,7 +128,7 @@ function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } =
   y = ds/2;
 
   for (i = 0; i < flow_in; i++, y+=ds) {
-    let port = new FlowPort(i, 'in', this);
+    let port = new FlowPort({ id: i, dir: 'in', brick: this });
     port.attr('cx', Radius);
     port.attr('cy', y);
     ports.flow_in.push(port);
@@ -136,7 +136,7 @@ function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } =
   }
 
   for (i = 0; i < data_in; i++, y+=ds) {
-    let port = new DataPort(i, 'in', this);
+    let port = new DataPort({ id: i, dir: 'in', brick: this });
     port.attr('cx', Radius);
     port.attr('cy', y);
     ports.in.push(port);
@@ -148,7 +148,7 @@ function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } =
             //cuz it means the missing half for the current circle and the initial half for the next circle
             //so every 'y' means one center of circle
   for (i = 0; i < flow_out; i++, y+=ds) {
-    let port = new FlowPort(i, 'out', this);
+    let port = new FlowPort({ id: i, dir: 'out', brick: this });
     port.attr('cx', width + Radius);
     port.attr('cy', y);
     ports.flow_out.push(port);
@@ -156,7 +156,7 @@ function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } =
   }
 
   for (i = 0; i < data_out; i++, y+=ds) {
-    let port = new DataPort(i, 'out', this);
+    let port = new DataPort({ id: i, dir: 'out', brick: this });
     port.attr('cx', width + Radius);
     port.attr('cy', y);
     ports.out.push(port);
