@@ -280,12 +280,12 @@ export default class Sticky {
       return object;
     });
 
-    // var refBlock = this._blocks.map(block => ({
-    //   // ...block,
-    //   behavior: block.behavior.toString
-    // }));
-
-    let refBlock = {};
+    let refBlock = Object.entries(this.__blocks).map(
+      ([blockId, block]) => ({
+        ...block,
+        behavior: block.behavior.toString(),
+      })
+    );
 
     return { refBlock, fluxgram };
   }
@@ -293,7 +293,7 @@ export default class Sticky {
     this.clearCanvas(false);
 
     for (let block of data) {
-      let refBlock = this._blocks[block.refBlock];
+      let refBlock = this.__blocks[block.refBlock];
       let obj = this.createBlock(block.refBlock, refBlock);
       obj.x = block.x;
       obj.y = block.y;

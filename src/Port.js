@@ -2,8 +2,8 @@ import createElement from './utils.js';
 
 export default class Port {
   constructor({ id, type, dir, brick }) {
-    if (['in', 'out'].includes(dir)) throw "port direction must be 'in' or 'out'";
-    if (['data', 'flow'].includes(type)) throw "type must be 'data' or 'flow'";
+    if (!['in', 'out'].includes(dir)) throw "port direction must be 'in' or 'out'";
+    if (!['data', 'flow'].includes(type)) throw "type must be 'data' or 'flow'";
     // var attrs = { width: 30, height: 30, fill: '#B8D430', stroke: 'black', 'stroke-width': 3 };
     var attrs = { r: 10, fill: '#B8D430', stroke: 'black', 'stroke-width': 3.5 };
 
