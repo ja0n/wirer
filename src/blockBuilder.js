@@ -1,4 +1,4 @@
-import createElement from './utils.js';
+import { createElement } from './utils';
 
 // function SVGBuilder({ strokeWidth, marginLeft, width, opacity, height, rx, ry, fill, stroke, ...rest }) {
 export default function blockBuilder(wrapper, cfg) {

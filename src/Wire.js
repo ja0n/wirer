@@ -1,4 +1,4 @@
-import createElement from './utils.js';
+import { createElement } from './utils';
 
 export default function Wire(p1, p2) {
   this._el = createElement('path', { stroke: 'red', 'stroke-width': 6, fill: 'none', opacity: 0.8 });
