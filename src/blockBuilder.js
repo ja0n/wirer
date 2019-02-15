@@ -1,4 +1,18 @@
 import { createElement } from './utils';
+import { buildGui } from './gui';
+
+const example = {
+  fill: '#31dfaf',
+  border: '#e695bf',
+  ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
+  title: 'Example Block',
+  icon: 'img/icon.png',
+  gui: {
+    select: { label: 'Select', type: 'select', options: ['USA', 'BR', 'CND'] },
+    text: { label: 'Text', type: 'text' },
+    number: { label: 'Number', type: 'number' }
+  },
+};
 
 // function SVGBuilder({ strokeWidth, marginLeft, width, opacity, height, rx, ry, fill, stroke, ...rest }) {
 export default function blockBuilder(wrapper, cfg) {
@@ -31,87 +45,12 @@ export default function blockBuilder(wrapper, cfg) {
   svg.appendChild(text);
 
   const foreign = createElement('foreignObject', { class: 'sticky-gui', x: 25, y: 40, width: 120 });
-  const body = document.createElement('body');
-  body.xmlns = 'http://www.w3.org/1999/xhtml';
-  // body.style.margin = '0';
-
-  Object.keys(gui).forEach(input => {
-    let label;
-    const obj = gui[input];
-    const _id = v => v;
-    const createHandler = (f = _id)  => e => {
-      svg.wrapper.inputs[input] = f(e.target.value);
-    };
-
-    switch (obj.type) {
-      case 'number': {
-        label = createLabel(obj.label, obj.type, createHandler(Number));
-      } break;
-      case 'text': {
-        label = createLabel(obj.label, obj.type, createHandler());
-      } break;
-      case 'select': {
-        label = createSelect(obj.label, obj.options, createHandler());
-      } break;
-    }
-
-    body.appendChild(label);
+  const guiElement = buildGui(gui, ({ id, value }) => {
+    svg.wrapper.inputs[id] = value;
   });
 
-  foreign.appendChild(body);
+  foreign.appendChild(guiElement);
   svg.appendChild(foreign);
 
   return svg;
 }
-
-const example = {
-  fill: '#31dfaf',
-  border: '#e695bf',
-  ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
-  title: 'Example Block',
-  icon: 'img/icon.png',
-  gui: {
-    select: { label: 'Select', type: 'select', options: ['USA', 'BR', 'CND'] },
-    text: { label: 'Text', type: 'text' },
-    number: { label: 'Number', type: 'number' }
-  },
-};
-
-const createLabel = (_label, type, onChange) => {
-  const label = document.createElement('label');
-  const txt = document.createTextNode(`${_label}: `);
-  const input = document.createElement('input');
-  input.type = type;
-
-  input.addEventListener('change', onChange);
-  onChange({ target: input });
-  // input.style.width = '100%';
-
-  label.appendChild(txt);
-  label.appendChild(input);
-
-  return label;
-};
-
-const createSelect = (_label, options, onChange) => {
-  const label = document.createElement('label');
-  const txt = document.createTextNode(`${_label}: `);
-  const select = document.createElement('select');
-
-
-  options.forEach(value => {
-    const option = document.createElement('option');
-    option.value = option.text = value;
-
-    select.add(option, null);
-  });
-
-  select.addEventListener('change', onChange);
-  onChange({ target: select });
-  // input.style.width = '100%';
-
-  label.appendChild(txt);
-  label.appendChild(select);
-
-  return label;
-};
