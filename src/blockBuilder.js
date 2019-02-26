@@ -14,6 +14,29 @@ const example = {
   },
 };
 
+export function htmlBlockBuilder (wrapper, cfg) {
+  const { width, height, gui } = cfg;
+  var svg = createElement('svg');
+  svg.wrapper = wrapper;
+
+  var attrs = {
+    width,
+    height: height + Object.keys(gui).length * 25,
+    class: 'sticky-block-html',
+    id: 'main'
+  }
+  const foreign = createElement('foreignObject', { ...attrs });
+  foreign.type = 'block';
+  const guiElement = buildGui(gui, ({ id, value }) => {
+    svg.wrapper.inputs[id] = value;
+  });
+
+  foreign.appendChild(guiElement);
+  svg.appendChild(foreign);
+
+  return svg;
+}
+
 // function SVGBuilder({ strokeWidth, marginLeft, width, opacity, height, rx, ry, fill, stroke, ...rest }) {
 export default function blockBuilder(wrapper, cfg) {
   const { strokeWidth, marginLeft, width, opacity, height, rx, ry, fill, stroke, title, gui } = cfg;

@@ -51,3 +51,12 @@ body {
   background: white;
   color: inherit;
 }
+
+.sticky-block-html body {
+  background-color: red;
+  border: 2px solid black;
+  margin: 0;
+  padding: 20px;
+  min-width: 100%;
+  min-height: 100%;
+}
