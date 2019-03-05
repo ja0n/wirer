@@ -1,6 +1,8 @@
-import blockBuilder from './blockBuilder.js';
+import blockBuilder, { htmlBlockBuilder } from './blockBuilder.js';
 import { getParentSvg } from './utils';
 import arrangePorts from './arrangePorts';
+
+const RENDER_HTML = false;
 
 const defaultConfig = {
   strokeWidth: 3,
@@ -22,13 +24,12 @@ export default class Brick {
 
     // this._id = id;
     this.inputs = {};
-    this._el = blockBuilder(this, cfg);
+    this._el = (RENDER_HTML ? htmlBlockBuilder : blockBuilder)(this, cfg);
     this.behavior = behavior;
     this._container = null;
     this._refBlock = id;
     this.x = x || 0;
     this.y = y || 0;
-
 
     this._ports = {
       in: [],
@@ -46,7 +47,7 @@ export default class Brick {
   }
 
   get data () { return this.behavior(); }
-  get main () { return this._el.getElementById('main'); }
+  get main () { return this._el.querySelector('#main'); }
   get _svg () { return getParentSvg(this._el); }
   get x () { return this._el.getAttribute('x') * 1; } // force coercion
   get y () { return this._el.getAttribute('y') * 1; }
