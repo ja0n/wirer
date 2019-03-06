@@ -2,7 +2,7 @@ import blockBuilder, { htmlBlockBuilder } from './blockBuilder.js';
 import { getParentSvg } from './utils';
 import arrangePorts from './arrangePorts';
 
-const RENDER_HTML = false;
+const RENDER_HTML = true;
 
 const defaultConfig = {
   strokeWidth: 3,

@@ -1,6 +1,7 @@
 import Wire from './Wire.js';
 import Brick from './Brick.js';
 import defaultBlocks from './blocks.js'
+import { getParentSvg } from './utils.js';
 
 export default class Sticky {
   constructor(id) {
@@ -45,14 +46,19 @@ export default class Sticky {
         return this.startAttach(target);
       }
 
-      if (target.type === 'block' || target.type === 'title') {
-        this.lastSelected = target.parentNode.wrapper;
-        this.dragging = target.parentNode;
-        var wrapper = this.dragging.wrapper;
+      const parentSvg = getParentSvg(target);
+      if (target.tagName !== 'INPUT' && parentSvg && parentSvg.type == 'block') {
+        const blockNode = parentSvg;
+        console.debug('Block selected:', blockNode, 'Triggered by: ', target);
+        var wrapper = blockNode.wrapper;
+        this.lastSelected = wrapper;
+        this.dragging = blockNode;
         var SVGbox = wrapper._svg.getBoundingClientRect();
-        var OffsetX = e.x - SVGbox.left;
-        var OffsetY =  e.y - SVGbox.top;
-        this._aux.mouseDown = { x: OffsetX - wrapper.x, y: OffsetY - wrapper.y };
+        const offset = {
+          x: e.x - SVGbox.left,
+          y: e.y - SVGbox.top,
+        };
+        this._aux.mouseDown = { x: offset.x - wrapper.x, y: offset.y - wrapper.y };
         this._svg.appendChild(this.dragging);
         wrapper.wires.forEach(wire => this._svg.appendChild(wire._el));
       }

@@ -18,6 +18,7 @@ export function htmlBlockBuilder (wrapper, cfg) {
   const { width, height, gui } = cfg;
   var svg = createElement('svg');
   svg.wrapper = wrapper;
+  svg.type = 'block';
 
   var attrs = {
     width,
@@ -26,7 +27,6 @@ export function htmlBlockBuilder (wrapper, cfg) {
     id: 'main'
   }
   const foreign = createElement('foreignObject', { ...attrs });
-  foreign.type = 'block';
   const guiElement = buildGui(gui, ({ id, value }) => {
     svg.wrapper.inputs[id] = value;
   });
@@ -43,6 +43,7 @@ export default function blockBuilder(wrapper, cfg) {
   // { strokeWidth = 3, marginLeft = 10, width = 150, opacity = 1, height = 50, rx = 20, ry = 20, fill = '#1F8244', stroke = '#000000' }
   var svg = createElement('svg');
   svg.wrapper = wrapper;
+  svg.type = 'block';
 
   var attrs = {
     x: marginLeft + strokeWidth/2,
@@ -58,9 +59,7 @@ export default function blockBuilder(wrapper, cfg) {
   }
 
   var rect = createElement('rect', attrs);
-  rect.type = 'block';
   var text = createElement('text', { x: 25, y: 30, style: 'cursor: default' });
-  text.type = 'title';
   var txtNode = document.createTextNode(title);
   text.appendChild(txtNode);
 
