@@ -201,7 +201,7 @@ export default class Sticky {
       var wire = this._aux['wire'];
       var SVGbox = this._svg.getBoundingClientRect();
       //(below) pixel for removing the wire from the way so we can detect the event on port
-      var offset = wire._inverted ? 1 : -1;
+      var offset = wire._inverted ? 4 : -4;
       var mouse = { x: mouse.x - SVGbox.left + offset, y: mouse.y - SVGbox.top };
       var port = wire._cp1.getPoint();
 
