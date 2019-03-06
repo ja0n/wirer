@@ -53,10 +53,22 @@ body {
 }
 
 .sticky-block-html body {
+  overflow: hidden;
   background-color: red;
   border: 2px solid black;
+  border-radius: 16px;
   margin: 0;
-  padding: 20px;
   min-width: 100%;
   min-height: 100%;
+}
+
+.sticky-block-html header {
+  border-bottom: 2px solid black;
+  text-align: center;
+  background-color: #828282;
+  color: 'white';
+}
+
+.sticky-block-html section {
+  margin: 20px;
 }

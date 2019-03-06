@@ -15,23 +15,29 @@ const example = {
 };
 
 export function htmlBlockBuilder (wrapper, cfg) {
-  const { width, height, gui } = cfg;
+  const { width, height, gui, title, fill } = cfg;
   const svg = createElement('svg');
   svg.wrapper = wrapper;
   svg.type = 'block';
   var attrs = {
-    width,
+    width: Math.max(60, width),
     height: height + Object.keys(gui).length * 25,
     class: 'sticky-block-html',
     id: 'main'
   }
   const foreign = createElement('foreignObject', { ...attrs });
   const body = document.createElement('body');
+  body.innerHTML = /*html*/`
+    <header>${title}</header>
+  `;
+  body.style.backgroundColor = fill;
+  const section = document.createElement('section');
   const form = buildForm(gui, ({ id, value }) => {
     wrapper.inputs[id] = value;
   });
 
-  body.appendChild(form);
+  section.appendChild(form);
+  body.appendChild(section);
   foreign.appendChild(body);
   svg.appendChild(foreign);
 

@@ -7,7 +7,7 @@ export default {
     ry: 10,
     fill: '#AF2B37',
     ports: { data_in: 0, data_out: 0, flow_in: 0, flow_out: 1 },
-    title: '',
+    title: 'Start',
     icon: 'img/icon.png',
     behavior: () => 0
   },
