@@ -71,8 +71,8 @@ export default class Brick {
   }
 
   delete () {
-    for (let i = this.wires.length - 1; i >= 0; i--)
-      this.wires[i].delete();
+    for (let wire of [...this.wires])
+      wire.delete();
 
     this.detach();
   }
