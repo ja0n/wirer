@@ -1,5 +1,5 @@
 import { createElement } from './utils';
-import { buildGui } from './gui';
+import { buildForm } from './gui';
 
 const example = {
   fill: '#31dfaf',
@@ -16,10 +16,9 @@ const example = {
 
 export function htmlBlockBuilder (wrapper, cfg) {
   const { width, height, gui } = cfg;
-  var svg = createElement('svg');
+  const svg = createElement('svg');
   svg.wrapper = wrapper;
   svg.type = 'block';
-
   var attrs = {
     width,
     height: height + Object.keys(gui).length * 25,
@@ -27,11 +26,13 @@ export function htmlBlockBuilder (wrapper, cfg) {
     id: 'main'
   }
   const foreign = createElement('foreignObject', { ...attrs });
-  const guiElement = buildGui(gui, ({ id, value }) => {
-    svg.wrapper.inputs[id] = value;
+  const body = document.createElement('body');
+  const form = buildForm(gui, ({ id, value }) => {
+    wrapper.inputs[id] = value;
   });
 
-  foreign.appendChild(guiElement);
+  body.appendChild(form);
+  foreign.appendChild(body);
   svg.appendChild(foreign);
 
   return svg;
@@ -67,7 +68,7 @@ export default function blockBuilder(wrapper, cfg) {
   svg.appendChild(text);
 
   const foreign = createElement('foreignObject', { class: 'sticky-gui', x: 25, y: 40, width: 120 });
-  const guiElement = buildGui(gui, ({ id, value }) => {
+  const guiElement = buildForm(gui, ({ id, value }) => {
     svg.wrapper.inputs[id] = value;
   });
 

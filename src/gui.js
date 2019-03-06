@@ -2,10 +2,10 @@ import { createElement } from './utils';
 
 const _identity = v => v;
 
-export function buildGui (gui, onChange = _identity) {
-  const body = document.createElement('body');
-  body.xmlns = 'http://www.w3.org/1999/xhtml';
-  // body.style.margin = '0';
+export function buildForm (gui, onChange = _identity) {
+  const form = document.createElement('form');
+  form.xmlns = 'http://www.w3.org/1999/xhtml';
+  // form.style.margin = '0';
 
   Object.entries(gui).forEach(([id, input]) => {
     const { label, type, options } = input;
@@ -30,10 +30,10 @@ export function buildGui (gui, onChange = _identity) {
       }
     }
 
-    body.appendChild(element);
+    form.appendChild(element);
   });
 
-  return body;
+  return form;
 }
 
 const createLabel = (_label, type, onChange) => {
