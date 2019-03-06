@@ -18,25 +18,36 @@ export default class Sticky {
     this._wires = [];
     this._state = null;
 
-    let lastDownTarget;
+    this._svg = svg;
+    this.el.appendChild(this._svg);
+    this.matchViewBox();
 
+    // this.registerBlock('actuator', ActuatorBrick);
+
+    this.clearCanvas();
+
+    this.colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
+                   "#2E2C75", "#673A7E", "#CC0071", "#F80120",
+                   "#F35B20", "#FB9A00", "#FFCC00", "#FEF200"];
+
+    // DOM Events
     svg.addEventListener('mousedown', e => {
       normalizeEvent(e);
-      // lastDownTarget = svg;
       this.lastSelected = null;
+      const { target } = e;
 
-      if (e.target.type === 'wire') {
-        this.lastSelected = e.target.wrapper;
-        return this.selectedWire = e.target.wrapper;
+      if (target.type === 'wire') {
+        this.lastSelected = target.wrapper;
+        return this.selectedWire = target.wrapper;
       }
 
-      if (e.target.type === 'port' && e.target.dir === 'out') {
-        return this.startAttach(e.target);
+      if (target.type === 'port' && target.dir === 'out') {
+        return this.startAttach(target);
       }
 
-      if (e.target.type === 'block' || e.target.type === 'title') {
-        this.lastSelected = e.target.parentNode.wrapper;
-        this.dragging = e.target.parentNode;
+      if (target.type === 'block' || target.type === 'title') {
+        this.lastSelected = target.parentNode.wrapper;
+        this.dragging = target.parentNode;
         var wrapper = this.dragging.wrapper;
         var SVGbox = wrapper._svg.getBoundingClientRect();
         var OffsetX = e.x - SVGbox.left;
@@ -48,22 +59,11 @@ export default class Sticky {
 
     }, false);
 
-
-    document.addEventListener('mousedown', e => {
-      // lastDownTarget = e.target;
-      // console.log(lastDownTarget);
-    }, false);
-
     document.addEventListener('keydown', e => {
-      // if (lastDownTarget == svg) {
       if (e.keyCode == 46) {
-        console.log(this.lastSelected);
+        console.debug('deleting', this.lastSelected);
         this.lastSelected.delete();
       }
-    }, false);
-
-    svg.addEventListener('keydown', e => {
-      console.log(e);
     }, false);
 
     svg.addEventListener('mouseup', e => {
@@ -98,18 +98,6 @@ export default class Sticky {
         wrapper.updateWires();
       }
     });
-
-    this._svg = svg;
-    this.el.appendChild(this._svg);
-    this.matchViewBox();
-
-    // this.registerBlock('actuator', ActuatorBrick);
-
-    this.clearCanvas();
-
-    this.colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
-                   "#2E2C75", "#673A7E", "#CC0071", "#F80120",
-                   "#F35B20", "#FB9A00", "#FFCC00", "#FEF200"];
 
     return this;
   }
@@ -147,19 +135,20 @@ export default class Sticky {
     if (index == -1) return;
 
     for (let port_type of Object.keys(obj._ports)) {
-      if (obj._ports[port_type][0]) { // if there's any connection
+      if (obj._ports[port_type].length) { // if there's any connection
         for (let port of obj._ports[port_type]) {
           // port.dettach();
         }
       }
     }
 
-    for (let wire of obj.wires) {
+    for (let wire of [...obj.wires]) {
       wire.delete();
     }
 
     this.removeElement(obj._el);
     if (update)
+      // should splice wires too
       return this._objects.splice(index, 1);
   }
   addElement(el) {
@@ -220,6 +209,7 @@ export default class Sticky {
     }
 
     this._objects = [];
+    this._wires = [];
 
     if (!start) return;
 
@@ -312,36 +302,39 @@ export default class Sticky {
       console.log(blocky, block.id);
 
       for (let port of block.ports.out) {
-        if (!port[0]) {
-          console.log('end of flux');
+        if (!port.length) {
+          console.log('end of flux', block);
           break;
         }
-        let blocky2 = this.findById(port[0].brick);
-        let wire = new Wire(blocky._ports['out'][0], blocky2._ports['in'][port[0].id]);
-        this.addElement(wire._el);
-        if (wire.seal()) {
-          wire.render();
-          this._wires.push(wire);
-        } else {
-          this.removeElement(wire._el);
+        for (let conn of port) {
+          let blocky2 = this.findById(conn.brick);
+          let wire = new Wire(blocky._ports['out'][0], blocky2._ports['in'][conn.id]);
+          this.addElement(wire._el);
+          if (wire.seal()) {
+            wire.render();
+            this._wires.push(wire);
+          } else {
+            this.removeElement(wire._el);
+          }
         }
       }
 
       for (let port of block.ports.flow_out) {
-        console.log(port);
-        if (!port[0]) {
-          console.log('end of flux');
+        if (!port.length) {
+          console.log('end of flux', block);
           break;
         }
-        let blocky2 = this.findById(port[0].brick);
-        let wire = new Wire(blocky._ports['flow_out'][0], blocky2._ports['flow_in'][0]);
-        this.addElement(wire._el);
+        for (let conn of port) {
+          let blocky2 = this.findById(conn.brick);
+          let wire = new Wire(blocky._ports['flow_out'][0], blocky2._ports['flow_in'][0]);
+          this.addElement(wire._el);
 
-        if (wire.seal()) {
-          wire.render();
-          this._wires.push(wire);
-        } else {
-          this.removeElement(wire._el);
+          if (wire.seal()) {
+            wire.render();
+            this._wires.push(wire);
+          } else {
+            this.removeElement(wire._el);
+          }
         }
       }
 

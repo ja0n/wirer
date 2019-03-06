@@ -44,7 +44,8 @@
     <div id="container">
       <div id="test"></div>
       <ul class="button-list">
-        <li><button id="run" type="button">Run</button></li>
+        <li><button id="run" type="button">run</button></li>
+        <li><button id="load" type="button">load</button></li>
       </ul>
     </div>
 
@@ -74,6 +75,205 @@
         canvas.run();
       };
 
+
+      document.getElementById('load').onclick = function() {
+        canvas.clearCanvas(false);
+        canvas.loadJSON(flowJSON);
+      };
+
+      const flowJSON = [
+        {
+          "refBlock": "start",
+          "id": 0,
+          "x": 10,
+          "y": 0,
+          "ports": {
+            "in": [],
+            "out": [],
+            "flow_in": [],
+            "flow_out": [
+              [
+                {
+                  "brick": 6,
+                  "id": 0
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "refBlock": "Source",
+          "id": 1,
+          "x": 16,
+          "y": 477,
+          "ports": {
+            "in": [],
+            "out": [
+              [
+                {
+                  "brick": 5,
+                  "id": 1
+                }
+              ]
+            ],
+            "flow_in": [],
+            "flow_out": []
+          }
+        },
+        {
+          "refBlock": "Source",
+          "id": 2,
+          "x": -6,
+          "y": 248,
+          "ports": {
+            "in": [],
+            "out": [
+              [
+                {
+                  "brick": 4,
+                  "id": 0
+                },
+                {
+                  "brick": 4,
+                  "id": 1
+                }
+              ]
+            ],
+            "flow_in": [],
+            "flow_out": []
+          }
+        },
+        {
+          "refBlock": "Alert",
+          "id": 3,
+          "x": 519,
+          "y": 210,
+          "ports": {
+            "in": [
+              [
+                {
+                  "brick": 5,
+                  "id": 0
+                }
+              ]
+            ],
+            "out": [],
+            "flow_in": [
+              [
+                {
+                  "brick": 6,
+                  "id": 0
+                }
+              ]
+            ],
+            "flow_out": [
+              []
+            ]
+          }
+        },
+        {
+          "refBlock": "Sum",
+          "id": 4,
+          "x": 163,
+          "y": 375,
+          "ports": {
+            "in": [
+              [
+                {
+                  "brick": 2,
+                  "id": 0
+                }
+              ],
+              [
+                {
+                  "brick": 2,
+                  "id": 0
+                }
+              ]
+            ],
+            "out": [
+              [
+                {
+                  "brick": 5,
+                  "id": 0
+                }
+              ]
+            ],
+            "flow_in": [],
+            "flow_out": []
+          }
+        },
+        {
+          "refBlock": "Comparison",
+          "id": 5,
+          "x": 399,
+          "y": 489,
+          "ports": {
+            "in": [
+              [
+                {
+                  "brick": 4,
+                  "id": 0
+                }
+              ],
+              [
+                {
+                  "brick": 1,
+                  "id": 0
+                }
+              ]
+            ],
+            "out": [
+              [
+                {
+                  "brick": 3,
+                  "id": 0
+                },
+                {
+                  "brick": 6,
+                  "id": 0
+                }
+              ]
+            ],
+            "flow_in": [],
+            "flow_out": []
+          }
+        },
+        {
+          "refBlock": "If",
+          "id": 6,
+          "x": 215,
+          "y": 89,
+          "ports": {
+            "in": [
+              [
+                {
+                  "brick": 5,
+                  "id": 0
+                }
+              ]
+            ],
+            "out": [],
+            "flow_in": [
+              [
+                {
+                  "brick": 0,
+                  "id": 0
+                }
+              ]
+            ],
+            "flow_out": [
+              [
+                {
+                  "brick": 3,
+                  "id": 0
+                }
+              ],
+              []
+            ]
+          }
+        }
+      ];
     </script>
   </body>
 </html>
