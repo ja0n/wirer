@@ -4,14 +4,12 @@ import defaultBlocks from './blocks.js'
 import { getParentSvg } from './utils.js';
 
 export default class Sticky {
-  constructor(id) {
+  constructor(id, { width, height } = { width: 800, height: 600 }) {
     this.el = document.getElementById(id);
 
     if (!this.el)
       throw "Couldn't find element :(";
 
-    const svg = Sticky.createElement('svg', { class: 'svg-content', viewBox: "0 0 800 600", preserveAspectRatio: "xMidYMid meet" });
-    // let svg = Sticky.createElement('svg', { class: 'svg-content', width: 800, height: 400 });
     this._uid = 0;
     this._aux = {};
     this.blocks = {};
@@ -19,6 +17,7 @@ export default class Sticky {
     this._wires = [];
     this._state = null;
 
+    const svg = Sticky.createElement('svg', { class: 'svg-content', preserveAspectRatio: "xMidYMid meet" });
     this._svg = svg;
     this.el.appendChild(this._svg);
     this.matchViewBox();
@@ -26,6 +25,7 @@ export default class Sticky {
     // this.registerBlock('actuator', ActuatorBrick);
 
     this.clearCanvas();
+    this.setCanvasSize({ width, height });
 
     this.colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
                    "#2E2C75", "#673A7E", "#CC0071", "#F80120",
@@ -106,6 +106,12 @@ export default class Sticky {
     });
 
     return this;
+  }
+
+  setCanvasSize({ width, height }) {
+    this._svg.style.width = width;
+    this._svg.style.height = height;
+    this._svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   }
 
 //static methods
