@@ -33,9 +33,11 @@ export function htmlBlockBuilder (wrapper, cfg) {
   `;
   body.style.backgroundColor = fill;
   const section = document.createElement('section');
-  const form = buildForm(gui, ({ id, value }) => {
-    wrapper.inputs[id] = value;
-  });
+  const form = buildForm(
+    gui,
+    ({ id }) => wrapper.inputs[id] || '',
+    ({ id, value }) => { wrapper.inputs[id] = value; },
+  );
 
   section.appendChild(form);
   body.appendChild(section);

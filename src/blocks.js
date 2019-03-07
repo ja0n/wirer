@@ -11,8 +11,8 @@ export default {
     icon: 'img/icon.png',
     behavior: () => 0
   },
-  'Source': {
-    id: 'Source',
+  'SourceNumber': {
+    id: 'SourceNumber',
     fill: '#cfec2f',
     ports: { data_in: 0, data_out: 1, flow_in: 0, flow_out: 0 },
     title: 'Source Block',
@@ -23,13 +23,25 @@ export default {
       return [this.inputs.number];
     }
   },
+  'SourceString': {
+    id: 'SourceString',
+    fill: '#cfec2f',
+    ports: { data_in: 0, data_out: 1, flow_in: 0, flow_out: 0 },
+    title: 'Source Block',
+    gui: {
+      text: { label: 'Text', type: 'text' }
+    },
+    behavior: function() {
+      return [this.inputs.text];
+    }
+  },
   'Comparison': {
     id: 'Comparison',
     fill: '#cfec2f',
     ports: { data_in: 2, data_out: 1, flow_in: 0, flow_out: 0 },
     title: 'Comparison Block',
     gui: {
-      op: { label: 'Operation', type: 'select', options: ['==', '!=', '===', '!==', '>', '>=', '<', '<='] },
+      op: { label: 'Operation', type: 'select', options: ['==', '!=', '===', '!==', '>', '>=', '<', '<=', '+', '-', '*', '/' ] },
     },
     behavior: function(findById) {
       const conn1 = (this._ports['in'][0]._conn[0]);
@@ -39,7 +51,7 @@ export default {
       const val1 = brick1.behavior(findById)[conn1.id];
       const val2 = brick2.behavior(findById)[conn2.id];
 
-      return [eval(`${val1} ${this.inputs.op} ${val2}`)];
+      return [eval(`${JSON.stringify(val1)} ${this.inputs.op} ${JSON.stringify(val2)}`)];
     }
   },
   'Alert': {

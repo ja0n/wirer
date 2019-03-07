@@ -2,7 +2,7 @@ import { createElement } from './utils';
 
 const _identity = v => v;
 
-export function buildForm (gui, onChange = _identity) {
+export function buildForm (gui, getValue, onChange = _identity) {
   const form = document.createElement('form');
   form.xmlns = 'http://www.w3.org/1999/xhtml';
   // form.style.margin = '0';
@@ -17,15 +17,15 @@ export function buildForm (gui, onChange = _identity) {
 
     switch (type) {
       case 'number': {
-        element = createLabel(label, type, createHandler(Number));
+        element = createLabel(label, type, getValue(id), createHandler(Number));
         break;
       }
       case 'text': {
-        element = createLabel(label, type, createHandler());
+        element = createLabel(label, type, getValue(id), createHandler());
         break;
       }
       case 'select': {
-        element = createSelect(label, options, createHandler());
+        element = createSelect(label, options, getValue(id), createHandler());
         break;
       }
     }
@@ -36,11 +36,12 @@ export function buildForm (gui, onChange = _identity) {
   return form;
 }
 
-const createLabel = (_label, type, onChange) => {
+const createLabel = (_label, type, value, onChange) => {
   const label = document.createElement('label');
   const txt = document.createTextNode(`${_label}: `);
   const input = document.createElement('input');
   input.type = type;
+  input.value = value;
 
   input.addEventListener('change', onChange);
   onChange({ target: input });
@@ -52,11 +53,11 @@ const createLabel = (_label, type, onChange) => {
   return label;
 };
 
-const createSelect = (_label, options, onChange) => {
+const createSelect = (_label, options, value, onChange) => {
   const label = document.createElement('label');
   const txt = document.createTextNode(`${_label}: `);
   const select = document.createElement('select');
-
+  select.value = value;
 
   options.forEach(value => {
     const option = document.createElement('option');
