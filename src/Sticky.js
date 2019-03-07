@@ -69,6 +69,7 @@ export default class Sticky {
       if (e.keyCode == 46) {
         console.debug('deleting', this.lastSelected);
         this.lastSelected.delete();
+        // @TODO should remove from state (brick, wire, port)
       }
     }, false);
 
@@ -167,7 +168,8 @@ export default class Sticky {
     this._svg.appendChild(el);
   }
   removeElement(el) {
-    this._svg.removeChild(el);
+    if (this._svg.contains(el))
+      this._svg.removeChild(el);
   }
   startAttach(port) {
     let wire = new Wire(port.wrapper);
@@ -353,8 +355,15 @@ export default class Sticky {
     }
   }
   run() {
-    let block = this._objects[0], flow, id, refBlock;
-    console.log(block);
+    let flow, id, refBlock;
+    let block = this._objects.find(({ _refBlock }) => _refBlock == 'start');
+
+    if (!block) {
+      console.warning('Start block not found');
+      return false;
+    }
+
+    console.debug('Start block found:', block);
 
     // flow = start.behavior();
     // an ActuatorBrick should return the flow_out port id
