@@ -3,6 +3,7 @@ body {
 }
 
 #test {
+  background-color: #b7f4ff;
   border: 1px solid black;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -50,6 +51,10 @@ body {
   color: inherit;
 }
 
+.sticky-block-html * {
+  max-width: 100%;
+}
+
 .sticky-block-html body {
   overflow: hidden;
   background-color: red;
@@ -61,6 +66,7 @@ body {
 }
 
 .sticky-block-html header {
+  font-size: 14px;
   border-bottom: 2px solid black;
   text-align: center;
   background-color: #c1c1c1;
@@ -69,4 +75,11 @@ body {
 
 .sticky-block-html section {
   margin: 20px;
+}
+
+.sticky-block-html input,
+.sticky-block-html select {
+  width: 100%;
+  height: 21px;
+  font-size: 12px;
 }
