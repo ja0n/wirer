@@ -2,8 +2,9 @@ import { DataPort, FlowPort } from './ports.js';
 
 export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } = {}, gui = {}) {
   var radius = 10;
-  var dist = 10; //distance beetween ports
+  var distance = 5; //distanceance beetween ports
   var strokeWidth = 3.5;
+  var marginTop = 25;
   var ports = this._ports;
   var main = this.main;
   // var rectBox = main.getBBox ? main.getBBox() : main.getBoundingClientRect();
@@ -11,8 +12,8 @@ export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, f
   var maxPorts = Math.max(data_in + flow_in, data_out + flow_out);
   // var maxPorts = Math.max(ports.in.length, ports.out.length);
   var Radius = radius + strokeWidth/2; //total radius -> circle radius plus its stroke width
-  var tRadius = dist + Radius;
-  var height = (dist + Radius * 2) * Math.max(maxPorts, 1 + Object.keys(gui).length) + dist; //dist + diameter * number of ports + final dist
+  var tRadius = distance + Radius;
+  var height = (tRadius * 2) * Math.max(maxPorts, 1 + Object.keys(gui).length); //distance + diameter * number of ports + final distance
   var width = main.getAttribute('width') * 1;
 
   this._ports.in = [];
@@ -20,7 +21,7 @@ export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, f
   this._ports.flow_in = [];
   this._ports.flow_out = [];
 
-  main.setAttribute('height', height);
+  main.setAttribute('height', height + marginTop);
 
   var attrs = { id: null, r: radius, fill: '#B8D430', stroke: 'black', 'stroke-width': strokeWidth };
   var flow_attrs = { id: null, r: radius, fill: '#2549e4', stroke: 'black', 'stroke-width': strokeWidth };
@@ -28,11 +29,10 @@ export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, f
   // attrs.cx = margin; attrs.cy = rectBox.height/2;
 
   ds = height/(data_in + flow_in);
-  y = ds/2; // center circle origin
+  y = marginTop + ds/2; // center circle origin
 
   for (i = 0; i < flow_in; i++, y+=ds) {
     let port = new FlowPort({ id: i, dir: 'in', brick: this });
-    port.attr('cx', Radius);
     port.attr('cy', y);
     ports.flow_in.push(port);
     this._el.appendChild(port._el);
@@ -40,18 +40,17 @@ export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, f
 
   for (i = 0; i < data_in; i++, y+=ds) {
     let port = new DataPort({ id: i, dir: 'in', brick: this });
-    port.attr('cx', Radius);
     port.attr('cy', y);
     ports.in.push(port);
     this._el.appendChild(port._el);
   }
 
   ds = height/(data_out + flow_out);
-  y = ds/2;
+  y = marginTop + ds/2;
 
   for (i = 0; i < flow_out; i++, y+=ds) {
     let port = new FlowPort({ id: i, dir: 'out', brick: this });
-    port.attr('cx', width + Radius);
+    port.attr('cx', width);
     port.attr('cy', y);
     ports.flow_out.push(port);
     this._el.appendChild(port._el);
@@ -59,7 +58,7 @@ export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, f
 
   for (i = 0; i < data_out; i++, y+=ds) {
     let port = new DataPort({ id: i, dir: 'out', brick: this });
-    port.attr('cx', width + Radius);
+    port.attr('cx', width);
     port.attr('cy', y);
     ports.out.push(port);
     this._el.appendChild(port._el);

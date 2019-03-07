@@ -6,7 +6,7 @@ const RENDER_HTML = true;
 
 const defaultConfig = {
   strokeWidth: 3,
-  marginLeft: 10,
+  marginLeft: 0,
   width: 220,
   opacity: 1,
   height: 50,

@@ -19,6 +19,7 @@ export function htmlBlockBuilder (wrapper, cfg) {
   const svg = createElement('svg');
   svg.wrapper = wrapper;
   svg.type = 'block';
+  svg.style.overflow = 'visible';
   var attrs = {
     width: Math.max(60, width),
     height: height + Object.keys(gui).length * 25,
@@ -51,10 +52,9 @@ export default function blockBuilder(wrapper, cfg) {
   var svg = createElement('svg');
   svg.wrapper = wrapper;
   svg.type = 'block';
+  svg.style.overflow = 'visible';
 
   var attrs = {
-    x: marginLeft + strokeWidth/2,
-    y: strokeWidth/2,
     width,
     height: height + Object.keys(gui).length * 25,
     rx,
@@ -66,14 +66,14 @@ export default function blockBuilder(wrapper, cfg) {
   }
 
   var rect = createElement('rect', attrs);
-  var text = createElement('text', { x: 25, y: 30, style: 'cursor: default' });
+  var text = createElement('text', { x: 15, y: 30, style: 'cursor: default' });
   var txtNode = document.createTextNode(title);
   text.appendChild(txtNode);
 
   svg.appendChild(rect);
   svg.appendChild(text);
 
-  const foreign = createElement('foreignObject', { class: 'sticky-gui', x: 25, y: 40, width: 120 });
+  const foreign = createElement('foreignObject', { class: 'sticky-gui', x: 15, y: 40 });
   const guiElement = buildForm(gui, ({ id, value }) => {
     svg.wrapper.inputs[id] = value;
   });
