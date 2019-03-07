@@ -47,7 +47,8 @@ export default class Sticky {
       }
 
       const parentSvg = getParentSvg(target);
-      if (target.tagName !== 'INPUT' && parentSvg && parentSvg.type == 'block') {
+      const shouldCapture = tagName => !['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'].includes(tagName);
+      if (shouldCapture(target.tagName) && parentSvg && parentSvg.type == 'block') {
         const blockNode = parentSvg;
         console.debug('Block selected:', blockNode, 'Triggered by: ', target);
         var wrapper = blockNode.wrapper;
