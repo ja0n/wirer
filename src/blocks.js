@@ -13,7 +13,7 @@ export default {
   },
   'Source': {
     id: 'Source',
-    fill: '#4fec2f',
+    fill: '#cfec2f',
     ports: { data_in: 0, data_out: 1, flow_in: 0, flow_out: 0 },
     title: 'Source Block',
     gui: {
@@ -25,7 +25,7 @@ export default {
   },
   'Comparison': {
     id: 'Comparison',
-    fill: '#4fec2f',
+    fill: '#cfec2f',
     ports: { data_in: 2, data_out: 1, flow_in: 0, flow_out: 0 },
     title: 'Comparison Block',
     gui: {
@@ -59,7 +59,7 @@ export default {
   },
   'Sum': {
     id: 'Sum',
-    fill: '#3e67c2',
+    fill: '#cfec2f',
     ports: { data_in: 2, data_out: 1, flow_in: 0, flow_out: 0 },
     title: 'Sum Block',
     behavior: function(findById) {
@@ -75,7 +75,7 @@ export default {
   },
   'If': {
     id: 'If',
-    fill: '#3e67c2',
+    fill: '#EC962F',
     ports: { data_in: 1, data_out: 0, flow_in: 1, flow_out: 2 },
     title: 'If Block',
     behavior: function(findById) {
