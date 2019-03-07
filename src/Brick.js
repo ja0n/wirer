@@ -20,10 +20,10 @@ const defaultConfig = {
 export default class Brick {
   constructor (custom = {}) {
     const cfg = { ...defaultConfig, ...custom };
-    const { behavior, title, ports, icon, gui, id, x, y } = cfg;
+    const { behavior, title, ports, icon, gui, id, x, y, inputs } = cfg;
 
     // this._id = id;
-    this.inputs = {};
+    this.inputs = inputs || {};
     this._el = (RENDER_HTML ? htmlBlockBuilder : blockBuilder)(this, cfg);
     this.behavior = behavior;
     this._container = null;

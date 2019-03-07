@@ -253,14 +253,14 @@ export default class Sticky {
 
     if (!cfg) throw `Block '${name}' not registered`;
 
-    return Object.assign(new Brick(cfg), data);
+    return new Brick({ ...cfg, ...data });
   }
   static createBlock(name, data = {}) {
     const cfg = this.prototype.__blocks[name];
 
     if (!cfg) throw "Block not registered";
 
-    return Object.assign(new Brick(cfg), data);
+    return new Brick({ ...cfg, ...data });
   }
   findById(id) {
     if (id == undefined) return null;
@@ -272,6 +272,7 @@ export default class Sticky {
     var fluxgram = this._objects.map(obj => {
       let object = {
         refBlock: obj._refBlock,
+        inputs: obj.inputs,
         id: obj._id,
         x: obj.x,
         y: obj.y,
@@ -354,6 +355,11 @@ export default class Sticky {
       }
 
     }
+  }
+  reload () {
+    const flow = this.toJSON().fluxgram;
+    this.clearCanvas(true);
+    this.loadJSON(flow);
   }
   run() {
     let flow, id, refBlock;
