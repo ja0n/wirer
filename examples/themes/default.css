@@ -4,8 +4,6 @@ body {
 
 #test {
   border: 1px solid black;
-  width: 800px;
-  height: 600px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
