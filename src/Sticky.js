@@ -294,66 +294,51 @@ export default class Sticky {
       })
     );
 
-    return { refBlock, fluxgram };
+    return JSON.parse(JSON.stringify({ refBlock, fluxgram }));
   }
-  loadJSON(data) {
+
+  sealOrDiscard (...cps) {
+    const wire = new Wire(...cps);
+    this.addElement(wire._el);
+    if (wire.seal()) {
+      wire.render();
+      this._wires.push(wire);
+    } else {
+      this.removeElement(wire._el);
+    }
+  }
+
+  loadPorts (blocky, ports, [from, to]) {
+    ports.forEach((port, index) => {
+      for (let conn of port) {
+        const blocky2 = this.findById(conn.brick);
+        const cps = [
+          blocky._ports[from][index],
+          blocky2._ports[to][conn.id],
+        ];
+        this.sealOrDiscard(...cps)
+      }
+    });
+  }
+
+  loadJSON (data) {
     this.clearCanvas(false);
 
     for (let block of data) {
-      let refBlock = this.__blocks[block.refBlock];
-      let obj = this.createBlock(block.refBlock, refBlock);
-      obj.x = block.x;
-      obj.y = block.y;
-      obj.value = block.value;
-      obj._id = block.id;
-      console.log(block.id, obj._id);
+      const { refBlock, inputs, x, y, value, id } = block;
+      const obj = this.createBlock(refBlock, { inputs });
+      obj.x = x;
+      obj.y = y;
+      obj.value = value;
+      obj._id = id;
       this.addObj(obj);
     }
 
     // load wires
-    // PLEASE REFACTORATE ME
-
     for (let block of data) {
-      let blocky = this.findById(block.id);
-      console.log(blocky, block.id);
-
-      for (let port of block.ports.out) {
-        if (!port.length) {
-          console.log('end of flux', block);
-          break;
-        }
-        for (let conn of port) {
-          let blocky2 = this.findById(conn.brick);
-          let wire = new Wire(blocky._ports['out'][0], blocky2._ports['in'][conn.id]);
-          this.addElement(wire._el);
-          if (wire.seal()) {
-            wire.render();
-            this._wires.push(wire);
-          } else {
-            this.removeElement(wire._el);
-          }
-        }
-      }
-
-      for (let port of block.ports.flow_out) {
-        if (!port.length) {
-          console.log('end of flux', block);
-          break;
-        }
-        for (let conn of port) {
-          let blocky2 = this.findById(conn.brick);
-          let wire = new Wire(blocky._ports['flow_out'][0], blocky2._ports['flow_in'][0]);
-          this.addElement(wire._el);
-
-          if (wire.seal()) {
-            wire.render();
-            this._wires.push(wire);
-          } else {
-            this.removeElement(wire._el);
-          }
-        }
-      }
-
+      const blocky = this.findById(block.id);
+      this.loadPorts(blocky, block.ports.out, ['out', 'in']);
+      this.loadPorts(blocky, block.ports.flow_out, ['flow_out', 'flow_in']);
     }
   }
   reload () {
