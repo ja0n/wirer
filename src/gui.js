@@ -42,7 +42,6 @@ const createLabel = (_label, type, value, onChange) => {
   const input = document.createElement('input');
   input.type = type;
   input.value = value;
-
   input.addEventListener('change', onChange);
   onChange({ target: input });
   // input.style.width = '100%';
@@ -57,19 +56,15 @@ const createSelect = (_label, options, value, onChange) => {
   const label = document.createElement('label');
   const txt = document.createTextNode(`${_label}: `);
   const select = document.createElement('select');
-  select.value = value;
-
   options.forEach(value => {
     const option = document.createElement('option');
     option.value = option.text = value;
 
     select.add(option, null);
   });
-
+  select.value = value;
   select.addEventListener('change', onChange);
   onChange({ target: select });
-  // input.style.width = '100%';
-
   label.appendChild(txt);
   label.appendChild(select);
 
