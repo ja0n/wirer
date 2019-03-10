@@ -3,6 +3,14 @@ import { createElement } from './utils';
 export default function Wire(p1, p2) {
   const styles = [
     {
+      'stroke': '#000000',
+      'stroke-width': 7,
+      'stroke-linejoin': 'round',
+      'stroke-linecap': 'round',
+      'fill': 'none',
+      'opacity': 1
+    },
+    {
       'stroke': '#505050',
       'stroke-width': 6,
       'stroke-linejoin': 'round',
