@@ -296,7 +296,7 @@ export default class Sticky {
       })
     );
 
-    const string = JSON.stringify({ refBlock, fluxgram });
+    const string = JSON.stringify({ refBlock, fluxgram }, null, 2);
     copy(string);
     return JSON.parse(string);
   }
