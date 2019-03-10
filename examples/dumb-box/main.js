@@ -1,0 +1,108 @@
+var game = new DumbBox('canvas', { controls: false });
+var canvas = new Sticky.default('test');
+var sum = [];
+var blockConfig = {
+  'PushUp': {
+    fill: '#F5E867',
+    ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
+    title: 'Up',
+    behavior: function () {
+      sum.push('up');
+      return 0;
+    }
+  },
+  'PushDown': {
+    fill: '#FF8D4F',
+    ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
+    title: 'Down',
+    behavior: function () {
+      sum.push('down');
+      return 0;
+    }
+  },
+  'PushLeft': {
+    fill: '#D592F7',
+    ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
+    title: 'Left',
+    behavior: function () {
+      sum.push('left');
+      return 0;
+    }
+  },
+  'PushRight': {
+    fill: '#289E71',
+    ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
+    title: 'Right',
+    behavior: function () {
+      sum.push('right');
+      return 0;
+    }
+  },
+};
+
+Object.keys(blockConfig).forEach(key => canvas.registerBlock(key, blockConfig[key]));
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function addBlock(direction) {
+  var rect = canvas.createBlock('Push' + direction);
+  rect.x = 150 + getRandomInt(-25, 25);
+  rect.y = 200 + getRandomInt(-25, 25);
+
+  canvas.addObj(rect);
+}
+
+window.addEventListener('keyup', function (e) {
+  var translate = { 37: 'Left', 38: 'Up', 39: 'Right', 40: 'Down' };
+  var direction = translate[e.keyCode];
+
+  if (direction) {
+    addBlock(diretion);
+  }
+});
+
+document.getElementById('run').onclick = function () {
+  sum = [];
+  canvas.run();
+  for (var i = 0; i < sum.length; i++) {
+    console.log(sum[i]);
+    game.player.pushMove(sum[i]);
+  }
+
+};
+
+document.getElementById('reset').onclick = function () {
+  game.reset();
+};
+
+document.getElementById('gameshark').onclick = function () {
+  canvas.loadJSON(flowsJSON[0]);
+};
+
+['Left', 'Up', 'Right', 'Down'].forEach(function (dir) {
+  document.getElementById(dir.toLowerCase()).onclick = function () {
+    addBlock(dir);
+  };
+});
+var map = {
+  initialPos: [1, 0],
+  tiled: [
+    "10100000",
+    "00110101",
+    "01000101",
+    "00101000",
+    "10001011"
+  ]
+};
+
+var map2 = [
+  "0000000000",
+  "0000000000",
+  "0000000000"
+];
+game.loadMap(50, map, { 0: 'red', 1: 'blue' });
+game.start();

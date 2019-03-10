@@ -21,10 +21,14 @@ body {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 120px;
+  min-width: 120px;
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.button-list .separator {
+  padding-top: 8px;
 }
 
 .button-list button {

@@ -231,7 +231,7 @@ export default class Sticky {
     if (!start) return;
 
     const startBlock = this.createBlock('start');
-    startBlock.x = 10; startBlock.y = this._svg.getAttribute('height')/2;
+    startBlock.x = 30; startBlock.y = 30;
     startBlock.behavior = () => 0;
 
     this.addObj(startBlock);
