@@ -98,7 +98,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "Comparison",
+      "refBlock": "Operation",
       "inputs": {
         "op": "+"
       },
@@ -133,7 +133,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "Comparison",
+      "refBlock": "Operation",
       "inputs": {
         "op": "=="
       },
@@ -302,7 +302,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "Comparison",
+      "refBlock": "Operation",
       "inputs": {
         "op": "+"
       },
@@ -337,7 +337,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "Comparison",
+      "refBlock": "Operation",
       "inputs": {
         "op": "+"
       },

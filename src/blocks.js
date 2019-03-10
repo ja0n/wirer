@@ -15,7 +15,7 @@ export default {
     id: 'SourceNumber',
     fill: '#cfec2f',
     ports: { data_in: 0, data_out: 1, flow_in: 0, flow_out: 0 },
-    title: 'Source Block',
+    title: 'Number',
     gui: {
       number: { label: 'Number', type: 'number' }
     },
@@ -27,7 +27,7 @@ export default {
     id: 'SourceString',
     fill: '#cfec2f',
     ports: { data_in: 0, data_out: 1, flow_in: 0, flow_out: 0 },
-    title: 'Source Block',
+    title: 'String',
     gui: {
       text: { label: 'Text', type: 'text' }
     },
@@ -35,11 +35,11 @@ export default {
       return [this.inputs.text];
     }
   },
-  'Comparison': {
-    id: 'Comparison',
+  'Operation': {
+    id: 'Operation',
     fill: '#cfec2f',
     ports: { data_in: 2, data_out: 1, flow_in: 0, flow_out: 0 },
-    title: 'Comparison Block',
+    title: 'Operation',
     gui: {
       op: { label: 'Operation', type: 'select', options: ['==', '!=', '===', '!==', '>', '>=', '<', '<=', '+', '-', '*', '/' ] },
     },
@@ -58,7 +58,7 @@ export default {
     id: 'Alert',
     fill: '#EC962F',
     ports: { data_in: 1, data_out: 0, flow_in: 1, flow_out: 1 },
-    title: 'Alert Block',
+    title: 'Alert',
     behavior: function(findById) {
       const conn = this._ports['in'][0]._conn[0];
       const brick = findById(conn.brick);
@@ -73,7 +73,7 @@ export default {
     id: 'Sum',
     fill: '#cfec2f',
     ports: { data_in: 2, data_out: 1, flow_in: 0, flow_out: 0 },
-    title: 'Sum Block',
+    title: 'Sum',
     behavior: function(findById) {
       const conn1 = (this._ports['in'][0]._conn[0]);
       const conn2 = (this._ports['in'][1]._conn[0]);
@@ -89,7 +89,7 @@ export default {
     id: 'If',
     fill: '#EC962F',
     ports: { data_in: 1, data_out: 0, flow_in: 1, flow_out: 2 },
-    title: 'If Block',
+    title: 'If',
     behavior: function(findById) {
       const conn = this._ports['in'][0]._conn[0];
       const brick = findById(conn.brick);

@@ -5,7 +5,7 @@ export default class Port {
     if (!['in', 'out'].includes(dir)) throw "port direction must be 'in' or 'out'";
     if (!['data', 'flow'].includes(type)) throw "type must be 'data' or 'flow'";
     // var attrs = { width: 30, height: 30, fill: '#B8D430', stroke: 'black', 'stroke-width': 3 };
-    var attrs = { r: 10, fill: '#B8D430', stroke: 'black', 'stroke-width': 3.5 };
+    var attrs = { r: 7, fill: '#B8D430', stroke: 'black', 'stroke-width': 2.5 };
 
     // Object.assign(attrs, { wrapper: this, type: 'port', dir: dir });
     this._el = createElement('circle', attrs);

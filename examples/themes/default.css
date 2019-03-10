@@ -67,23 +67,30 @@ body {
   margin: 0;
   min-width: 100%;
   min-height: 100%;
+  box-sizing: border-box;
 }
 
 .sticky-block-html header {
+  padding: 2px;
+  color: 'white';
   font-size: 14px;
   border-bottom: 2px solid black;
   text-align: center;
   background-color: #c1c1c1;
-  color: 'white';
 }
 
 .sticky-block-html section {
-  margin: 20px;
+  margin: 0px 8px 10px;
 }
 
 .sticky-block-html input,
 .sticky-block-html select {
   width: 100%;
-  height: 21px;
+  height: 20px;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.sticky-block-html label {
   font-size: 12px;
 }

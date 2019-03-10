@@ -1,6 +1,6 @@
 var canvas = new Sticky.default('test', { width: 1200, height: 800 });
 
-const initialBlocks = ['SourceNumber', 'SourceNumber', 'Alert', 'Sum', 'Comparison', 'Comparison', 'If', 'SourceString'];
+const initialBlocks = ['SourceNumber', 'SourceNumber', 'Alert', 'Sum', 'Operation', 'Operation', 'If', 'SourceString'];
 
 const getRandom = (min, max) => min + (Math.random() * (max - min));
 

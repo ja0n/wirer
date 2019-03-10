@@ -2,9 +2,9 @@ import { DataPort, FlowPort } from './ports.js';
 
 export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } = {}, gui = {}) {
   var radius = 10;
-  var distance = 5; //distanceance beetween ports
+  var distance = 0; //distance beetween ports
   var strokeWidth = 3.5;
-  var marginTop = 25;
+  var marginTop = 30;
   var ports = this._ports;
   var main = this.main;
   // var rectBox = main.getBBox ? main.getBBox() : main.getBoundingClientRect();
@@ -21,7 +21,7 @@ export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, f
   this._ports.flow_in = [];
   this._ports.flow_out = [];
 
-  main.setAttribute('height', height + marginTop);
+  main.setAttribute('height', height + marginTop + marginTop/4);
 
   var attrs = { id: null, r: radius, fill: '#B8D430', stroke: 'black', 'stroke-width': strokeWidth };
   var flow_attrs = { id: null, r: radius, fill: '#2549e4', stroke: 'black', 'stroke-width': strokeWidth };
