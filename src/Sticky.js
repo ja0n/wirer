@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 import Wire from './Wire.js';
 import Brick from './Brick.js';
 import defaultBlocks from './blocks.js'
@@ -341,12 +343,14 @@ export default class Sticky {
       this.loadPorts(blocky, block.ports.flow_out, ['flow_out', 'flow_in']);
     }
   }
+
   reload () {
     const flow = this.toJSON().fluxgram;
     this.clearCanvas(true);
     this.loadJSON(flow);
   }
-  run() {
+
+  run () {
     let flow, id, refBlock;
     let block = this._objects.find(({ _refBlock }) => _refBlock == 'start');
 
@@ -360,19 +364,20 @@ export default class Sticky {
     // flow = start.behavior();
     // an ActuatorBrick should return the flow_out port id
     // it'll be useful for if block
+    const findById = this.findById.bind(this);
 
+    let step = 0;
     do {
       refBlock = this.blocks[block._refBlock] || this.__blocks[block._refBlock];
-      flow = refBlock.behavior.call(block, this.findById.bind(this));
-      // console.log(block._ports);
-      id = (block._ports['flow_out'][flow]._conn[0]) ?
-            (block._ports['flow_out'][flow]._conn[0]).brick :
-              null;
-      block = this.findById(id);
-      console.log(refBlock, flow, block);
+      flow = refBlock.behavior.call(block, findById);
+      id = get(block._ports, ['flow_out', flow, '_conn', 0, 'brick'], null);
+      block = findById(id);
+      console.debug('Step', ++step, refBlock);
+      console.debug('Next Step', flow, block);
     } while(block);
   }
-  compile() {
+
+  compile () {
 
   }
 }
