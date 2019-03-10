@@ -2,10 +2,10 @@ import { createElement } from './utils';
 
 const _identity = v => v;
 
-export function buildGui (gui, onChange = _identity) {
-  const body = document.createElement('body');
-  body.xmlns = 'http://www.w3.org/1999/xhtml';
-  // body.style.margin = '0';
+export function buildForm (gui, getValue, onChange = _identity) {
+  const form = document.createElement('form');
+  form.xmlns = 'http://www.w3.org/1999/xhtml';
+  // form.style.margin = '0';
 
   Object.entries(gui).forEach(([id, input]) => {
     const { label, type, options } = input;
@@ -17,31 +17,31 @@ export function buildGui (gui, onChange = _identity) {
 
     switch (type) {
       case 'number': {
-        element = createLabel(label, type, createHandler(Number));
+        element = createLabel(label, type, getValue(id), createHandler(Number));
         break;
       }
       case 'text': {
-        element = createLabel(label, type, createHandler());
+        element = createLabel(label, type, getValue(id), createHandler());
         break;
       }
       case 'select': {
-        element = createSelect(label, options, createHandler());
+        element = createSelect(label, options, getValue(id), createHandler());
         break;
       }
     }
 
-    body.appendChild(element);
+    form.appendChild(element);
   });
 
-  return body;
+  return form;
 }
 
-const createLabel = (_label, type, onChange) => {
+const createLabel = (_label, type, value, onChange) => {
   const label = document.createElement('label');
   const txt = document.createTextNode(`${_label}: `);
   const input = document.createElement('input');
   input.type = type;
-
+  input.value = value;
   input.addEventListener('change', onChange);
   onChange({ target: input });
   // input.style.width = '100%';
@@ -52,23 +52,19 @@ const createLabel = (_label, type, onChange) => {
   return label;
 };
 
-const createSelect = (_label, options, onChange) => {
+const createSelect = (_label, options, value, onChange) => {
   const label = document.createElement('label');
   const txt = document.createTextNode(`${_label}: `);
   const select = document.createElement('select');
-
-
   options.forEach(value => {
     const option = document.createElement('option');
     option.value = option.text = value;
 
     select.add(option, null);
   });
-
+  select.value = value;
   select.addEventListener('change', onChange);
   onChange({ target: select });
-  // input.style.width = '100%';
-
   label.appendChild(txt);
   label.appendChild(select);
 

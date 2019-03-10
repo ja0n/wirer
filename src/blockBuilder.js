@@ -1,5 +1,5 @@
 import { createElement } from './utils';
-import { buildGui } from './gui';
+import { buildForm } from './gui';
 
 const example = {
   fill: '#31dfaf',
@@ -14,16 +14,49 @@ const example = {
   },
 };
 
+export function htmlBlockBuilder (wrapper, cfg) {
+  const { width, height, gui, title, fill } = cfg;
+  const svg = createElement('svg');
+  svg.wrapper = wrapper;
+  svg.type = 'block';
+  svg.style.overflow = 'visible';
+  var attrs = {
+    width: Math.max(60, width),
+    height: height + Object.keys(gui).length * 25,
+    class: 'sticky-block-html',
+    id: 'main'
+  }
+  const foreign = createElement('foreignObject', { ...attrs });
+  const body = document.createElement('body');
+  body.innerHTML = /*html*/`
+    <header>${title}</header>
+  `;
+  body.style.backgroundColor = fill;
+  const section = document.createElement('section');
+  const form = buildForm(
+    gui,
+    id => wrapper.inputs[id] || '',
+    ({ id, value }) => { wrapper.inputs[id] = value; },
+  );
+
+  section.appendChild(form);
+  body.appendChild(section);
+  foreign.appendChild(body);
+  svg.appendChild(foreign);
+
+  return svg;
+}
+
 // function SVGBuilder({ strokeWidth, marginLeft, width, opacity, height, rx, ry, fill, stroke, ...rest }) {
 export default function blockBuilder(wrapper, cfg) {
   const { strokeWidth, marginLeft, width, opacity, height, rx, ry, fill, stroke, title, gui } = cfg;
   // { strokeWidth = 3, marginLeft = 10, width = 150, opacity = 1, height = 50, rx = 20, ry = 20, fill = '#1F8244', stroke = '#000000' }
   var svg = createElement('svg');
   svg.wrapper = wrapper;
+  svg.type = 'block';
+  svg.style.overflow = 'visible';
 
   var attrs = {
-    x: marginLeft + strokeWidth/2,
-    y: strokeWidth/2,
     width,
     height: height + Object.keys(gui).length * 25,
     rx,
@@ -35,17 +68,15 @@ export default function blockBuilder(wrapper, cfg) {
   }
 
   var rect = createElement('rect', attrs);
-  rect.type = 'block';
-  var text = createElement('text', { x: 25, y: 30, style: 'cursor: default' });
-  text.type = 'title';
+  var text = createElement('text', { x: 15, y: 30, style: 'cursor: default' });
   var txtNode = document.createTextNode(title);
   text.appendChild(txtNode);
 
   svg.appendChild(rect);
   svg.appendChild(text);
 
-  const foreign = createElement('foreignObject', { class: 'sticky-gui', x: 25, y: 40, width: 120 });
-  const guiElement = buildGui(gui, ({ id, value }) => {
+  const foreign = createElement('foreignObject', { class: 'sticky-gui', x: 15, y: 40 });
+  const guiElement = buildForm(gui, ({ id, value }) => {
     svg.wrapper.inputs[id] = value;
   });
 

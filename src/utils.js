@@ -1,8 +1,8 @@
 export function getParentSvg(el) {
-  if(el.parentNode.nodeName === 'svg') {
+  if (!el.parentNode) return null;
+  if (el.parentNode.nodeName === 'svg')
     return el.parentNode;
-  }
-  return getSvg(el.parentNode);
+  return getParentSvg(el.parentNode);
 }
 
 export function createElement(name, attrs) {

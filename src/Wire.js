@@ -1,7 +1,34 @@
 import { createElement } from './utils';
 
 export default function Wire(p1, p2) {
-  this._el = createElement('path', { stroke: 'red', 'stroke-width': 6, fill: 'none', opacity: 0.8 });
+  const styles = [
+    {
+      'stroke': '#505050',
+      'stroke-width': 6,
+      'stroke-linejoin': 'round',
+      'stroke-linecap': 'round',
+      'fill': 'none',
+      'opacity': 0.8
+    },
+    {
+      'stroke': '#F3F375',
+      'stroke-width': 2,
+      'stroke-linecap': 'round',
+      'stroke-dasharray': 6,
+      'fill': 'none',
+      'opacity': 0.8
+    },
+  ];
+
+  const group = createElement('g');
+  this._path = styles.map(style => {
+    const path = createElement('path', style);
+    path.type = 'wire';
+    path.wrapper = this;
+    group.appendChild(path);
+    return path;
+  });
+  this._el = group;
   this._el.type = 'wire';
   this._el.wrapper = this;
   this._cp1 = p1;
@@ -26,7 +53,8 @@ Wire.prototype = {
     inv = inv ? -1 : 1;
     var offset = Wire.dt2p(p1.x, p1.y, p2.x, p2.y)/2;
     var d = Wire.describeJoint(p1.x, p1.y, p2.x, p2.y, offset*inv);
-    this._el.setAttribute('d', d);
+    for (let element of this._path)
+      element.setAttribute('d', d);
   },
   seal() {
     if(this._cp1.dir == this._cp2.dir) return false;

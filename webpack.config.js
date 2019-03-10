@@ -13,7 +13,6 @@ module.exports = {
     umdNamedDefine: true
   },
   devServer: {
-    publicPath: 'build',
     contentBase: [path.join(__dirname, 'examples'), path.join(__dirname, 'dist')],
     compress: true,
     port: 9000

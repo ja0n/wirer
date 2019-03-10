@@ -44,36 +44,12 @@
     <div id="container">
       <div id="test"></div>
       <ul class="button-list">
-        <li><button id="run" type="button">Run</button></li>
+        <li><button id="run" type="button">run</button></li>
+        <li><button class="load" type="button" data-index="0">load 1</button></li>
+        <li><button class="load" type="button" data-index="1">load 2</button></li>
       </ul>
     </div>
-
-    <script>
-      var canvas = new Sticky('test');
-
-      var rect1 = canvas.createBlock('Source');
-      var rect2 = canvas.createBlock('Source');
-      var rect3 = canvas.createBlock('Alert');
-      var rect4 = canvas.createBlock('Sum');
-      var rect5 = canvas.createBlock('Comparison');
-      var rect6 = canvas.createBlock('If');
-
-      rect1.x = 130; rect1.y = 230;
-      rect2.x = 330; rect2.y = 200;
-      rect3.x = 330; rect3.y = 100;
-      rect4.x = 130; rect4.y = 300;
-
-      canvas.addObj(rect1);
-      canvas.addObj(rect2);
-      canvas.addObj(rect3);
-      canvas.addObj(rect4);
-      canvas.addObj(rect5);
-      canvas.addObj(rect6);
-
-      document.getElementById('run').onclick = function() {
-        canvas.run();
-      };
-
-    </script>
+    <script src="./flows.js"></script>
+    <script src="./alert.js"></script>
   </body>
 </html>

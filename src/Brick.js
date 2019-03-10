@@ -1,11 +1,13 @@
-import blockBuilder from './blockBuilder.js';
+import blockBuilder, { htmlBlockBuilder } from './blockBuilder.js';
 import { getParentSvg } from './utils';
 import arrangePorts from './arrangePorts';
 
+const RENDER_HTML = true;
+
 const defaultConfig = {
   strokeWidth: 3,
-  marginLeft: 10,
-  width: 220,
+  marginLeft: 0,
+  width: 140,
   opacity: 1,
   height: 50,
   rx: 20,
@@ -18,17 +20,16 @@ const defaultConfig = {
 export default class Brick {
   constructor (custom = {}) {
     const cfg = { ...defaultConfig, ...custom };
-    const { behavior, title, ports, icon, gui, id, x, y } = cfg;
+    const { behavior, title, ports, icon, gui, id, x, y, inputs } = cfg;
 
     // this._id = id;
-    this.inputs = {};
-    this._el = blockBuilder(this, cfg);
+    this.inputs = inputs || {};
+    this._el = (RENDER_HTML ? htmlBlockBuilder : blockBuilder)(this, cfg);
     this.behavior = behavior;
     this._container = null;
     this._refBlock = id;
     this.x = x || 0;
     this.y = y || 0;
-
 
     this._ports = {
       in: [],
@@ -46,7 +47,7 @@ export default class Brick {
   }
 
   get data () { return this.behavior(); }
-  get main () { return this._el.getElementById('main'); }
+  get main () { return this._el.querySelector('#main'); }
   get _svg () { return getParentSvg(this._el); }
   get x () { return this._el.getAttribute('x') * 1; } // force coercion
   get y () { return this._el.getAttribute('y') * 1; }
@@ -70,8 +71,8 @@ export default class Brick {
   }
 
   delete () {
-    for (let i = this.wires.length - 1; i >= 0; i--)
-      this.wires[i].delete();
+    for (let wire of [...this.wires])
+      wire.delete();
 
     this.detach();
   }

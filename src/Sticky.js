@@ -1,15 +1,15 @@
 import Wire from './Wire.js';
 import Brick from './Brick.js';
+import defaultBlocks from './blocks.js'
+import { getParentSvg } from './utils.js';
 
 export default class Sticky {
-  constructor(id) {
+  constructor(id, { width, height } = { width: 800, height: 600 }) {
     this.el = document.getElementById(id);
 
     if (!this.el)
       throw "Couldn't find element :(";
 
-    const svg = Sticky.createElement('svg', { class: 'svg-content', viewBox: "0 0 800 600", preserveAspectRatio: "xMidYMid meet" });
-    // let svg = Sticky.createElement('svg', { class: 'svg-content', width: 800, height: 400 });
     this._uid = 0;
     this._aux = {};
     this.blocks = {};
@@ -17,52 +17,61 @@ export default class Sticky {
     this._wires = [];
     this._state = null;
 
-    let lastDownTarget;
+    const svg = Sticky.createElement('svg', { class: 'svg-content', preserveAspectRatio: "xMidYMid meet" });
+    this._svg = svg;
+    this.el.appendChild(this._svg);
+    this.matchViewBox();
 
+    // this.registerBlock('actuator', ActuatorBrick);
+
+    this.clearCanvas();
+    this.setCanvasSize({ width, height });
+
+    this.colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
+                   "#2E2C75", "#673A7E", "#CC0071", "#F80120",
+                   "#F35B20", "#FB9A00", "#FFCC00", "#FEF200"];
+
+    // DOM Events
     svg.addEventListener('mousedown', e => {
       normalizeEvent(e);
-      // lastDownTarget = svg;
       this.lastSelected = null;
+      const { target } = e;
 
-      if (e.target.type === 'wire') {
-        this.lastSelected = e.target.wrapper;
-        return this.selectedWire = e.target.wrapper;
+      if (target.type === 'wire') {
+        this.lastSelected = target.wrapper;
+        return this.selectedWire = target.wrapper;
       }
 
-      if (e.target.type === 'port' && e.target.dir === 'out') {
-        return this.startAttach(e.target);
+      if (target.type === 'port' && target.dir === 'out') {
+        return this.startAttach(target);
       }
 
-      if (e.target.type === 'block' || e.target.type === 'title') {
-        this.lastSelected = e.target.parentNode.wrapper;
-        this.dragging = e.target.parentNode;
-        var wrapper = this.dragging.wrapper;
+      const parentSvg = getParentSvg(target);
+      const shouldCapture = tagName => !['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'].includes(tagName);
+      if (shouldCapture(target.tagName) && parentSvg && parentSvg.type == 'block') {
+        const blockNode = parentSvg;
+        console.debug('Block selected:', blockNode, 'Triggered by: ', target);
+        var wrapper = blockNode.wrapper;
+        this.lastSelected = wrapper;
+        this.dragging = blockNode;
         var SVGbox = wrapper._svg.getBoundingClientRect();
-        var OffsetX = e.x - SVGbox.left;
-        var OffsetY =  e.y - SVGbox.top;
-        this._aux.mouseDown = { x: OffsetX - wrapper.x, y: OffsetY - wrapper.y };
+        const offset = {
+          x: e.x - SVGbox.left,
+          y: e.y - SVGbox.top,
+        };
+        this._aux.mouseDown = { x: offset.x - wrapper.x, y: offset.y - wrapper.y };
         this._svg.appendChild(this.dragging);
         wrapper.wires.forEach(wire => this._svg.appendChild(wire._el));
       }
 
     }, false);
 
-
-    document.addEventListener('mousedown', e => {
-      // lastDownTarget = e.target;
-      // console.log(lastDownTarget);
-    }, false);
-
     document.addEventListener('keydown', e => {
-      // if (lastDownTarget == svg) {
       if (e.keyCode == 46) {
-        console.log(this.lastSelected);
+        console.debug('deleting', this.lastSelected);
         this.lastSelected.delete();
+        // @TODO should remove from state (brick, wire, port)
       }
-    }, false);
-
-    svg.addEventListener('keydown', e => {
-      console.log(e);
     }, false);
 
     svg.addEventListener('mouseup', e => {
@@ -98,19 +107,13 @@ export default class Sticky {
       }
     });
 
-    this._svg = svg;
-    this.el.appendChild(this._svg);
-    this.matchViewBox();
-
-    // this.registerBlock('actuator', ActuatorBrick);
-
-    this.clearCanvas();
-
-    this.colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
-                   "#2E2C75", "#673A7E", "#CC0071", "#F80120",
-                   "#F35B20", "#FB9A00", "#FFCC00", "#FEF200"];
-
     return this;
+  }
+
+  setCanvasSize({ width, height }) {
+    this._svg.style.width = width;
+    this._svg.style.height = height;
+    this._svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   }
 
 //static methods
@@ -146,26 +149,28 @@ export default class Sticky {
     if (index == -1) return;
 
     for (let port_type of Object.keys(obj._ports)) {
-      if (obj._ports[port_type][0]) { // if there's any connection
+      if (obj._ports[port_type].length) { // if there's any connection
         for (let port of obj._ports[port_type]) {
           // port.dettach();
         }
       }
     }
 
-    for (let wire of obj.wires) {
+    for (let wire of [...obj.wires]) {
       wire.delete();
     }
 
     this.removeElement(obj._el);
     if (update)
+      // should splice wires too
       return this._objects.splice(index, 1);
   }
   addElement(el) {
     this._svg.appendChild(el);
   }
   removeElement(el) {
-    this._svg.removeChild(el);
+    if (this._svg.contains(el))
+      this._svg.removeChild(el);
   }
   startAttach(port) {
     let wire = new Wire(port.wrapper);
@@ -205,7 +210,7 @@ export default class Sticky {
       var wire = this._aux['wire'];
       var SVGbox = this._svg.getBoundingClientRect();
       //(below) pixel for removing the wire from the way so we can detect the event on port
-      var offset = wire._inverted ? 1 : -1;
+      var offset = wire._inverted ? 4 : -4;
       var mouse = { x: mouse.x - SVGbox.left + offset, y: mouse.y - SVGbox.top };
       var port = wire._cp1.getPoint();
 
@@ -219,6 +224,7 @@ export default class Sticky {
     }
 
     this._objects = [];
+    this._wires = [];
 
     if (!start) return;
 
@@ -247,14 +253,14 @@ export default class Sticky {
 
     if (!cfg) throw `Block '${name}' not registered`;
 
-    return Object.assign(new Brick(cfg), data);
+    return new Brick({ ...cfg, ...data });
   }
   static createBlock(name, data = {}) {
     const cfg = this.prototype.__blocks[name];
 
     if (!cfg) throw "Block not registered";
 
-    return Object.assign(new Brick(cfg), data);
+    return new Brick({ ...cfg, ...data });
   }
   findById(id) {
     if (id == undefined) return null;
@@ -266,6 +272,7 @@ export default class Sticky {
     var fluxgram = this._objects.map(obj => {
       let object = {
         refBlock: obj._refBlock,
+        inputs: obj.inputs,
         id: obj._id,
         x: obj.x,
         y: obj.y,
@@ -287,68 +294,68 @@ export default class Sticky {
       })
     );
 
-    return { refBlock, fluxgram };
+    return JSON.parse(JSON.stringify({ refBlock, fluxgram }));
   }
-  loadJSON(data) {
+
+  sealOrDiscard (...cps) {
+    const wire = new Wire(...cps);
+    this.addElement(wire._el);
+    if (wire.seal()) {
+      wire.render();
+      this._wires.push(wire);
+    } else {
+      this.removeElement(wire._el);
+    }
+  }
+
+  loadPorts (blocky, ports, [from, to]) {
+    ports.forEach((port, index) => {
+      for (let conn of port) {
+        const blocky2 = this.findById(conn.brick);
+        const cps = [
+          blocky._ports[from][index],
+          blocky2._ports[to][conn.id],
+        ];
+        this.sealOrDiscard(...cps)
+      }
+    });
+  }
+
+  loadJSON (data) {
     this.clearCanvas(false);
 
     for (let block of data) {
-      let refBlock = this.__blocks[block.refBlock];
-      let obj = this.createBlock(block.refBlock, refBlock);
-      obj.x = block.x;
-      obj.y = block.y;
-      obj.value = block.value;
-      obj._id = block.id;
-      console.log(block.id, obj._id);
+      const { refBlock, inputs, x, y, value, id } = block;
+      const obj = this.createBlock(refBlock, { inputs });
+      obj.x = x;
+      obj.y = y;
+      obj.value = value;
+      obj._id = id;
       this.addObj(obj);
     }
 
     // load wires
-    // PLEASE REFACTORATE ME
-
     for (let block of data) {
-      let blocky = this.findById(block.id);
-      console.log(blocky, block.id);
-
-      for (let port of block.ports.out) {
-        if (!port[0]) {
-          console.log('end of flux');
-          break;
-        }
-        let blocky2 = this.findById(port[0].brick);
-        let wire = new Wire(blocky._ports['out'][0], blocky2._ports['in'][port[0].id]);
-        this.addElement(wire._el);
-        if (wire.seal()) {
-          wire.render();
-          this._wires.push(wire);
-        } else {
-          this.removeElement(wire._el);
-        }
-      }
-
-      for (let port of block.ports.flow_out) {
-        console.log(port);
-        if (!port[0]) {
-          console.log('end of flux');
-          break;
-        }
-        let blocky2 = this.findById(port[0].brick);
-        let wire = new Wire(blocky._ports['flow_out'][0], blocky2._ports['flow_in'][0]);
-        this.addElement(wire._el);
-
-        if (wire.seal()) {
-          wire.render();
-          this._wires.push(wire);
-        } else {
-          this.removeElement(wire._el);
-        }
-      }
-
+      const blocky = this.findById(block.id);
+      this.loadPorts(blocky, block.ports.out, ['out', 'in']);
+      this.loadPorts(blocky, block.ports.flow_out, ['flow_out', 'flow_in']);
     }
   }
+  reload () {
+    const flow = this.toJSON().fluxgram;
+    this.clearCanvas(true);
+    this.loadJSON(flow);
+  }
   run() {
-    let block = this._objects[0], flow, id, refBlock;
-    console.log(block);
+    let flow, id, refBlock;
+    let block = this._objects.find(({ _refBlock }) => _refBlock == 'start');
+
+    if (!block) {
+      console.warning('Start block not found');
+      return false;
+    }
+
+    console.debug('Start block found:', block);
 
     // flow = start.behavior();
     // an ActuatorBrick should return the flow_out port id
@@ -370,96 +377,7 @@ export default class Sticky {
   }
 }
 
-Sticky.prototype.__blocks = {
-  'start': {
-    id: 'start',
-    width: 35,
-    height: 60,
-    rx: 10,
-    ry: 10,
-    fill: '#AF2B37',
-    ports: { data_in: 0, data_out: 0, flow_in: 0, flow_out: 1 },
-    title: '',
-    icon: 'img/icon.png',
-    behavior: () => 0
-  },
-  'Source': {
-    id: 'Source',
-    fill: '#4fec2f',
-    ports: { data_in: 0, data_out: 1, flow_in: 0, flow_out: 0 },
-    title: 'Source Block',
-    gui: {
-      number: { label: 'Number', type: 'number' }
-    },
-    behavior: function() {
-      return [this.inputs.number];
-    }
-  },
-  'Comparison': {
-    id: 'Comparison',
-    fill: '#4fec2f',
-    ports: { data_in: 2, data_out: 1, flow_in: 0, flow_out: 0 },
-    title: 'Comparison Block',
-    gui: {
-      op: { label: 'Operation', type: 'select', options: ['==', '!=', '===', '!==', '>', '>=', '<', '<='] },
-    },
-    behavior: function(findById) {
-      const conn1 = (this._ports['in'][0]._conn[0]);
-      const conn2 = (this._ports['in'][1]._conn[0]);
-      const brick1 = findById(conn1.brick);
-      const brick2 = findById(conn2.brick);
-      const val1 = brick1.behavior(findById)[conn1.id];
-      const val2 = brick2.behavior(findById)[conn2.id];
-
-      return [eval(`${val1} ${this.inputs.op} ${val2}`)];
-    }
-  },
-  'Alert': {
-    id: 'Alert',
-    fill: '#EC962F',
-    ports: { data_in: 1, data_out: 0, flow_in: 1, flow_out: 1 },
-    title: 'Alert Block',
-    behavior: function(findById) {
-      const conn = this._ports['in'][0]._conn[0];
-      const brick = findById(conn.brick);
-      const data = brick.behavior(findById)[conn.id];
-
-      alert(data);
-
-      return 0;
-    }
-  },
-  'Sum': {
-    id: 'Sum',
-    fill: '#3e67c2',
-    ports: { data_in: 2, data_out: 1, flow_in: 0, flow_out: 0 },
-    title: 'Sum Block',
-    behavior: function(findById) {
-      const conn1 = (this._ports['in'][0]._conn[0]);
-      const conn2 = (this._ports['in'][1]._conn[0]);
-      const brick1 = findById(conn1.brick);
-      const brick2 = findById(conn2.brick);
-      const val1 = brick1.behavior(findById)[conn1.id];
-      const val2 = brick2.behavior(findById)[conn2.id];
-
-      return [val1 + val2];
-    }
-  },
-  'If': {
-    id: 'If',
-    fill: '#3e67c2',
-    ports: { data_in: 1, data_out: 0, flow_in: 1, flow_out: 2 },
-    title: 'If Block',
-    behavior: function(findById) {
-      const conn = this._ports['in'][0]._conn[0];
-      const brick = findById(conn.brick);
-      const data = brick.behavior(findById)[conn.id];
-
-      return data ? 0 : 1;
-    }
-  },
-};
-
+Sticky.prototype.__blocks = defaultBlocks || {};
 
 const normalizeEvent = e => {
   if (e.x == undefined) e.x = e.clientX;
