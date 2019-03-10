@@ -2,6 +2,7 @@ const flowsJSON = [
   [
     {
       "refBlock": "start",
+      "inputs": {},
       "id": 0,
       "x": 16,
       "y": 33,
@@ -21,6 +22,7 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushDown",
+      "inputs": {},
       "id": 1,
       "x": 18,
       "y": 121,
@@ -47,6 +49,7 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushLeft",
+      "inputs": {},
       "id": 2,
       "x": 15,
       "y": 197,
@@ -73,6 +76,7 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushDown",
+      "inputs": {},
       "id": 3,
       "x": 96,
       "y": 277,
@@ -99,6 +103,7 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushDown",
+      "inputs": {},
       "id": 4,
       "x": 80,
       "y": 354,
@@ -125,6 +130,7 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushRight",
+      "inputs": {},
       "id": 5,
       "x": 71,
       "y": 419,
@@ -151,6 +157,7 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushDown",
+      "inputs": {},
       "id": 6,
       "x": 143,
       "y": 467,
@@ -177,6 +184,7 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushRight",
+      "inputs": {},
       "id": 7,
       "x": 203,
       "y": 533,
@@ -203,9 +211,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushRight",
+      "inputs": {},
       "id": 8,
-      "x": 468,
-      "y": 554,
+      "x": 320,
+      "y": 446,
       "ports": {
         "in": [],
         "out": [],
@@ -228,26 +237,11 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "PushRight",
-      "id": 9,
-      "x": 529,
-      "y": 444,
-      "ports": {
-        "in": [],
-        "out": [],
-        "flow_in": [
-          []
-        ],
-        "flow_out": [
-          []
-        ]
-      }
-    },
-    {
       "refBlock": "PushUp",
+      "inputs": {},
       "id": 10,
-      "x": 436,
-      "y": 429,
+      "x": 308,
+      "y": 326,
       "ports": {
         "in": [],
         "out": [],
@@ -271,9 +265,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushUp",
+      "inputs": {},
       "id": 11,
-      "x": 416,
-      "y": 336,
+      "x": 252,
+      "y": 230,
       "ports": {
         "in": [],
         "out": [],
@@ -297,9 +292,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushRight",
+      "inputs": {},
       "id": 12,
-      "x": 362,
-      "y": 269,
+      "x": 167,
+      "y": 133,
       "ports": {
         "in": [],
         "out": [],
@@ -323,9 +319,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushUp",
+      "inputs": {},
       "id": 13,
-      "x": 331,
-      "y": 207,
+      "x": 119,
+      "y": 19,
       "ports": {
         "in": [],
         "out": [],
@@ -349,9 +346,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushUp",
+      "inputs": {},
       "id": 14,
-      "x": 290,
-      "y": 156,
+      "x": 230,
+      "y": 39,
       "ports": {
         "in": [],
         "out": [],
@@ -375,9 +373,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushRight",
+      "inputs": {},
       "id": 15,
-      "x": 110,
-      "y": 52,
+      "x": 334,
+      "y": 62,
       "ports": {
         "in": [],
         "out": [],
@@ -401,25 +400,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushRight",
-      "id": 16,
-      "x": 311,
-      "y": 171,
-      "ports": {
-        "in": [],
-        "out": [],
-        "flow_in": [
-          []
-        ],
-        "flow_out": [
-          []
-        ]
-      }
-    },
-    {
-      "refBlock": "PushRight",
+      "inputs": {},
       "id": 17,
-      "x": 334,
-      "y": 89,
+      "x": 440,
+      "y": 110,
       "ports": {
         "in": [],
         "out": [],
@@ -443,9 +427,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushDown",
+      "inputs": {},
       "id": 18,
-      "x": 265,
-      "y": 183,
+      "x": 488,
+      "y": 203,
       "ports": {
         "in": [],
         "out": [],
@@ -469,9 +454,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushDown",
+      "inputs": {},
       "id": 19,
-      "x": 250,
-      "y": 271,
+      "x": 513,
+      "y": 288,
       "ports": {
         "in": [],
         "out": [],
@@ -495,9 +481,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushLeft",
+      "inputs": {},
       "id": 20,
-      "x": 292,
-      "y": 423,
+      "x": 534,
+      "y": 459,
       "ports": {
         "in": [],
         "out": [],
@@ -521,9 +508,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushDown",
+      "inputs": {},
       "id": 21,
-      "x": 286,
-      "y": 354,
+      "x": 527,
+      "y": 380,
       "ports": {
         "in": [],
         "out": [],
@@ -547,9 +535,10 @@ const flowsJSON = [
     },
     {
       "refBlock": "PushDown",
+      "inputs": {},
       "id": 22,
-      "x": 285,
-      "y": 487,
+      "x": 661,
+      "y": 501,
       "ports": {
         "in": [],
         "out": [],
