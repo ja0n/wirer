@@ -1,0 +1,50 @@
+.sticky__canvas {
+    font-family: 'Work Sans', sans-serif;
+    background-color: #fff9da;
+    border: 1px solid black;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+  background-image: linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);
+    background-size: 50px 50px;
+
+}
+
+.sticky-block-html {
+    * {
+        max-width: 100%;
+    }
+    body {
+        overflow: hidden;
+        background-color: red;
+        border: 2px solid black;
+        border-radius: 16px;
+        margin: 0;
+        min-width: 100%;
+        min-height: 100%;
+        box-sizing: border-box;
+    }
+    header {
+        padding: 2px;
+        color: 'white';
+        font-size: 14px;
+        border-bottom: 2px solid black;
+        text-align: center;
+        background-color: #c1c1c1;
+    }
+    section {
+        margin: 0px 8px 10px;
+    }
+    input,
+    select {
+        width: 100%;
+        height: 20px;
+        font-size: 12px;
+        box-sizing: border-box;
+    }
+    label {
+        font-size: 12px;
+    }
+}

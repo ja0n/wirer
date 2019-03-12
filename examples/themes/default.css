@@ -2,21 +2,12 @@ body {
   font-family: 'Work Sans', sans-serif;
 }
 
-#test {
-  background-color: #b7f4ff;
-  border: 1px solid black;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: default;
-}
-
 #container {
   display: inline-block;
   position: relative;
   vertical-align: top;
 }
+
 .button-list {
   position: absolute;
   top: 8px;
@@ -53,44 +44,4 @@ body {
   opacity: 1;
   background: white;
   color: inherit;
-}
-
-.sticky-block-html * {
-  max-width: 100%;
-}
-
-.sticky-block-html body {
-  overflow: hidden;
-  background-color: red;
-  border: 2px solid black;
-  border-radius: 16px;
-  margin: 0;
-  min-width: 100%;
-  min-height: 100%;
-  box-sizing: border-box;
-}
-
-.sticky-block-html header {
-  padding: 2px;
-  color: 'white';
-  font-size: 14px;
-  border-bottom: 2px solid black;
-  text-align: center;
-  background-color: #c1c1c1;
-}
-
-.sticky-block-html section {
-  margin: 0px 8px 10px;
-}
-
-.sticky-block-html input,
-.sticky-block-html select {
-  width: 100%;
-  height: 20px;
-  font-size: 12px;
-  box-sizing: border-box;
-}
-
-.sticky-block-html label {
-  font-size: 12px;
 }

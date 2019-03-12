@@ -5,12 +5,16 @@ import Brick from './Brick.js';
 import defaultBlocks from './blocks.js'
 import { getParentSvg } from './utils.js';
 
+import "./styles/default.scss";
+
 export default class Sticky {
   constructor(id, { width, height } = { width: 800, height: 600 }) {
     this.el = document.getElementById(id);
 
     if (!this.el)
       throw "Couldn't find element :(";
+
+    this.el.classList.add('sticky__canvas');
 
     this._uid = 0;
     this._aux = {};
