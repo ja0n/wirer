@@ -26,19 +26,12 @@ export default class Sticky {
     return this;
   }
 
-  Brick(name, attrs) {
-    var el = createElement(name, attrs);
-    var brick = new Brick(el, this);
-    brick._id = this._uid++;
-    this._objects.push(brick);
-
-    return brick;
-  }
   addObj(obj) {
     if (obj._id == null) obj._id = this._uid++;
     this._objects.push(obj);
     this.render.addElement(obj._el);
   }
+
   removeObj(obj, update) {
     let index = this._objects.indexOf(obj);
     if (index == -1) return;
@@ -60,19 +53,8 @@ export default class Sticky {
       // should splice wires too
       return this._objects.splice(index, 1);
   }
-  startAttach(port) {
-    let wire = new Wire(port.wrapper);
-    wire._inverted = port.wrapper.dir === 'in';
-    this.setState('attaching');
-    this._aux['wire'] = wire;
-    this.render.addElement(wire._el);
-  }
-  startDrag(port) {
-    this.setState('attaching');
-    this._aux['wire'] = wire;
-    this.render.addElement(wire._el);
-  }
-  clearCanvas(start = true) {
+
+  clearCanvas (start = true) {
     for (let obj of this._objects) {
       // this.render.removeElement(obj._el);
       this.removeObj(obj, false);
@@ -96,6 +78,7 @@ export default class Sticky {
       behavior: typeof obj.behavior !== 'function' ? new Function('findById', obj.behavior) : obj.behavior
     }
   }
+
   static registerBlock(name, obj) {
     this.prototype._refBlocks[name] = {
       ...obj,
@@ -103,6 +86,7 @@ export default class Sticky {
       behavior: typeof obj.behavior !== 'function' ? new Function('findById', obj.behavior) : obj.behavior
     }
   }
+
   createBlock(name, data = {}) {
     const cfg = this.blocks[name] || this._refBlocks[name];
 
@@ -110,6 +94,7 @@ export default class Sticky {
 
     return new Brick({ ...cfg, ...data });
   }
+
   static createBlock(name, data = {}) {
     const cfg = this.prototype._refBlocks[name];
 
@@ -117,14 +102,16 @@ export default class Sticky {
 
     return new Brick({ ...cfg, ...data });
   }
-  findById(id) {
+
+  findById (id) {
     if (id == undefined) return null;
     for (let obj of this._objects) {
       if (obj._id === id) return obj;
     }
   }
-  toJSON() {
-    var fluxgram = this._objects.map(obj => {
+
+  toJSON () {
+    const fluxgram = this._objects.map(obj => {
       let object = {
         refBlock: obj._refBlock,
         inputs: obj.inputs,
@@ -135,7 +122,7 @@ export default class Sticky {
       };
 
       for (let type in obj._ports) {
-        console.log(type, obj._ports[type]);
+        console.debut('to JSON - ', type, obj._ports[type]);
         object.ports[type] = obj._ports[type].map(port => [...port._conn]);
       }
 
