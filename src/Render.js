@@ -52,15 +52,15 @@ export default class Render {
       this._svg.removeChild(el);
   }
 
-  startAttach (port) {
-    let wire = new Wire(port.wrapper);
-    wire._inverted = port.wrapper.dir === 'in';
+  startDrag (port) {
     this.setState('attaching');
     this._aux['wire'] = wire;
     this.addElement(wire._el);
   }
 
-  startDrag (port) {
+  startAttach (port) {
+    let wire = new Wire(port.wrapper);
+    wire._inverted = port.wrapper.dir === 'in';
     this.setState('attaching');
     this._aux['wire'] = wire;
     this.addElement(wire._el);
@@ -72,14 +72,29 @@ export default class Render {
       var wire = this._aux['wire'];
       wire._cp2 = port.wrapper;
 
-      if (wire.seal()) {
-        wire.render();
-        this._wires.push(wire);
-      } else {
-        this.removeElement(wire._el);
-      }
+      this.addWire(wire);
+
       delete this._aux['wire'];
     }
+  }
+
+  addWire (wire) {
+    if (!wire.seal())
+      return false;
+
+    wire.render();
+    this._wires.push(wire);
+    this.addElement(wire._el);
+    return true;
+  }
+
+  sealOrDiscard (...cps) {
+    const wire = new Wire(...cps);
+
+    if (this.addWire(wire))
+      return wire;
+
+    return null;
   }
 
   setState (state) {

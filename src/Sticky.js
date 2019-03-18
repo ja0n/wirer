@@ -154,17 +154,6 @@ export default class Sticky {
     return JSON.parse(string);
   }
 
-  sealOrDiscard (...cps) {
-    const wire = new Wire(...cps);
-    this.render.addElement(wire._el);
-    if (wire.seal()) {
-      wire.render();
-      this._wires.push(wire);
-    } else {
-      this.render.removeElement(wire._el);
-    }
-  }
-
   loadPorts (blocky, ports, [from, to]) {
     ports.forEach((port, index) => {
       for (let conn of port) {
@@ -173,7 +162,7 @@ export default class Sticky {
           blocky._ports[from][index],
           blocky2._ports[to][conn.id],
         ];
-        this.sealOrDiscard(...cps)
+        this.render.sealOrDiscard(...cps)
       }
     });
   }
