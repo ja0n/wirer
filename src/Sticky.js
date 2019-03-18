@@ -2,69 +2,32 @@ import get from 'lodash/get';
 
 import Wire from './Wire.js';
 import Brick from './Brick.js';
+import Render from './Render.js';
 import defaultBlocks from './blocks.js';
-import { register } from './dom-handler.js' 
+
+import { createElement } from './utils';
 
 import "./styles/default.scss";
 
 export default class Sticky {
   constructor(id, { width, height } = { width: 800, height: 600 }) {
-    this.el = document.getElementById(id);
-
-    if (!this.el)
-      throw "Couldn't find element :(";
-
-    this.el.classList.add('sticky__canvas');
-
     this._uid = 0;
-    this._aux = {};
     this.blocks = {};
     this._objects = [];
     this._wires = [];
-    this._state = null;
 
-    const svg = Sticky.createElement('svg', { class: 'svg-content', preserveAspectRatio: "xMidYMid meet" });
-    this._svg = svg;
-    this.el.appendChild(this._svg);
-    this.matchViewBox();
-
-    // this.registerBlock('actuator', ActuatorBrick);
-
+    this.render = new Render(id, { width, height });
     this.clearCanvas();
-    this.setCanvasSize({ width, height });
 
     this.colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
                    "#2E2C75", "#673A7E", "#CC0071", "#F80120",
                    "#F35B20", "#FB9A00", "#FFCC00", "#FEF200"];
 
-    register.call(this);
-
     return this;
   }
 
-  setCanvasSize({ width, height }) {
-    this._svg.style.width = width;
-    this._svg.style.height = height;
-    this._svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-  }
-
-//static methods
-  static createElement(name, attrs) {
-    var el = document.createElementNS('http://www.w3.org/2000/svg', name);
-
-    for (let key in attrs)
-      el.setAttribute(key, attrs[key]);
-
-    return el;
-  }
-
-  matchViewBox() {
-    const { width, height } = this._svg.getBoundingClientRect();
-
-    this._svg.setAttribute('viewBox', `0, 0, ${width} ${height}`);
-  }
   Brick(name, attrs) {
-    var el = Sticky.createElement(name, attrs);
+    var el = createElement(name, attrs);
     var brick = new Brick(el, this);
     brick._id = this._uid++;
     this._objects.push(brick);
@@ -74,7 +37,7 @@ export default class Sticky {
   addObj(obj) {
     if (obj._id == null) obj._id = this._uid++;
     this._objects.push(obj);
-    this.addElement(obj._el);
+    this.render.addElement(obj._el);
   }
   removeObj(obj, update) {
     let index = this._objects.indexOf(obj);
@@ -92,66 +55,26 @@ export default class Sticky {
       wire.delete();
     }
 
-    this.removeElement(obj._el);
+    this.render.removeElement(obj._el);
     if (update)
       // should splice wires too
       return this._objects.splice(index, 1);
-  }
-  addElement(el) {
-    this._svg.appendChild(el);
-  }
-  removeElement(el) {
-    if (this._svg.contains(el))
-      this._svg.removeChild(el);
   }
   startAttach(port) {
     let wire = new Wire(port.wrapper);
     wire._inverted = port.wrapper.dir === 'in';
     this.setState('attaching');
     this._aux['wire'] = wire;
-    this.addElement(wire._el);
+    this.render.addElement(wire._el);
   }
   startDrag(port) {
     this.setState('attaching');
     this._aux['wire'] = wire;
-    this.addElement(wire._el);
-  }
-  endAttach(port) {
-    if (this.isState('attaching')) {
-      this.setState(null);
-      var wire = this._aux['wire'];
-      wire._cp2 = port.wrapper;
-
-      if (wire.seal()) {
-        wire.render();
-        this._wires.push(wire);
-      } else {
-        this.removeElement(wire._el);
-      }
-      delete this._aux['wire'];
-    }
-  }
-  setState(state) {
-    return this._state = state;
-  }
-  isState(state) {
-    return this._state === state;
-  }
-  attachMove(mouse) {
-    if (this.isState('attaching')) {
-      var wire = this._aux['wire'];
-      var SVGbox = this._svg.getBoundingClientRect();
-      //(below) pixel for removing the wire from the way so we can detect the event on port
-      var offset = wire._inverted ? 4 : -4;
-      var mouse = { x: mouse.x - SVGbox.left + offset, y: mouse.y - SVGbox.top };
-      var port = wire._cp1.getPoint();
-
-      wire._render(port, mouse, wire._inverted);
-    }
+    this.render.addElement(wire._el);
   }
   clearCanvas(start = true) {
     for (let obj of this._objects) {
-      // this.removeElement(obj._el);
+      // this.render.removeElement(obj._el);
       this.removeObj(obj, false);
     }
 
@@ -233,12 +156,12 @@ export default class Sticky {
 
   sealOrDiscard (...cps) {
     const wire = new Wire(...cps);
-    this.addElement(wire._el);
+    this.render.addElement(wire._el);
     if (wire.seal()) {
       wire.render();
       this._wires.push(wire);
     } else {
-      this.removeElement(wire._el);
+      this.render.removeElement(wire._el);
     }
   }
 

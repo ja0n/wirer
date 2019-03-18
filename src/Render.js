@@ -1,21 +1,47 @@
+import { register } from './dom-handler.js'
+import Wire from './Wire.js';
+import Brick from './Brick.js';
+
+import { createElement } from './utils';
 
 const config = { width: 800, height: 600 };
 
-export default class Render () {
+export default class Render {
   constructor (id, cfg) {
     const { width, height } = { ...config, ...cfg };
     this.el = document.getElementById(id);
+    this._aux = {};
+    this._state = null;
+    this._wires = [];
 
     if (!this.el)
       throw "Couldn't find element :(";
 
-    this.el.classList.add('sticky__canvas');
-
-    const svg = Sticky.createElement('svg', { class: 'svg-content', preserveAspectRatio: "xMidYMid meet" });
+    const svg = createElement('svg', { class: 'svg-content', preserveAspectRatio: "xMidYMid meet" });
     this._svg = svg;
-    this.el.appendChild(this._svg);
     this.matchViewBox();
+    this.setCanvasSize({ width, height });
+
+    this.el.classList.add('sticky__canvas');
+    this.el.appendChild(this._svg);
+
+    register.call(this);
+
+    return this;
   }
+
+  matchViewBox() {
+    const { width, height } = this._svg.getBoundingClientRect();
+
+    this._svg.setAttribute('viewBox', `0, 0, ${width} ${height}`);
+  }
+
+  setCanvasSize({ width, height }) {
+    this._svg.style.width = width;
+    this._svg.style.height = height;
+    this._svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  }
+
 
   addElement (el) {
     this._svg.appendChild(el);
