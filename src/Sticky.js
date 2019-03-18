@@ -97,21 +97,21 @@ export default class Sticky {
     }
   }
   static registerBlock(name, obj) {
-    this.prototype.__blocks[name] = {
+    this.prototype._refBlocks[name] = {
       ...obj,
       id: name,
       behavior: typeof obj.behavior !== 'function' ? new Function('findById', obj.behavior) : obj.behavior
     }
   }
   createBlock(name, data = {}) {
-    const cfg = this.blocks[name] || this.__blocks[name];
+    const cfg = this.blocks[name] || this._refBlocks[name];
 
     if (!cfg) throw `Block '${name}' not registered`;
 
     return new Brick({ ...cfg, ...data });
   }
   static createBlock(name, data = {}) {
-    const cfg = this.prototype.__blocks[name];
+    const cfg = this.prototype._refBlocks[name];
 
     if (!cfg) throw "Block not registered";
 
@@ -142,7 +142,7 @@ export default class Sticky {
       return object;
     });
 
-    let refBlock = Object.entries(this.__blocks).map(
+    let refBlock = Object.entries(this._refBlocks).map(
       ([blockId, block]) => ({
         ...block,
         behavior: block.behavior.toString(),
@@ -223,7 +223,7 @@ export default class Sticky {
 
     let step = 0;
     do {
-      refBlock = this.blocks[block._refBlock] || this.__blocks[block._refBlock];
+      refBlock = this.blocks[block._refBlock] || this._refBlocks[block._refBlock];
       flow = refBlock.behavior.call(block, findById);
       id = get(block._ports, ['flow_out', flow, '_conn', 0, 'brick'], null);
       block = findById(id);
@@ -237,4 +237,4 @@ export default class Sticky {
   }
 }
 
-Sticky.prototype.__blocks = defaultBlocks || {};
+Sticky.prototype._refBlocks = defaultBlocks || {};
