@@ -1,4 +1,7 @@
-import blockBuilder, { htmlBlockBuilder } from './blockBuilder.js';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import blockBuilder, { htmlBlockBuilder, blockContainer } from './blockBuilder.js';
 import { getParentSvg } from './utils';
 import arrangePorts from './arrangePorts';
 
@@ -17,6 +20,13 @@ const defaultConfig = {
   gui: {},
 }
 
+const Component = ({ title }) => (
+  <body>
+    <header>{title}</header>
+    <h1>hey</h1>
+  </body>
+)
+
 export default class Brick {
   constructor (custom = {}) {
     const cfg = { ...defaultConfig, ...custom };
@@ -24,9 +34,12 @@ export default class Brick {
 
     // this._id = id;
     this.inputs = inputs || {};
-    this._el = (RENDER_HTML ? htmlBlockBuilder : blockBuilder)(this, cfg);
-    this.behavior = behavior;
     this._container = null;
+    // this._el = (RENDER_HTML ? htmlBlockBuilder : blockBuilder)(this, cfg);
+    const { svg, foreign } = blockContainer(this, cfg);
+    this._el = svg;
+    ReactDOM.render(<Component title={title} />, foreign);
+    this.behavior = behavior;
     this._refBlock = id;
     this.x = x || 0;
     this.y = y || 0;
@@ -54,18 +67,9 @@ export default class Brick {
   set x (val) { return this._el.setAttribute('x', val); }
   set y (val) { return this._el.setAttribute('y', val); }
 
-  attr (key, value) {
-    if (value) return this._el.setAttribute(key, value);
-    else if (key) return this._el.getAttribute(key);
-  }
-
   detach () {
     this._el.parentNode.removeChild(this._el);
     return this;
-  }
-
-  arrangePorts () {
-
   }
 
   delete () {

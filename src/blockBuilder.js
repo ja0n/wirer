@@ -14,7 +14,7 @@ const example = {
   },
 };
 
-const blockContainer = ({ wrapper, width }) => {
+export const blockContainer = (wrapper, { width }) => {
   const svg = createElement('svg');
   svg.wrapper = wrapper;
   svg.type = 'block';
@@ -32,8 +32,10 @@ const blockContainer = ({ wrapper, width }) => {
 
 export function htmlBlockBuilder (wrapper, cfg) {
   const { width, gui, title, fill } = cfg;
-  const { svg, foreign } = blockContainer({ wrapper, width });
+  const { svg, foreign } = blockContainer(wrapper, cfg);
   const body = document.createElement('body');
+  foreign.appendChild(body);
+  return svg;
   body.innerHTML = /*html*/`
     <header>${title}</header>
   `;
