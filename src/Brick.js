@@ -51,10 +51,8 @@ export default class Brick {
   get _svg () { return getParentSvg(this._el); }
   get x () { return this._el.getAttribute('x') * 1; } // force coercion
   get y () { return this._el.getAttribute('y') * 1; }
-  get text () { return this._el.innerHTML; }
   set x (val) { return this._el.setAttribute('x', val); }
   set y (val) { return this._el.setAttribute('y', val); }
-  set text (val) { return (this._el.innerHTML = val); }
 
   attr (key, value) {
     if (value) return this._el.setAttribute(key, value);
