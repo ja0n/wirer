@@ -14,11 +14,17 @@ const example = {
   },
 };
 
-export const blockContainer = (wrapper, { width }) => {
+export const blockContainer = (wrapper) => {
   const svg = createElement('svg');
   svg.wrapper = wrapper;
   svg.type = 'block';
   svg.style.overflow = 'visible';
+  return svg;
+};
+
+export function htmlBlockBuilder (wrapper, cfg) {
+  const { width, gui, title, fill } = cfg;
+  const svg = blockContainer(wrapper);
   var attrs = {
     width: Math.max(60, width),
     class: 'sticky-block-html',
@@ -26,16 +32,8 @@ export const blockContainer = (wrapper, { width }) => {
   }
   const foreign = createElement('foreignObject', { ...attrs });
   svg.appendChild(foreign);
-
-  return { svg, foreign };
-};
-
-export function htmlBlockBuilder (wrapper, cfg) {
-  const { width, gui, title, fill } = cfg;
-  const { svg, foreign } = blockContainer(wrapper, cfg);
   const body = document.createElement('body');
   foreign.appendChild(body);
-  return svg;
   body.innerHTML = /*html*/`
     <header>${title}</header>
   `;

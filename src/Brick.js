@@ -20,11 +20,13 @@ const defaultConfig = {
   gui: {},
 }
 
-const Component = ({ title }) => (
-  <body>
-    <header>{title}</header>
-    <h1>hey</h1>
-  </body>
+const Component = ({ title, width }) => (
+  <foreignObject id="main" className="sticky-block-html" width={Math.max(width, 60)}>
+    <body>
+      <header>{title}</header>
+      <h1>hey</h1>
+    </body>
+  </foreignObject>
 )
 
 export default class Brick {
@@ -36,9 +38,8 @@ export default class Brick {
     this.inputs = inputs || {};
     this._container = null;
     // this._el = (RENDER_HTML ? htmlBlockBuilder : blockBuilder)(this, cfg);
-    const { svg, foreign } = blockContainer(this, cfg);
-    this._el = svg;
-    ReactDOM.render(<Component title={title} />, foreign);
+    this._el = blockContainer(this, cfg);
+    ReactDOM.render(<Component title={title} width={cfg.width} />, this._el);
     this.behavior = behavior;
     this._refBlock = id;
     this.x = x || 0;
@@ -50,8 +51,6 @@ export default class Brick {
     };
 
     this.wires = [];
-
-    this._aux = { attaching: {} };
     this._states = { dragging: false };
 
     arrangePorts.call(this, ports, gui);

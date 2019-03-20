@@ -13,6 +13,9 @@
 }
 
 .sticky-block-html {
+    min-width: 60px;
+    overflow: visible;
+
     * {
         max-width: 100%;
     }
