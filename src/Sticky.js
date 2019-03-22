@@ -186,7 +186,7 @@ export default class Sticky {
     let block = this._objects.find(({ _refBlock }) => _refBlock == 'start');
 
     if (!block) {
-      console.warning('Start block not found');
+      console.warn('Start block not found');
       return false;
     }
 

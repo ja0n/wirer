@@ -14,7 +14,7 @@ const example = {
   },
 };
 
-export const blockContainer = (wrapper) => {
+export const SVGContainer = (wrapper) => {
   const svg = createElement('svg');
   svg.wrapper = wrapper;
   svg.type = 'block';
@@ -24,7 +24,7 @@ export const blockContainer = (wrapper) => {
 
 export function htmlBlockBuilder (wrapper, cfg) {
   const { width, gui, title, fill } = cfg;
-  const svg = blockContainer(wrapper);
+  const svg = SVGContainer(wrapper);
   var attrs = {
     width: Math.max(60, width),
     class: 'sticky-block-html',

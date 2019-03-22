@@ -1,9 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import get from 'lodash/get';
+import set from 'lodash/set';
+import forEach from 'lodash/forEach';
 
-import blockBuilder, { htmlBlockBuilder, blockContainer } from './blockBuilder.js';
+import { SVGContainer } from './blockBuilder';
 import { getParentSvg } from './utils';
 import arrangePorts from './arrangePorts';
+import { Node } from './react/components';
 
 const RENDER_HTML = true;
 
@@ -20,39 +24,52 @@ const defaultConfig = {
   gui: {},
 }
 
-const Component = ({ title, width }) => (
-  <foreignObject id="main" className="sticky-block-html" width={Math.max(width, 60)}>
-    <body>
-      <header>{title}</header>
-      <h1>hey</h1>
-    </body>
-  </foreignObject>
-)
-
 export default class Brick {
   constructor (custom = {}) {
+    this.inputs = inputs || {};
     const cfg = { ...defaultConfig, ...custom };
     const { behavior, title, ports, icon, gui, id, x, y, inputs } = cfg;
 
-    // this._id = id;
-    this.inputs = inputs || {};
-    this._container = null;
-    // this._el = (RENDER_HTML ? htmlBlockBuilder : blockBuilder)(this, cfg);
-    this._el = blockContainer(this, cfg);
-    ReactDOM.render(<Component title={title} width={cfg.width} />, this._el);
-    this.behavior = behavior;
     this._refBlock = id;
+    this._container = null;
+    this._el = SVGContainer(this, cfg);
+    this.behavior = behavior;
+    this.gui = Object.assign({}, gui);
+    this.inputs = Object.assign({}, gui);
+    this.values = inputs || {};
+    this.inputs = inputs || {};
     this.x = x || 0;
     this.y = y || 0;
-
     this._ports = {
       in: [],
       out: []
     };
-
     this.wires = [];
     this._states = { dragging: false };
 
+    // TODO(ja0n): Refactor the gui|inputs|values mess
+    forEach(inputs, (value, id) => {
+      set(this.gui, [id, 'initialValue'], value);
+      set(this.gui, [id, 'value'], value);
+    });
+
+    const onChange = ({ id, value }) => {
+      set(this.inputs, [id, 'value'], value);
+      this.inputs = { ...this.inputs, [id]: value };
+    }
+
+    ReactDOM.render(
+      <Node
+        title={title}
+        width={cfg.width}
+        bgColor={cfg.fill}
+        gui={this.gui}
+        inputs={this.inputs}
+        values={this.values}
+        onChange={onChange}
+      />,
+      this._el
+    );
     arrangePorts.call(this, ports, gui);
 
     return this;
@@ -96,4 +113,5 @@ export default class Brick {
     if (id) return (this._behavior(args))[id];
     else    return this._behavior(args);
   }
+
 }
