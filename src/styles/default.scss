@@ -20,7 +20,7 @@
         max-width: 100%;
     }
     body {
-        overflow: hidden;
+        overflow: visible;
         background-color: red;
         border: 2px solid black;
         border-radius: 16px;
@@ -36,9 +36,12 @@
         border-bottom: 2px solid black;
         text-align: center;
         background-color: #c1c1c1;
+        border-top-left-radius: 14px;
+        border-top-right-radius: 14px;
     }
     section {
-        margin: 0px 8px 10px;
+        margin: 0px 0px 10px;
+        margin: 0;
     }
     input,
     select {
@@ -50,4 +53,43 @@
     label {
         font-size: 12px;
     }
+}
+
+.sticky-block-section {
+    display: flex;
+
+    svg {
+        width: 14px;
+        height: 14px;
+        overflow: visible;
+        margin: auto;
+    }
+
+    aside {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 40px;
+        min-width: 14px;
+        margin: 10px 0;
+
+        circle {
+            transform: translate(7px, 7px);
+        }
+
+        &.left {
+            position: relative;
+            right: 7px;
+        }
+
+        &.right {
+            position: relative;
+            left: 7px;
+        }
+    }
+
+    article {
+        flex: 1;
+    }
+
 }

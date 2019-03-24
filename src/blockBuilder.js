@@ -19,6 +19,7 @@ export const SVGContainer = (wrapper) => {
   svg.wrapper = wrapper;
   svg.type = 'block';
   svg.style.overflow = 'visible';
+
   return svg;
 };
 

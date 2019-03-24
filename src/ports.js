@@ -1,16 +1,16 @@
 import Port from './Port.js';
 
 export class DataPort extends Port {
-  constructor ({ id, dir, brick }) {
-    super({ id, dir, brick, type: 'data' });
+  constructor ({ id, dir, brick, ref }) {
+    super({ id, dir, brick, ref, type: 'data' });
 
     const opts = { fill: '#B8D43' };
   }
 }
 
 export class FlowPort extends Port {
-  constructor ({ id, dir, brick }) {
-    super({ id, dir, brick, type: 'flow' });
+  constructor ({ id, dir, brick, ref }) {
+    super({ id, dir, brick, ref, type: 'flow' });
 
     this._maxcon = 1;
 

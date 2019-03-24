@@ -79,8 +79,10 @@ export default class Render {
   }
 
   addWire (wire) {
-    if (!wire.seal())
+    if (!wire.seal()) {
+      this.removeElement(wire._el);
       return false;
+    }
 
     wire.render();
     this._wires.push(wire);

@@ -42,7 +42,9 @@ export default class Brick {
     this.y = y || 0;
     this._ports = {
       in: [],
-      out: []
+      out: [],
+      flow_in: [],
+      flow_out: [],
     };
     this.wires = [];
     this._states = { dragging: false };
@@ -58,6 +60,8 @@ export default class Brick {
       this.inputs = { ...this.inputs, [id]: value };
     }
 
+    console.debug('ports', ports);
+
     ReactDOM.render(
       <Node
         title={title}
@@ -66,11 +70,13 @@ export default class Brick {
         gui={this.gui}
         inputs={this.inputs}
         values={this.values}
+        wrapper={this}
+        ports={ports || {}}
         onChange={onChange}
       />,
       this._el
     );
-    arrangePorts.call(this, ports, gui);
+    // arrangePorts.call(this, ports, gui);
 
     return this;
   }
@@ -100,10 +106,10 @@ export default class Brick {
   }
 
   getValue (id) {
-    // var args = this._
     var args = [];
     var In = this._ports.in;
 
+    // const args = this._ports.in.reduce()
     for (let i = 0; i < In.length; i++) {
       args.push([]);
       for (let j = 0; j < In[i].length; j++)
