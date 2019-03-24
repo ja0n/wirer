@@ -36,7 +36,7 @@ const Input = ({ label, type, value, onChange }) => {
   return (
     <label>
       {label}
-      <input type={type} value={value} onChange={onChange} />
+      <input type={type} defaultValue={value} onChange={onChange} />
     </label>
   )
 };
@@ -47,9 +47,9 @@ const Select = ({ label, options, value, onChange }) => {
   return (
     <label>
       {label}
-      <select value={value} onChange={onChange}>
+      <select defaultValue={value} onChange={onChange}>
         {options.map(value => (
-          <option key={value} value={value}>{value}</option>
+          <option key={value} defaultValue={value}>{value}</option>
         ))}
       </select>
     </label>

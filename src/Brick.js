@@ -54,7 +54,7 @@ export default class Brick {
     });
 
     const onChange = ({ id, value }) => {
-      set(this.inputs, [id, 'value'], value);
+      set(this.inputs, [id], value);
       this.inputs = { ...this.inputs, [id]: value };
     }
 
