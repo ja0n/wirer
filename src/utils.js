@@ -11,3 +11,9 @@ export function createElement(name, attrs) {
     el.setAttribute(key, attrs[key]);
   return el;
 }
+
+export const colors = [
+  "#B8D430", "#3AB745", "#029990", "#3501CB",
+  "#2E2C75", "#673A7E", "#CC0071", "#F80120",
+  "#F35B20", "#FB9A00", "#FFCC00", "#FEF200",
+];

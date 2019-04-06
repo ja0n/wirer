@@ -17,7 +17,6 @@ document.getElementById('run').onclick = function() {
 
 
 function loadExample (event) {
-  canvas.clearCanvas(false);
   canvas.loadJSON(flowsJSON[event.target.dataset.index]);
 };
 

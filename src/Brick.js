@@ -6,10 +6,7 @@ import forEach from 'lodash/forEach';
 
 import { SVGContainer } from './blockBuilder';
 import { getParentSvg } from './utils';
-import arrangePorts from './arrangePorts';
 import { Node } from './react/components';
-
-const RENDER_HTML = true;
 
 const defaultConfig = {
   strokeWidth: 3,
@@ -26,7 +23,6 @@ const defaultConfig = {
 
 export default class Brick {
   constructor (custom = {}) {
-    this.inputs = inputs || {};
     const cfg = { ...defaultConfig, ...custom };
     const { behavior, title, ports, icon, gui, id, x, y, inputs } = cfg;
 
@@ -76,7 +72,6 @@ export default class Brick {
       />,
       this._el
     );
-    // arrangePorts.call(this, ports, gui);
 
     return this;
   }
