@@ -97,6 +97,12 @@ export default class Render {
     return true;
   }
 
+  removeWire (wire) {
+    const index = this._wires.indexOf(wire);
+    if (index == -1) return;
+    this._wires.splice(index, 1);
+  }
+
   sealOrDiscard (...cps) {
     const wire = new Wire(...cps);
 

@@ -39,16 +39,9 @@ export default class Sticky {
     let index = this._objects.indexOf(obj);
     if (index == -1) return;
 
-    for (let port_type of Object.keys(obj._ports)) {
-      if (obj._ports[port_type].length) { // if there's any connection
-        for (let port of obj._ports[port_type]) {
-          // port.dettach();
-        }
-      }
-    }
-
     for (let wire of [...obj.wires]) {
       wire.delete();
+      this.render.removeWire(wire);
     }
 
     // TODO(ja0n): should splice wires too

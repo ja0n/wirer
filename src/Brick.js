@@ -72,16 +72,11 @@ export default class Brick {
   set x (val) { return this._el.setAttribute('x', val); }
   set y (val) { return this._el.setAttribute('y', val); }
 
-  detach () {
-    this._el.parentNode.removeChild(this._el);
-    return this;
-  }
-
   delete () {
     for (let wire of [...this.wires])
       wire.delete();
 
-    this.detach();
+    this._el.parentNode.removeChild(this._el);
   }
 
   updateWires () {
