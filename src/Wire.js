@@ -66,8 +66,8 @@ Wire.prototype = {
   },
   seal() {
     if(this._cp1.direction == this._cp2.direction) return false;
-    var wrapper1 = this._cp1._brick;
-    var wrapper2 = this._cp2._brick;
+    var wrapper1 = this._cp1._node;
+    var wrapper2 = this._cp2._node;
 
     if(this._cp1.attach(this._cp2)) {
       wrapper1.wires.push(this);
@@ -79,8 +79,8 @@ Wire.prototype = {
 
   },
   delete() {
-    var wrapper1 = this._cp1._brick;
-    var wrapper2 = this._cp2._brick;
+    var wrapper1 = this._cp1._node;
+    var wrapper2 = this._cp2._node;
     spliceByIndex(wrapper1.wires, this);
     spliceByIndex(wrapper2.wires, this);
     this._cp1.dettach(this._cp2);

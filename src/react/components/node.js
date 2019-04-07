@@ -1,5 +1,6 @@
 import React from 'react';
 import _findIndex from 'lodash/findIndex';
+import _times from 'lodash/times';
 
 import Form from './form';
 import { DataPort, FlowPort } from './../../ports.js';
@@ -34,29 +35,27 @@ export const Node = ({ title, width, gui, inputs, values, onChange, bgColor, wra
 const Section = ({ children, wrapper, ports: { data_in, data_out, flow_in, flow_out } }) => (
   <section className="sticky-block-section">
     <aside className="left">
-      {(new Array(flow_in)).fill(null).map((_, index) => (
-        <Port key={index} id={index} direction={'in'} brick={wrapper} type="flow" />
-      ))}
-      {(new Array(data_in)).fill(null).map((_, index) => (
-        <Port key={index} id={index} direction={'in'} brick={wrapper} type="data" />
-      ))}
+      <PortList wrapper={wrapper} type="flow" direction="in" length={flow_in} />
+      <PortList wrapper={wrapper} type="data" direction="in" length={data_in} />
     </aside>
     <article>{children}</article>
     <aside className="right">
-      {(new Array(flow_out)).fill(null).map((_, index) => (
-        <Port key={index} id={index} direction={'out'} brick={wrapper} type="flow" />
-      ))}
-      {(new Array(data_out)).fill(null).map((_, index) => (
-        <Port key={index} id={index} direction={'out'} brick={wrapper} type="data" />
-      ))}
+      <PortList wrapper={wrapper} type="flow" direction="out" length={flow_out} />
+      <PortList wrapper={wrapper} type="data" direction="out" length={data_out} />
     </aside>
   </section>
 );
 
+const PortList = ({ wrapper, type, direction, length }) => (
+  <React.Fragment>
+    {_times(length, (index) => (
+      <Port key={index} id={index} node={wrapper} type={type} direction={direction} />
+    ))}
+  </React.Fragment>
+);
 
-
-const Port = ({ children, id, type, direction, brick }) => {
-  // brick._ports.{ in: [], out: [], flow_in: [], flow_out: [] };
+const Port = ({ children, id, type, direction, node }) => {
+  // node._ports.{ in: [], out: [], flow_in: [], flow_out: [] };
   function setupInstance (ref) {
     if (!ref) return null;
     const types = {
@@ -68,17 +67,22 @@ const Port = ({ children, id, type, direction, brick }) => {
       throw `Port of type "${type}" not found`;
 
     const { constructor, key } = types[type];
-    const port = new constructor({ id, brick, direction, ref });
-    const currentIndex = _findIndex(brick._ports[key], { id })
+    const port = new constructor({ id, node, direction, ref });
+    const currentIndex = _findIndex(node._ports[key], { id })
     if (currentIndex != -1)
-      brick._ports[key][currentIndex] = port;
+      node._ports[key][currentIndex] = port;
     else
-      brick._ports[key].push(port);
+      node._ports[key].push(port);
   }
+
+  const circleProps = { r: 7, fill: '#B8D430', stroke: 'black', strokeWidth: 2.5 };
 
   return (
     <svg style={{ overflow: 'visible' }}>
-      <circle ref={setupInstance}></circle>
+      <circle
+       {...circleProps}
+        ref={setupInstance}
+      />
     </svg>
   );
 };

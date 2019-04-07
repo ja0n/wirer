@@ -1,51 +1,45 @@
 import { getParentSvg } from './utils';
 
 export default class Port {
-  constructor({ id, type, direction, brick, ref }) {
+  constructor({ id, type, direction, node, ref }) {
     if (!['in', 'out'].includes(direction))
       throw "port direction must be 'in' or 'out'";
     if (!['data', 'flow'].includes(type))
       throw "type must be 'data' or 'flow'";
-    // var attrs = { width: 30, height: 30, fill: '#B8D430', stroke: 'black', 'stroke-width': 3 };
-    var attrs = { r: 7, fill: '#B8D430', stroke: 'black', 'stroke-width': 2.5 };
-
-    // Object.assign(attrs, { wrapper: this, type: 'port', direction: direction });
-    // this._el = createElement('circle', attrs);
-
-    console.debug("ref", ref);
+    console.debug("Port ref", ref);
     this._el = ref;
-    this._el.wrapper = this;
-    this._el.type = 'port';
-    this._el.direction = direction;
 
-    for (let key in attrs)
-      this._el.setAttribute(key, attrs[key]);
+    Object.assign(this._el, {
+      wrapper: this,
+      type: 'port',
+      direction: direction,
+    });
 
-    this._brick = brick;
-    this._maxcon = 2;
-    this._conn = [];
-    this.id = id;
-    this.type = type;
-    this.direction = direction; //direction -> directionection, not directionectory
+    Object.assign(this, {
+      _node: node,
+      _max_conn: 2,
+      _conn: [],
+      id: id,
+      type: type,
+      direction: direction,
+    });
   }
 
   get x() {
     const [portBBox, nodeBBox] = this.getBBoxes();
     return portBBox.x - nodeBBox.x + portBBox.width / 2;
-    return this.attr('cx') * 1;
   }
 
   get y() {
     const [portBBox, nodeBBox] = this.getBBoxes();
     return portBBox.y - nodeBBox.y + portBBox.height / 2;
-    return this.attr('cy') * 1;
   }
 
-  get available () { return this._conn.length < this._maxcon; }
+  get available () { return this._conn.length < this._max_conn; }
 
   getBBoxes() {
     const portSVG = getParentSvg(this._el);
-    const nodeSVG = this._brick._el;
+    const nodeSVG = this._node._el;
 
     return [portSVG.getBoundingClientRect(), nodeSVG.getBoundingClientRect()];
   }
@@ -56,18 +50,18 @@ export default class Port {
   }
 
   value () {
-    this._brick.getValue();
+    this._node.getValue();
     // this.wrapper.getValue(this._id);
   }
 
   getPoint () {
-    return { x: this._brick.x + this.x, y: this._brick.y + this.y };
+    return { x: this._node.x + this.x, y: this._node.y + this.y };
   }
 
   attach (to) {
     if(this.canAttach(to)) {
-      this._conn.push({ brick: to._brick._id, id: to.id });
-      to._conn.push({ brick: this._brick._id, id: this.id });
+      this._conn.push({ brick: to._node._id, id: to.id });
+      to._conn.push({ brick: this._node._id, id: this.id });
       // console.log(this, to);
       return true;
     }
@@ -75,8 +69,8 @@ export default class Port {
   }
 
   dettach (to) {
-    let index1 = this._conn.indexOf({ brick: to._brick._id, id: to.id });
-    let index2 = this._conn.indexOf({ brick: this._brick._id, id: this.id });
+    let index1 = this._conn.indexOf({ brick: to._node._id, id: to.id });
+    let index2 = this._conn.indexOf({ brick: this._node._id, id: this.id });
     // guess it's not working ^
     this._conn.splice(index1, 1);
     to._conn.splice(index2, 1);
