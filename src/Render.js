@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { register } from './dom-handler.js'
 import Wire from './Wire.js';
-import { NodeGraph } from './react/components';
-
 import { createElement } from './utils';
+
+import { register } from './dom-handler.js'
+import { NodeGraph } from './react/components';
 
 const config = { width: 800, height: 600 };
 
@@ -39,7 +39,6 @@ export default class Render {
 
   matchViewBox() {
     const { width, height } = this._svg.getBoundingClientRect();
-
     this._svg.setAttribute('viewBox', `0, 0, ${width} ${height}`);
   }
 
@@ -48,7 +47,6 @@ export default class Render {
     this._svg.style.height = height;
     this._svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   }
-
 
   addElement (el) {
     this._svg.appendChild(el);
