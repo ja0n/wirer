@@ -19,7 +19,7 @@ export function register () {
       return this.selectedWire = target.wrapper;
     }
 
-    if (target.type === 'port' && target.dir === 'out') {
+    if (target.type === 'port' && target.direction === 'out') {
       return this.startAttach(target);
     }
 

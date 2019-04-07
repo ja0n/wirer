@@ -1,20 +1,22 @@
 import { getParentSvg } from './utils';
 
 export default class Port {
-  constructor({ id, type, dir, brick, ref }) {
-    if (!['in', 'out'].includes(dir)) throw "port direction must be 'in' or 'out'";
-    if (!['data', 'flow'].includes(type)) throw "type must be 'data' or 'flow'";
+  constructor({ id, type, direction, brick, ref }) {
+    if (!['in', 'out'].includes(direction))
+      throw "port direction must be 'in' or 'out'";
+    if (!['data', 'flow'].includes(type))
+      throw "type must be 'data' or 'flow'";
     // var attrs = { width: 30, height: 30, fill: '#B8D430', stroke: 'black', 'stroke-width': 3 };
     var attrs = { r: 7, fill: '#B8D430', stroke: 'black', 'stroke-width': 2.5 };
 
-    // Object.assign(attrs, { wrapper: this, type: 'port', dir: dir });
+    // Object.assign(attrs, { wrapper: this, type: 'port', direction: direction });
     // this._el = createElement('circle', attrs);
 
     console.debug("ref", ref);
     this._el = ref;
     this._el.wrapper = this;
     this._el.type = 'port';
-    this._el.dir = dir;
+    this._el.direction = direction;
 
     for (let key in attrs)
       this._el.setAttribute(key, attrs[key]);
@@ -24,7 +26,7 @@ export default class Port {
     this._conn = [];
     this.id = id;
     this.type = type;
-    this.dir = dir; //dir -> direction, not directory
+    this.direction = direction; //direction -> directionection, not directionectory
   }
 
   get x() {

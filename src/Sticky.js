@@ -16,17 +16,23 @@ export default class Sticky {
     this._objects = [];
     this._wires = [];
 
-    this.render = new Render(id, { width, height });
+    this.render = new Render(id, { width, height, wrapper: this });
     this.clearCanvas();
-    this.addStartNode();
 
     return this;
   }
 
+  get nodes() {
+    return this._objects;
+  }
+
   addObj(obj) {
     if (obj._id == null) obj._id = this._uid++;
+    // this._objects = [...this._objects, obj];
     this._objects.push(obj);
-    this.render.addElement(obj._el);
+    if (this.render.react)
+      this.render.react.forceUpdate();
+    // this.render.addElement(obj._el);
   }
 
   removeObj(obj, update) {
@@ -44,8 +50,6 @@ export default class Sticky {
     for (let wire of [...obj.wires]) {
       wire.delete();
     }
-
-    this.render.removeElement(obj._el);
 
     // TODO(ja0n): should splice wires too
     if (update)

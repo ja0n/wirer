@@ -65,7 +65,7 @@ Wire.prototype = {
       element.setAttribute('d', d);
   },
   seal() {
-    if(this._cp1.dir == this._cp2.dir) return false;
+    if(this._cp1.direction == this._cp2.direction) return false;
     var wrapper1 = this._cp1._brick;
     var wrapper2 = this._cp2._brick;
 

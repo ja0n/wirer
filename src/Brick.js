@@ -30,6 +30,7 @@ export default class Brick {
     this._container = null;
     this._el = SVGContainer(this, cfg);
     this.behavior = behavior;
+    this.cfg = cfg;
     this.gui = Object.assign({}, gui);
     this.inputs = Object.assign({}, gui);
     this.values = inputs || {};
@@ -55,24 +56,11 @@ export default class Brick {
       set(this.inputs, [id], value);
       this.inputs = { ...this.inputs, [id]: value };
     }
+    this.onChange = onChange;
 
     console.debug('ports', ports);
 
-    ReactDOM.render(
-      <Node
-        title={title}
-        width={cfg.width}
-        bgColor={cfg.fill}
-        gui={this.gui}
-        inputs={this.inputs}
-        values={this.values}
-        wrapper={this}
-        ports={ports || {}}
-        onChange={onChange}
-      />,
-      this._el
-    );
-
+    // ReactDOM.render(<Node {...props} />, this._el);
     return this;
   }
 

@@ -1,6 +1,9 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 import { register } from './dom-handler.js'
 import Wire from './Wire.js';
-import Brick from './Brick.js';
+import { NodeGraph } from './react/components';
 
 import { createElement } from './utils';
 
@@ -8,7 +11,7 @@ const config = { width: 800, height: 600 };
 
 export default class Render {
   constructor (id, cfg) {
-    const { width, height } = { ...config, ...cfg };
+    const { width, height, wrapper } = { ...config, ...cfg };
     this.el = document.getElementById(id);
     this._aux = {};
     this._state = null;
@@ -26,6 +29,10 @@ export default class Render {
     this.el.appendChild(this._svg);
 
     register.call(this);
+    ReactDOM.render(
+      <NodeGraph ref={el => this.react = el} getNodes={() => wrapper.nodes} />,
+      this._svg
+    );
 
     return this;
   }
@@ -60,7 +67,7 @@ export default class Render {
 
   startAttach (port) {
     let wire = new Wire(port.wrapper);
-    wire._inverted = port.wrapper.dir === 'in';
+    wire._inverted = port.wrapper.direction === 'in';
     this.setState('attaching');
     this._aux['wire'] = wire;
     this.addElement(wire._el);

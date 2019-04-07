@@ -1,6 +1,6 @@
 export const toJSON = (nodes, nodeRefs) => {
   const fluxgram = nodes.map(node => {
-    let nodeect = {
+    let object = {
       refBlock: node._refBlock,
       inputs: node.inputs,
       id: node._id,
@@ -11,10 +11,10 @@ export const toJSON = (nodes, nodeRefs) => {
 
     for (let type in node._ports) {
       console.debug('to JSON - ', type, node._ports[type]);
-      nodeect.ports[type] = node._ports[type].map(port => [...port._conn]);
+      object.ports[type] = node._ports[type].map(port => [...port._conn]);
     }
 
-    return nodeect;
+    return object;
   });
 
 

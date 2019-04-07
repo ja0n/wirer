@@ -1,7 +1,24 @@
 import React from 'react';
+import _findIndex from 'lodash/findIndex';
 
 import Form from './form';
 import { DataPort, FlowPort } from './../../ports.js';
+
+export class SVGContainer extends React.PureComponent {
+  render () {
+    const { children, wrapper } = this.props
+    console.debug('SVGContainer rendering', wrapper);
+    function setupInstance(ref) {
+      if (!ref) return null;
+      ref.wrapper = wrapper;
+      ref.type = 'block';
+      ref.style.overflow = 'visible';
+      wrapper._el = ref;
+    }
+
+    return <svg x={wrapper.x} y={wrapper.y} ref={setupInstance}>{children}</svg>;
+  }
+}
 
 export const Node = ({ title, width, gui, inputs, values, onChange, bgColor, wrapper, ports }) => (
   <foreignObject id="main" className="sticky-block-html" width={Math.max(width, 60)} height="80">
@@ -37,21 +54,26 @@ const Section = ({ children, wrapper, ports: { data_in, data_out, flow_in, flow_
 );
 
 
-const Port = ({ children, id, type, direction, brick }) => {
-  // brick._ports.in = [];
-  // brick._ports.out = [];
-  // brick._ports.flow_in = [];
-  // brick._ports.flow_out = [];
 
+const Port = ({ children, id, type, direction, brick }) => {
+  // brick._ports.{ in: [], out: [], flow_in: [], flow_out: [] };
   function setupInstance (ref) {
-    if (type == 'data') {
-      let port = new DataPort({ id, brick, dir: direction, ref });
-      brick._ports[direction].push(port);
-    }
-    if (type == 'flow') {
-      let port = new FlowPort({ id, brick, dir: direction, ref });
-      brick._ports[`flow_${direction}`].push(port);
-    }
+    if (!ref) return null;
+    const types = {
+      'data': { constructor: DataPort, key: `${direction}` },
+      'flow': { constructor: FlowPort, key: `flow_${direction}` },
+    };
+
+    if (!types[type])
+      throw `Port of type "${type}" not found`;
+
+    const { constructor, key } = types[type];
+    const port = new constructor({ id, brick, direction, ref });
+    const currentIndex = _findIndex(brick._ports[key], { id })
+    if (currentIndex != -1)
+      brick._ports[key][currentIndex] = port;
+    else
+      brick._ports[key].push(port);
   }
 
   return (
