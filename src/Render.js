@@ -11,30 +11,39 @@ const config = { width: 800, height: 600 };
 
 export default class Render {
   constructor (id, cfg) {
-    const { width, height, wrapper } = { ...config, ...cfg };
-    this.el = document.getElementById(id);
+    this.config = { ...config, ...cfg };
     this._aux = {};
     this._state = null;
     this._wires = [];
 
-    if (!this.el)
-      throw "Couldn't find element :(";
+    const element = document.getElementById(id);
+    if (element) {
+      this.loadContainer(element);
+    }
 
+    return this;
+  }
+
+  loadContainer (element) {
+    const { width, height, wrapper, Component } = this.config;
     const svg = createElement('svg', { class: 'svg-content', preserveAspectRatio: "xMidYMid meet" });
     this._svg = svg;
     this.matchViewBox();
     this.setCanvasSize({ width, height });
 
-    this.el.classList.add('sticky__canvas');
-    this.el.appendChild(this._svg);
+    element.classList.add('sticky__canvas');
+    element.appendChild(this._svg);
+    this.el = element;
 
     register.call(this);
     ReactDOM.render(
-      <NodeGraph ref={el => this.react = el} getNodes={() => wrapper.nodes} />,
+      <NodeGraph
+       ref={el => this.react = el}
+       getNodes={() => wrapper.nodes}
+       />,
       this._svg
     );
 
-    return this;
   }
 
   matchViewBox() {
