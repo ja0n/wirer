@@ -1,15 +1,18 @@
 .sticky__canvas {
     font-family: 'Work Sans', sans-serif;
-    background-color: #fff9da;
     border: 1px solid black;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
     cursor: default;
-  background-image: linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);
-    background-size: 50px 50px;
 
+}
+
+.svg-content {
+    background-color: #fff9da;
+    background-image: linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);
+    background-size: 50px 50px;
 }
 
 .sticky-block-html {

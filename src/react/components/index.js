@@ -1,5 +1,6 @@
 import React from 'react';
 import { Node, SVGContainer } from './node';
+export { default as Container } from './container'
 
 export { Node, SVGContainer };
 const deriveProps = node => ({
