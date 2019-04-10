@@ -5,16 +5,17 @@ const initialBlocks = ['SourceNumber', 'SourceNumber', 'Alert', 'Sum', 'Operatio
 const getRandom = (min, max) => min + (Math.random() * (max - min));
 
 const blocks = initialBlocks.map(blockName => {
-  const block = canvas.createBlock(blockName);
-  block.x = getRandom(200, 800);
-  block.y = getRandom(200, 600);
-  canvas.addObj(block);
-})
+  return canvas.createBlock(blockName, {
+    x: getRandom(200, 800),
+    y: getRandom(200, 600),
+  });
+});
+
+canvas.addNodes(blocks);
 
 document.getElementById('run').onclick = function() {
   canvas.run();
 };
-
 
 function loadExample (event) {
   canvas.loadJSON(flowsJSON[event.target.dataset.index]);

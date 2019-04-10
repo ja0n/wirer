@@ -67,7 +67,7 @@ export default class Render {
   }
 
   startDrag (port) {
-    this.setState('attaching');
+    this.setState('dragging');
     this._aux['wire'] = wire;
     this.addElement(wire._el);
   }

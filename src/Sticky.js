@@ -26,13 +26,19 @@ export default class Sticky {
     return this._objects;
   }
 
-  addObj(obj) {
-    if (obj._id == null) obj._id = this._uid++;
-    // this._objects = [...this._objects, obj];
-    this._objects.push(obj);
+  addNodes(nodes) {
+    for (let node of nodes) {
+      if (node._id == null) node._id = this._uid++;
+      // this._objects = [...this._objects, obj];
+      this._objects.push(node);
+    }
+
     if (this.render.react)
       this.render.react.forceUpdate();
-    // this.render.addElement(obj._el);
+  }
+
+  addObj(obj) {
+    this.addNodes([obj]);
   }
 
   removeObj(obj, update) {

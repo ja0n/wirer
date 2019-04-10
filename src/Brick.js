@@ -9,6 +9,8 @@ import { getParentSvg } from './utils';
 import { Node } from './react/components';
 
 const defaultConfig = {
+  x: 0,
+  y: 0,
   strokeWidth: 3,
   marginLeft: 0,
   width: 90,
