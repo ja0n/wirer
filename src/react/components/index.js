@@ -30,6 +30,8 @@ export const NodeList = ({ nodes }) => {
 
 export class NodeGraph extends React.Component {
   render() {
-    return <NodeList nodes={this.props.getNodes()} />
+    console.debug('NodeGraph');
+    const nodes = this.props.nodes || this.props.getNodes();
+    return <NodeList nodes={nodes} />
   }
 }

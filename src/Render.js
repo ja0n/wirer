@@ -18,32 +18,39 @@ export default class Render {
 
     const element = document.getElementById(id);
     if (element) {
-      this.loadContainer(element);
+      this.reactDOM(element);
     }
 
     return this;
   }
 
-  loadContainer (element) {
-    const { width, height, wrapper, Component } = this.config;
+  registerEvents () {
+    register.call(this);
+  }
+
+  reactDOM (element) {
+    const { wrapper, Component } = this.config;
     const svg = createElement('svg', { class: 'svg-content', preserveAspectRatio: "xMidYMid meet" });
-    this._svg = svg;
-    this.matchViewBox();
-    this.setCanvasSize({ width, height });
+    this.loadContainer(svg);
 
     element.classList.add('sticky__canvas');
     element.appendChild(this._svg);
-    this.el = element;
 
-    register.call(this);
     ReactDOM.render(
       <NodeGraph
-       ref={el => this.react = el}
-       getNodes={() => wrapper.nodes}
+        ref={ref => this.react = ref}
+        getNodes={() => wrapper.nodes}
        />,
-      this._svg
+       svg
     );
+  }
 
+  loadContainer (svg) {
+    const { width, height } = this.config;
+    this._svg = svg;
+    this.matchViewBox();
+    this.setCanvasSize({ width, height });
+    this.registerEvents();
   }
 
   matchViewBox() {
