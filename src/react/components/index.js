@@ -1,8 +1,8 @@
 import React from 'react';
-import { Node, SVGContainer } from './node';
+import { Node, NodeContainer } from './node';
 export { default as Container } from './container'
+export { Node, NodeContainer, Section } from './node';
 
-export { Node, SVGContainer };
 const deriveProps = node => ({
   wrapper: node,
   gui: node.gui,
@@ -15,14 +15,17 @@ const deriveProps = node => ({
   ports: node.cfg.ports || {},
 });
 
-export const NodeList = ({ nodes }) => {
+
+export const NodeList = ({ nodes, renderNode }) => {
   console.debug("NodeList - nodes prop:", nodes)
+  const NodeComponent = renderNode || Node;
+  console.debug('NodeList - NodeComponent', NodeComponent);
   return (
     <React.Fragment>
       {nodes.map(node => (
-        <SVGContainer key={node._id} wrapper={node} title={node.cfg.title}>
-          <Node {...deriveProps(node)} />
-        </SVGContainer>
+        <NodeContainer key={node._id} node={node}>
+          <NodeComponent {...deriveProps(node)} />
+        </NodeContainer>
       ))}
     </React.Fragment>
   );

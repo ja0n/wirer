@@ -21,18 +21,24 @@ export class SVGContainer extends React.PureComponent {
   }
 }
 
+export const NodeContainer = ({ children, width, node  }) => (
+  <SVGContainer wrapper={node} title={node.cfg.title}>
+    <foreignObject id="main" className="sticky-block-html" width={Math.max(node.cfg.width, 60)} height="80">
+      {children}
+    </foreignObject>
+  </SVGContainer>
+);
+
 export const Node = ({ title, width, gui, inputs, values, onChange, bgColor, wrapper, ports }) => (
-  <foreignObject id="main" className="sticky-block-html" width={Math.max(width, 60)} height="80">
-    <body style={{ backgroundColor: bgColor }}>
-      <header>{title}</header>
-      <Section wrapper={wrapper} ports={ports}>
-        <Form gui={gui} inputs={inputs} values={values} onChange={onChange} />
-      </Section>
-    </body>
-  </foreignObject>
+  <body style={{ backgroundColor: bgColor }}>
+    <header>{title}</header>
+    <Section wrapper={wrapper} ports={ports}>
+      <Form gui={gui} inputs={inputs} values={values} onChange={onChange} />
+    </Section>
+  </body>
 )
 
-const Section = ({ children, wrapper, ports: { data_in, data_out, flow_in, flow_out } }) => (
+export const Section = ({ children, wrapper, ports: { data_in, data_out, flow_in, flow_out } }) => (
   <section className="sticky-block-section">
     <aside className="left">
       <PortList wrapper={wrapper} type="flow" direction="in" length={flow_in} />

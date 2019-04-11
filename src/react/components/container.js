@@ -1,10 +1,6 @@
 import React from 'react';
 import Sticky from '../../Sticky';
-import { NodeGraph } from './index'
-
-const getRandom = (min, max) => min + (Math.random() * (max - min));
-
-const initialBlocks = ['SourceNumber', 'SourceNumber', 'Alert', 'Sum', 'Operation', 'Operation', 'If', 'SourceString'];
+import { NodeList } from './index'
 
 export default class Container extends React.Component {
   buildUp (ref) {
@@ -21,21 +17,12 @@ export default class Container extends React.Component {
     ref.wrapper = canvas;
     this.canvas = canvas;
 
-    const blocks = initialBlocks.map(blockName => {
-      return canvas.createBlock(blockName, {
-        x: getRandom(100, 600),
-        y: getRandom(100, 400),
-      });
-    });
-
-    canvas.addNodes(blocks);
-
     if (typeof(this.props.onLoad) == 'function')
       this.props.onLoad(canvas);
   }
 
   renderNodes () {
-    const { canvas } = this;
+    const { canvas, props } = this;
     console.debug('canvas', canvas);
     if (!canvas)
       return null;
@@ -43,8 +30,9 @@ export default class Container extends React.Component {
     const { wrapper } = canvas.render.config;
 
     return (
-      <NodeGraph
+      <NodeList
         nodes={wrapper.nodes}
+        renderNode={props.renderNode}
       />
     );
   }
