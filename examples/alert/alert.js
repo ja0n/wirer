@@ -5,10 +5,9 @@ const initialBlocks = ['SourceNumber', 'SourceNumber', 'Alert', 'Sum', 'Operatio
 const getRandom = (min, max) => min + (Math.random() * (max - min));
 
 const blocks = initialBlocks.map(blockName => {
-  return canvas.createBlock(blockName, {
-    x: getRandom(200, 800),
-    y: getRandom(200, 600),
-  });
+  const x = getRandom(200, 800);
+  const y = getRandom(200, 600);
+  return canvas.createBlock(blockName, { x, y });
 });
 
 canvas.addNodes(blocks);
