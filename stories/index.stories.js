@@ -10,36 +10,36 @@ storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo(
 
 const getRandom = (min, max) => min + (Math.random() * (max - min));
 const onLoad = canvas => {
-  const initialBlocks = [
+  const initialNodes = [
     'SourceString', 'SourceNumber', 'Alert',
   ];
-  const blocks = initialBlocks.map(blockName => {
-    return canvas.createBlock(blockName, {
+  const nodes = initialNodes.map(nodeName => {
+    return canvas.createNode(nodeName, {
       x: getRandom(100, 600),
       y: getRandom(100, 400),
     });
   });
 
-  canvas.addNodes(blocks);
+  canvas.addNodes(nodes);
 }
 
 storiesOf('Sticky', module)
   .add('default', () => (
     <Container
       onLoad={canvas => {
-        const initialBlocks = [
+        const initialNodes = [
           'SourceNumber', 'SourceNumber', 'Alert',
           'Sum', 'Operation', 'Operation', 'If',
           'SourceString',
         ];
-        const blocks = initialBlocks.map(blockName => {
-          return canvas.createBlock(blockName, {
+        const nodes = initialNodes.map(nodeName => {
+          return canvas.createNode(nodeName, {
             x: getRandom(100, 600),
             y: getRandom(100, 400),
           });
         });
 
-        canvas.addNodes(blocks);
+        canvas.addNodes(nodes);
       }}
     />
   ))

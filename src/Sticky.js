@@ -4,7 +4,7 @@ import _find from 'lodash/find';
 
 import Brick from './Brick.js';
 import Render from './Render.js';
-import defaultBlocks from './blocks.js';
+import defaultNodes from './nodeRefs.js';
 import { toJSON } from './json-loader.js';
 
 import "./styles/default.scss";
@@ -12,7 +12,7 @@ import "./styles/default.scss";
 export default class Sticky {
   constructor(id, { width, height } = { width: 800, height: 600 }) {
     this._uid = 0;
-    this.blocks = {};
+    this.nodeRefs = {};
     this._objects = [];
     this._wires = [];
 
@@ -64,7 +64,7 @@ export default class Sticky {
   }
 
   addStartNode () {
-    const startNode = this.createBlock('start');
+    const startNode = this.createNode('start');
     startNode.x = 30; startNode.y = 30;
     startNode.behavior = () => 0;
     this.addObj(startNode);
@@ -80,23 +80,23 @@ export default class Sticky {
     };
   }
 
-  registerBlock(name, cfg) {
-    this.blocks[name] = this._formatNodeRef(name, cfg);
+  registerNode(name, cfg) {
+    this.nodeRefs[name] = this._formatNodeRef(name, cfg);
   }
 
-  static registerBlock(name, cfg) {
-    this.prototype._refBlocks[name] = this._formatNodeRef(name, cfg);
+  static registerNode(name, cfg) {
+    this.prototype._refNodes[name] = this._formatNodeRef(name, cfg);
   }
 
-  createBlock(name, data = {}) {
-    const cfg = this.blocks[name] || this._refBlocks[name];
-    if (!cfg) throw `Block '${name}' not registered`;
+  createNode(name, data = {}) {
+    const cfg = this.nodeRefs[name] || this._refNodes[name];
+    if (!cfg) throw `Node '${name}' not registered`;
     return new Brick({ ...cfg, ...data });
   }
 
-  static createBlock(name, data = {}) {
-    const cfg = this.prototype._refBlocks[name];
-    if (!cfg) throw "Block not registered";
+  static createNode(name, data = {}) {
+    const cfg = this.prototype._refNodes[name];
+    if (!cfg) throw "Node not registered";
     return new Brick({ ...cfg, ...data });
   }
 
@@ -106,16 +106,16 @@ export default class Sticky {
   }
 
   toJSON () {
-    return toJSON(this._objects, this._refBlocks);
+    return toJSON(this._objects, this._refNodes);
   }
 
-  loadPorts (blocky, ports, [from, to]) {
+  loadPorts (nodey, ports, [from, to]) {
     ports.forEach((port, index) => {
       for (let conn of port) {
-        const blocky2 = this.getNode(conn.brick);
+        const nodey2 = this.getNode(conn.brick);
         const cps = [
-          blocky._ports[from][index],
-          blocky2._ports[to][conn.id],
+          nodey._ports[from][index],
+          nodey2._ports[to][conn.id],
         ];
         this.render.sealOrDiscard(...cps)
       }
@@ -125,9 +125,9 @@ export default class Sticky {
   loadJSON (data) {
     this.clearCanvas(false);
 
-    for (let block of data) {
-      const { refBlock, inputs, x, y, value, id } = block;
-      const obj = this.createBlock(refBlock, { inputs });
+    for (let node of data) {
+      const { refNode, inputs, x, y, value, id } = node;
+      const obj = this.createNode(refNode, { inputs });
       obj.x = x;
       obj.y = y;
       obj.value = value;
@@ -136,10 +136,10 @@ export default class Sticky {
     }
 
     // load wires
-    for (let block of data) {
-      const blocky = this.getNode(block.id);
-      this.loadPorts(blocky, block.ports.out, ['out', 'in']);
-      this.loadPorts(blocky, block.ports.flow_out, ['flow_out', 'flow_in']);
+    for (let node of data) {
+      const nodey = this.getNode(node.id);
+      this.loadPorts(nodey, node.ports.out, ['out', 'in']);
+      this.loadPorts(nodey, node.ports.flow_out, ['flow_out', 'flow_in']);
     }
   }
 
@@ -149,30 +149,30 @@ export default class Sticky {
   }
 
   run () {
-    let flow, id, refBlock;
-    let block = _find(this._objects, { _refBlock: 'start' });
+    let flow, id, refNode;
+    let node = _find(this._objects, { _refNode: 'start' });
 
-    if (!block) {
-      console.warn('Start block not found');
+    if (!node) {
+      console.warn('Start node not found');
       return false;
     }
 
-    console.debug('Start block found:', block);
+    console.debug('Start node found:', node);
 
     // flow = start.behavior();
     // an ActuatorBrick should return the flow_out port id
-    // it'll be useful for if block
+    // it'll be useful for if node
     const getNode = this.getNode.bind(this);
 
     let step = 0;
     do {
-      refBlock = this.blocks[block._refBlock] || this._refBlocks[block._refBlock];
-      flow = refBlock.behavior.call(block, getNode);
-      id = _get(block._ports, ['flow_out', flow, '_conn', 0, 'brick'], null);
-      block = getNode(id);
-      console.debug('Step', ++step, refBlock);
-      console.debug('Next Step', flow, block);
-    } while(block);
+      refNode = this.nodeRefs[node._refNode] || this._refNodes[node._refNode];
+      flow = refNode.behavior.call(node, getNode);
+      id = _get(node._ports, ['flow_out', flow, '_conn', 0, 'brick'], null);
+      node = getNode(id);
+      console.debug('Step', ++step, refNode);
+      console.debug('Next Step', flow, node);
+    } while(node);
   }
 
   __compile () {
@@ -180,4 +180,4 @@ export default class Sticky {
   }
 }
 
-Sticky.prototype._refBlocks = defaultBlocks || {};
+Sticky.prototype._refNodes = defaultNodes || {};

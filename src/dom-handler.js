@@ -25,12 +25,12 @@ export function register () {
 
     const parentSvg = getParentSvg(target);
     const shouldCapture = tagName => !['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'].includes(tagName);
-    if (shouldCapture(target.tagName) && parentSvg && parentSvg.type == 'block') {
-      const blockNode = parentSvg;
-      console.debug('Block selected:', blockNode, 'Triggered by: ', target);
-      var wrapper = blockNode.wrapper;
+    if (shouldCapture(target.tagName) && parentSvg && parentSvg.type == 'node') {
+      const nodeNode = parentSvg;
+      console.debug('Node selected:', nodeNode, 'Triggered by: ', target);
+      var wrapper = nodeNode.wrapper;
       this.lastSelected = wrapper;
-      this.dragging = blockNode;
+      this.dragging = nodeNode;
       var SVGbox = wrapper._svg.getBoundingClientRect();
       const offset = {
         x: e.x - SVGbox.left,

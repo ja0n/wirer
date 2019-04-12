@@ -28,7 +28,7 @@ export default class Brick {
     const cfg = { ...defaultConfig, ...custom };
     const { behavior, title, ports, icon, gui, id, x, y, inputs } = cfg;
 
-    this._refBlock = id;
+    this._refNode = id;
     this._container = null;
     this._el = SVGContainer(this, cfg);
     this.behavior = behavior;

@@ -12,7 +12,7 @@ export class SVGContainer extends React.PureComponent {
     function setupInstance(ref) {
       if (!ref) return null;
       ref.wrapper = wrapper;
-      ref.type = 'block';
+      ref.type = 'node';
       ref.style.overflow = 'visible';
       wrapper._el = ref;
     }
@@ -23,7 +23,7 @@ export class SVGContainer extends React.PureComponent {
 
 export const NodeContainer = ({ children, width, node  }) => (
   <SVGContainer wrapper={node} title={node.cfg.title}>
-    <foreignObject id="main" className="sticky-block-html" width={Math.max(node.cfg.width, 60)} height="80">
+    <foreignObject id="main" className="sticky-node-html" width={Math.max(node.cfg.width, 60)} height="80">
       {children}
     </foreignObject>
   </SVGContainer>
@@ -39,7 +39,7 @@ export const Node = ({ title, width, gui, inputs, values, onChange, bgColor, wra
 )
 
 export const Section = ({ children, wrapper, ports: { data_in, data_out, flow_in, flow_out } }) => (
-  <section className="sticky-block-section">
+  <section className="sticky-node-section">
     <aside className="left">
       <PortList wrapper={wrapper} type="flow" direction="in" length={flow_in} />
       <PortList wrapper={wrapper} type="data" direction="in" length={data_in} />

@@ -1,7 +1,7 @@
 export const toJSON = (nodes, nodeRefs) => {
   const fluxgram = nodes.map(node => {
     let object = {
-      refBlock: node._refBlock,
+      refNode: node._refNode,
       inputs: node.inputs,
       id: node._id,
       x: node.x,
@@ -18,14 +18,14 @@ export const toJSON = (nodes, nodeRefs) => {
   });
 
 
-  let refBlock = Object.entries(nodeRefs).map(
-    ([blockId, block]) => ({
-      ...block,
-      behavior: block.behavior.toString(),
+  let refNode = Object.entries(nodeRefs).map(
+    ([nodeId, node]) => ({
+      ...node,
+      behavior: node.behavior.toString(),
     })
   );
 
-  const string = JSON.stringify({ refBlock, fluxgram }, null, 2);
+  const string = JSON.stringify({ refNode, fluxgram }, null, 2);
   copy(string);
   return JSON.parse(string);
 } 

@@ -1,7 +1,7 @@
 const flowsJSON = [
   [
     {
-      "refBlock": "start",
+      "refNode": "start",
       "inputs": {},
       "id": 0,
       "x": 207,
@@ -21,7 +21,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "SourceNumber",
+      "refNode": "SourceNumber",
       "inputs": {
         "number": 4
       },
@@ -43,7 +43,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "SourceNumber",
+      "refNode": "SourceNumber",
       "inputs": {
         "number": 2
       },
@@ -69,7 +69,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "Alert",
+      "refNode": "Alert",
       "inputs": {},
       "id": 3,
       "x": 563,
@@ -98,7 +98,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "Operation",
+      "refNode": "Operation",
       "inputs": {
         "op": "+"
       },
@@ -133,7 +133,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "Operation",
+      "refNode": "Operation",
       "inputs": {
         "op": "=="
       },
@@ -172,7 +172,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "If",
+      "refNode": "If",
       "inputs": {},
       "id": 6,
       "x": 404,
@@ -209,7 +209,7 @@ const flowsJSON = [
   ],
   [
     {
-      "refBlock": "start",
+      "refNode": "start",
       "inputs": {},
       "id": 0,
       "x": 328,
@@ -229,7 +229,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "SourceNumber",
+      "refNode": "SourceNumber",
       "inputs": {
         "number": 2
       },
@@ -251,7 +251,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "SourceNumber",
+      "refNode": "SourceNumber",
       "inputs": {
         "number": 2
       },
@@ -273,7 +273,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "Alert",
+      "refNode": "Alert",
       "inputs": {},
       "id": 3,
       "x": 491.8058720595286,
@@ -302,7 +302,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "Operation",
+      "refNode": "Operation",
       "inputs": {
         "op": "+"
       },
@@ -337,7 +337,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "Operation",
+      "refNode": "Operation",
       "inputs": {
         "op": "+"
       },
@@ -372,7 +372,7 @@ const flowsJSON = [
       }
     },
     {
-      "refBlock": "SourceString",
+      "refNode": "SourceString",
       "inputs": {
         "text": "the result is "
       },
