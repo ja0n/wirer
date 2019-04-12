@@ -1,6 +1,6 @@
 # Sticky
 
-> a visual tool for connectable blocks
+> a visual tool for connectable nodes
 
 
 ## Examples

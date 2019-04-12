@@ -3,7 +3,7 @@ body {
 }
 
 #container {
-  display: inline-block;
+  display: inline-node;
   position: relative;
   vertical-align: top;
 }
@@ -28,10 +28,10 @@ body {
   text-align: center;
   touch-callout: none;
   user-select: none;
-  display: inline-block;
+  display: inline-node;
   border: .2em solid;
   position: relative;
-  cursor: pointer;display: block;
+  cursor: pointer;display: node;
   padding:1em 2em;
   text-transform: uppercase;
   font-weight: bold;

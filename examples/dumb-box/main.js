@@ -1,7 +1,7 @@
 var game = new DumbBox('canvas', { controls: false });
 var canvas = new Sticky.default('test');
 var sum = [];
-var blockConfig = {
+var nodeConfig = {
   'PushUp': {
     fill: '#F5E867',
     ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
@@ -40,7 +40,7 @@ var blockConfig = {
   },
 };
 
-Object.keys(blockConfig).forEach(key => canvas.registerBlock(key, blockConfig[key]));
+Object.keys(nodeConfig).forEach(key => canvas.registerNode(key, nodeConfig[key]));
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -48,8 +48,8 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function addBlock(direction) {
-  var rect = canvas.createBlock('Push' + direction);
+function addNode(direction) {
+  var rect = canvas.createNode('Push' + direction);
   rect.x = 150 + getRandomInt(-25, 25);
   rect.y = 200 + getRandomInt(-25, 25);
 
@@ -61,7 +61,7 @@ window.addEventListener('keyup', function (e) {
   var direction = translate[e.keyCode];
 
   if (direction) {
-    addBlock(diretion);
+    addNode(diretion);
   }
 });
 
@@ -85,7 +85,7 @@ document.getElementById('gameshark').onclick = function () {
 
 ['Left', 'Up', 'Right', 'Down'].forEach(function (dir) {
   document.getElementById(dir.toLowerCase()).onclick = function () {
-    addBlock(dir);
+    addNode(dir);
   };
 });
 var map = {

@@ -8,11 +8,11 @@ export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, f
   var ports = this._ports;
   var main = this.main;
   // var rectBox = main.getBBox ? main.getBBox() : main.getBoundingClientRect();
-  var rectBox =  main.getBoundingClientRect();
   var maxPorts = Math.max(data_in + flow_in, data_out + flow_out);
-  // var maxPorts = Math.max(ports.in.length, ports.out.length);
+  var rectBox =  main.getBoundingClientRect();
   var Radius = radius + strokeWidth/2; //total radius -> circle radius plus its stroke width
   var tRadius = distance + Radius;
+  // let { width, height } = rectBox;
   var height = (tRadius * 2) * Math.max(maxPorts, 1 + Object.keys(gui).length); //distance + diameter * number of ports + final distance
   var width = main.getAttribute('width') * 1;
 
@@ -21,6 +21,10 @@ export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, f
   this._ports.flow_in = [];
   this._ports.flow_out = [];
 
+  if (height < main.getAttribute('height')) {
+    // check if it's working
+    height = main.getAttribute('height');
+  }
   main.setAttribute('height', height + marginTop + marginTop/4);
 
   var attrs = { id: null, r: radius, fill: '#B8D430', stroke: 'black', 'stroke-width': strokeWidth };

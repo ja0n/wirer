@@ -5,7 +5,7 @@ const example = {
   fill: '#31dfaf',
   border: '#e695bf',
   ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
-  title: 'Example Block',
+  title: 'Example Node',
   icon: 'img/icon.png',
   gui: {
     select: { label: 'Select', type: 'select', options: ['USA', 'BR', 'CND'] },
@@ -14,20 +14,27 @@ const example = {
   },
 };
 
-export function htmlBlockBuilder (wrapper, cfg) {
-  const { width, height, gui, title, fill } = cfg;
+export const SVGContainer = (wrapper) => {
   const svg = createElement('svg');
   svg.wrapper = wrapper;
-  svg.type = 'block';
+  svg.type = 'node';
   svg.style.overflow = 'visible';
+
+  return svg;
+};
+
+export function htmlNodeBuilder (wrapper, cfg) {
+  const { width, gui, title, fill } = cfg;
+  const svg = SVGContainer(wrapper);
   var attrs = {
     width: Math.max(60, width),
-    height: height + Object.keys(gui).length * 25,
-    class: 'sticky-block-html',
+    class: 'sticky-node-html',
     id: 'main'
   }
   const foreign = createElement('foreignObject', { ...attrs });
+  svg.appendChild(foreign);
   const body = document.createElement('body');
+  foreign.appendChild(body);
   body.innerHTML = /*html*/`
     <header>${title}</header>
   `;
@@ -42,7 +49,6 @@ export function htmlBlockBuilder (wrapper, cfg) {
   section.appendChild(form);
   body.appendChild(section);
   foreign.appendChild(body);
-  svg.appendChild(foreign);
 
   return svg;
 }
@@ -53,7 +59,7 @@ export default function blockBuilder(wrapper, cfg) {
   // { strokeWidth = 3, marginLeft = 10, width = 150, opacity = 1, height = 50, rx = 20, ry = 20, fill = '#1F8244', stroke = '#000000' }
   var svg = createElement('svg');
   svg.wrapper = wrapper;
-  svg.type = 'block';
+  svg.type = 'node';
   svg.style.overflow = 'visible';
 
   var attrs = {
@@ -63,7 +69,7 @@ export default function blockBuilder(wrapper, cfg) {
     ry,
     'stroke-width': strokeWidth,
     style: `fill: ${fill}; stroke: ${stroke}; opacity: ${opacity};`,
-    class: 'sticky-block',
+    class: 'sticky-node',
     id: 'main'
   }
 
