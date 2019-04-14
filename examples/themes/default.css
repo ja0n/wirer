@@ -3,7 +3,7 @@ body {
 }
 
 #container {
-  display: inline-node;
+  display: inline-block;
   position: relative;
   vertical-align: top;
 }
@@ -28,7 +28,7 @@ body {
   text-align: center;
   touch-callout: none;
   user-select: none;
-  display: inline-node;
+  display: inline-block;
   border: .2em solid;
   position: relative;
   cursor: pointer;display: node;
