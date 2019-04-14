@@ -72,16 +72,25 @@ export function register () {
     normalizeEvent(e);
 
     if (this.dragging) {
-      var wrapper = this.dragging.wrapper;
-      var SVGbox = wrapper._svg.getBoundingClientRect();
-      var OffsetX = e.x - SVGbox.left;
-      var OffsetY =  e.y - SVGbox.top;
+      const wrapper = this.dragging.wrapper;
+      const SVGbox = wrapper._svg.getBoundingClientRect();
+      const firstState = this._aux.mouseDown;
+      let OffsetX = e.x - SVGbox.left;
+      let OffsetY =  e.y - SVGbox.top;
 
-      var firstState = this._aux.mouseDown;
       wrapper.x = OffsetX - firstState.x;
       wrapper.y = OffsetY - firstState.y;
       wrapper.updateWires();
     }
+  });
+
+  let zoom = 1;
+  const zoomVelocity = 0.1;
+  window.addEventListener("wheel", event => {
+    const delta = Math.sign(event.deltaY);
+    console.info('MouseWheel delta', delta);
+    zoom = zoom - (zoomVelocity * delta);
+    svg.style.transform = `scale(${zoom})`;
   });
 
   return store;
