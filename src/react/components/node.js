@@ -7,7 +7,7 @@ import { DataPort, FlowPort } from './../../ports.js';
 
 export class SVGContainer extends React.PureComponent {
   render () {
-    const { children, wrapper } = this.props
+    const { children, wrapper, x, y, offset } = this.props
     console.debug('SVGContainer rendering', wrapper);
     function setupInstance(ref) {
       if (!ref) return null;
@@ -17,12 +17,13 @@ export class SVGContainer extends React.PureComponent {
       wrapper._el = ref;
     }
 
-    return <svg x={wrapper.x} y={wrapper.y} ref={setupInstance}>{children}</svg>;
+    console.debug('offseett', wrapper, offset, x);
+    return <svg x={wrapper.x + offset.x} y={wrapper.y + offset.y} ref={setupInstance}>{children}</svg>;
   }
 }
 
-export const NodeContainer = ({ children, width, node  }) => (
-  <SVGContainer wrapper={node} title={node.cfg.title}>
+export const NodeContainer = ({ children, width, node, offset }) => (
+  <SVGContainer wrapper={node} title={node.cfg.title} offset={offset}>
     <foreignObject id="main" className="sticky-node-html" width={Math.max(node.cfg.width, 60)} height="80">
       {children}
     </foreignObject>
@@ -86,7 +87,7 @@ const Port = ({ children, id, type, direction, node }) => {
   return (
     <svg style={{ overflow: 'visible' }}>
       <circle
-       {...circleProps}
+        {...circleProps} 
         ref={setupInstance}
       />
     </svg>

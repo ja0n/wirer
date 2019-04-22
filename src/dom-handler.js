@@ -1,4 +1,5 @@
 import { getParentSvg } from './utils.js';
+import _throttle from 'lodash/throttle';
 
 const normalizeEvent = e => {
   if (e.x == undefined) e.x = e.clientX;
@@ -13,6 +14,11 @@ export function register () {
     normalizeEvent(e);
     this.lastSelected = null;
     const { target } = e;
+
+    if (target.type === 'container') {
+      this.dragging = target;
+      this._aux.mouseDown = { x: e.x, y: e.y, offset: { ...this.offset } };
+    }
 
     if (target.type === 'wire') {
       this.lastSelected = target.wrapper;
@@ -68,8 +74,29 @@ export function register () {
     return this.attachMove(e);
   });
 
+
+  const forceUpdate = _throttle(() => {
+    if (this.react)
+      this.react.forceUpdate();
+  }, 200);
+
   svg.addEventListener('mousemove', e => {
     normalizeEvent(e);
+    const { dragging } = this;
+
+    if (dragging && dragging.type == 'container') {
+      const firstState = this._aux.mouseDown;
+      this.offset = {
+        x: (firstState.offset.x - (firstState.x - e.x/zoom))/zoom,
+        y: (firstState.offset.y - (firstState.y - e.y/zoom))/zoom,
+      };
+
+      console.debug('offset', this.offset);
+      forceUpdate();
+
+      return true;
+    }
+
 
     if (this.dragging) {
       const wrapper = this.dragging.wrapper;

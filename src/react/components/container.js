@@ -28,11 +28,13 @@ export default class Container extends React.Component {
       return null;
 
     const { wrapper } = canvas.render.config;
+    console.debug('canvas offset', canvas.render.offset);
 
     return (
       <NodeList
         nodes={wrapper.nodes}
         renderNode={props.renderNode}
+        offset={canvas.render.offset}
       />
     );
   }

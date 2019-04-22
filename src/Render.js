@@ -15,6 +15,7 @@ export default class Render {
     this._aux = {};
     this._state = null;
     this._wires = [];
+    this.offset = { x: 0, y: 0 };
 
     const element = document.getElementById(id);
     if (element) {
@@ -39,7 +40,9 @@ export default class Render {
     ReactDOM.render(
       <NodeGraph
         ref={ref => this.react = ref}
+        // nodes={wrapper.nodes}
         getNodes={() => wrapper.nodes}
+        getOffset={() => this.offset}
        />,
        svg
     );
@@ -48,6 +51,7 @@ export default class Render {
   loadContainer (svg) {
     const { width, height } = this.config;
     this._svg = svg;
+    svg.type = 'container';
     this.matchViewBox();
     this.setCanvasSize({ width, height });
     this.registerEvents();
