@@ -69,10 +69,10 @@ export default class Brick {
   get data () { return this.behavior(); }
   get main () { return this._el.querySelector('#main'); }
   get _svg () { return getParentSvg(this._el); }
-  get x () { return this._el.getAttribute('x') * 1; } // force coercion
-  get y () { return this._el.getAttribute('y') * 1; }
-  set x (val) { return this._el.setAttribute('x', val); }
-  set y (val) { return this._el.setAttribute('y', val); }
+  // get x () { return this._el.getAttribute('x') * 1; } // force coercion
+  // get y () { return this._el.getAttribute('y') * 1; }
+  // set x (val) { return this._el.setAttribute('x', val); }
+  // set y (val) { return this._el.setAttribute('y', val); }
 
   delete () {
     for (let wire of [...this.wires])
