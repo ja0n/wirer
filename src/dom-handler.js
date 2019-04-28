@@ -78,7 +78,7 @@ export function register () {
   const forceUpdate = _throttle(() => {
     if (this.react)
       this.react.forceUpdate();
-  }, 200);
+  }, 1);
 
   svg.addEventListener('mousemove', e => {
     normalizeEvent(e);
@@ -108,6 +108,8 @@ export function register () {
       wrapper.x = OffsetX - firstState.x;
       wrapper.y = OffsetY - firstState.y;
       wrapper.updateWires();
+
+      forceUpdate();
     }
   });
 

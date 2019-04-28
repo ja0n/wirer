@@ -5,11 +5,26 @@ import _times from 'lodash/times';
 import Form from './form';
 import { DataPort, FlowPort } from './../../ports.js';
 
-export class SVGContainer extends React.PureComponent {
+export class SVGContainer extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    const hasPositionChanged = () => {
+      return this.props.x !== nextProps.x || this.props.y !== nextProps.y;
+    }
+
+    if (this.ref && hasPositionChanged()) {
+      this.ref.setAttribute('x', nextProps.x);
+      this.ref.setAttribute('y', nextProps.y);
+    }
+
+    return false;
+  }
+
   render () {
     const { children, wrapper, x, y, offset } = this.props
-    console.debug('SVGContainer rendering', wrapper);
-    function setupInstance(ref) {
+    console.debug('SVGContainer rendering', wrapper, offset);
+
+    const setupInstance = ref => {
+      this.ref = ref;
       if (!ref) return null;
       ref.wrapper = wrapper;
       ref.type = 'node';
@@ -17,13 +32,16 @@ export class SVGContainer extends React.PureComponent {
       wrapper._el = ref;
     }
 
-    console.debug('offseett', wrapper, offset, x);
-    return <svg x={wrapper.x + offset.x} y={wrapper.y + offset.y} ref={setupInstance}>{children}</svg>;
+    return (
+      <svg x={x} y={y} ref={setupInstance}>
+        {children}
+      </svg>
+    );
   }
 }
 
 export const NodeContainer = ({ children, width, node, offset }) => (
-  <SVGContainer wrapper={node} title={node.cfg.title} offset={offset}>
+  <SVGContainer wrapper={node} title={node.cfg.title} x={node.x + offset.x} y={node.y + offset.y}>
     <foreignObject id="main" className="sticky-node-html" width={Math.max(node.cfg.width, 60)} height="80">
       {children}
     </foreignObject>
@@ -87,7 +105,7 @@ const Port = ({ children, id, type, direction, node }) => {
   return (
     <svg style={{ overflow: 'visible' }}>
       <circle
-        {...circleProps} 
+        {...circleProps}
         ref={setupInstance}
       />
     </svg>

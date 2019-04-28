@@ -40,7 +40,6 @@ export default class Render {
     ReactDOM.render(
       <NodeGraph
         ref={ref => this.react = ref}
-        // nodes={wrapper.nodes}
         getNodes={() => wrapper.nodes}
         getOffset={() => this.offset}
        />,
