@@ -16,6 +16,7 @@ export default class Render {
     this._state = null;
     this._wires = [];
     this.offset = { x: 0, y: 0 };
+    this.zoom = 1;
 
     const element = document.getElementById(id);
     if (element) {
@@ -42,6 +43,7 @@ export default class Render {
         ref={ref => this.react = ref}
         getNodes={() => wrapper.nodes}
         getOffset={() => this.offset}
+        getZoom={() => this.zoom}
        />,
        svg
     );

@@ -35,14 +35,23 @@ export default class Container extends React.Component {
         nodes={wrapper.nodes}
         renderNode={props.renderNode}
         offset={canvas.render.offset}
+        zoom={canvas.render.zoom}
       />
     );
   }
 
   render () {
+    const offset = this.canvas && this.canvas.render.offset;
+    let style = {};
+
+    if (offset) {
+      style = {
+        backgroundPosition: `${offset.x}px ${offset.y}px`,
+      }
+    }
     return (
       <div className="sticky__canvas">
-        <svg className="svg-content" preserveAspectRatio="xMidYMid meet" ref={ref => this.buildUp(ref)} >
+        <svg style={style} className="svg-content" preserveAspectRatio="xMidYMid meet" ref={ref => this.buildUp(ref)} >
           {this.renderNodes()}
         </svg>
       </div>
