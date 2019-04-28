@@ -40,13 +40,18 @@ export class SVGContainer extends React.Component {
   }
 }
 
-export const NodeContainer = ({ children, width, node, offset }) => (
-  <SVGContainer wrapper={node} title={node.cfg.title} x={node.x + offset.x} y={node.y + offset.y}>
-    <foreignObject id="main" className="sticky-node-html" width={Math.max(node.cfg.width, 60)} height="80">
-      {children}
-    </foreignObject>
-  </SVGContainer>
-);
+export const NodeContainer = ({ children, width, node, zoom, offset }) => {
+  const x = node.x + offset.x;
+  const y = node.y + offset.y;
+  return (
+    <SVGContainer wrapper={node} title={node.cfg.title} x={x * zoom} y={y * zoom}>
+      <foreignObject id="main" className="sticky-node-html" width={Math.max(node.cfg.width, 60)} height="80">
+        {children}
+      </foreignObject>
+    </SVGContainer>
+  );
+
+}
 
 export const Node = ({ title, width, gui, inputs, values, onChange, bgColor, wrapper, ports }) => (
   <body style={{ backgroundColor: bgColor }}>

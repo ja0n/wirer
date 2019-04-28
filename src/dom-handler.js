@@ -82,7 +82,7 @@ export function register () {
 
   svg.addEventListener('mousemove', e => {
     normalizeEvent(e);
-    const { dragging } = this;
+    const { dragging, zoom } = this;
 
     if (dragging && dragging.type == 'container') {
       const firstState = this._aux.mouseDown;
@@ -113,13 +113,12 @@ export function register () {
     }
   });
 
-  let zoom = 1;
   const zoomVelocity = 0.1;
   window.addEventListener("wheel", event => {
     const delta = Math.sign(event.deltaY);
     console.info('MouseWheel delta', delta);
-    zoom = zoom - (zoomVelocity * delta);
-    svg.style.transform = `scale(${zoom})`;
+    this.zoom -= zoomVelocity * delta;
+    svg.style.transform = `scale(${this.zoom})`;
   });
 
   return store;
