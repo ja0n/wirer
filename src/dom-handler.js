@@ -107,7 +107,7 @@ export function register () {
 
       wrapper.x = OffsetX - firstState.x;
       wrapper.y = OffsetY - firstState.y;
-      wrapper.updateWires();
+      wrapper.updateWires(this.offset);
 
       forceUpdate();
     }
