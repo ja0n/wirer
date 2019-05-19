@@ -60,7 +60,10 @@ export default class Sticky {
     this._objects = [];
     this._wires = [];
 
-    if (start) this.addStartNode();
+    if (start)
+      this.addStartNode();
+    if (this.render.react)
+      this.render.react.forceUpdate();
   }
 
   addStartNode () {
