@@ -86,12 +86,20 @@ Wire.prototype = {
     this._cp1.dettach(this._cp2);
     this._el.parentNode.removeChild(this._el);
   },
-  render() {
-    this._render(this._cp1.getPoint(), this._cp2.getPoint(), this._inverted);
+  render(offset = { x: 0, y: 0 }) {
+    const pointA = addPoints(this._cp1.getPoint(), offset);
+    const pointB = addPoints(this._cp2.getPoint(), offset);
+    this._render(pointA, pointB, this._inverted);
   }
 
 };
 
+function addPoints (...points) {
+  return points.reduce(
+    (acc, curr) => ({ x: acc.x + curr.x, y: acc.y + curr.y }),
+    { x: 0, y: 0 },
+  );
+}
 
 function spliceByIndex(arr, obj) {
   let index = arr.indexOf(obj);
