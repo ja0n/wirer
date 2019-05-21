@@ -118,7 +118,9 @@ export function register () {
     const delta = Math.sign(event.deltaY);
     console.info('MouseWheel delta', delta);
     this.zoom -= zoomVelocity * delta;
-    svg.style.transform = `scale(${this.zoom})`;
+    // svg.style.transform = `scale(${this.zoom})`;
+    if (this.react)
+      this.react.forceUpdate();
   });
 
   return store;

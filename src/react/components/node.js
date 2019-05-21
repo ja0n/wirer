@@ -7,6 +7,9 @@ import { DataPort, FlowPort } from './../../ports.js';
 
 export class SVGContainer extends React.Component {
   shouldComponentUpdate(nextProps) {
+    const hasZoomChanged = () => {
+      return this.props.zoom !== nextProps.zoom;
+    }
     const hasPositionChanged = () => {
       return this.props.x !== nextProps.x || this.props.y !== nextProps.y;
     }
@@ -26,6 +29,9 @@ export class SVGContainer extends React.Component {
     if (hasPositionChanged() || hasOffsetChanged()) {
       this.props.wrapper.updateWires(nextProps.offset);
     }
+
+    if (hasZoomChanged())
+      return true
 
     return false;
   }
@@ -52,11 +58,17 @@ export class SVGContainer extends React.Component {
 }
 
 export const NodeContainer = ({ children, width, node, zoom, offset }) => {
-  const x = node.x + offset.x;
-  const y = node.y + offset.y;
+  const x = (node.x + offset.x) * zoom;
+  const y = (node.y + offset.y) * zoom;
+  const style = {
+    transform: `scale(${zoom})`,
+    width: Math.max(node.cfg.width, 60),
+    height: 80,
+  }
+  const lOffset = { x: offset.x * zoom, y: offset.y * zoom };
   return (
-    <SVGContainer wrapper={node} title={node.cfg.title} x={x * zoom} y={y * zoom} offset={offset}>
-      <foreignObject id="main" className="sticky-node-html" width={Math.max(node.cfg.width, 60)} height="80">
+    <SVGContainer wrapper={node} title={node.cfg.title} x={x} y={y} offset={lOffset} zoom={zoom}>
+      <foreignObject id="main" className="sticky-node-html" style={style}>
         {children}
       </foreignObject>
     </SVGContainer>
