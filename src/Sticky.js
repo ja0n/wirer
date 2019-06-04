@@ -74,12 +74,14 @@ export default class Sticky {
   }
 
   _formatNodeRef (name, cfg) {
+    const behavior = typeof(cfg.behavior !== 'function')
+      ? new Function('getNode', cfg.behavior)
+      : cfg.behavior;
+
     return {
       ...cfg,
       id: name,
-      behavior: typeof cfg.behavior !== 'function'
-        ? new Function('getNode', cfg.behavior)
-        : cfg.behavior,
+      behavior,
     };
   }
 

@@ -110,7 +110,7 @@ export default class Render {
       return false;
     }
 
-    wire.render();
+    wire.render(this.offset);
     this._wires.push(wire);
     this.addElement(wire._el);
     return true;
