@@ -1,5 +1,6 @@
 import { getParentSvg } from './utils.js';
 import _throttle from 'lodash/throttle';
+import { minusPoints, multiplyPoints } from './points';
 
 export function register () {
   const store = {};
@@ -99,13 +100,11 @@ export function register () {
       const wrapper = this.dragging.wrapper;
       const SVGbox = wrapper._svg.getBoundingClientRect();
       const firstState = this._aux.mouseDown;
-      const padding = {
-        x: e.x - SVGbox.left,
-        y: e.y - SVGbox.top,
-      };
-
-      wrapper.x = padding.x - firstState.x;
-      wrapper.y = padding.y - firstState.y;
+      const mouse = multiplyPoints(e, 1);
+      const padding = minusPoints(mouse, [SVGbox.left, SVGbox.top]);
+      const { x, y } = minusPoints(padding, firstState);
+      wrapper.x = x;
+      wrapper.y = y;
       wrapper.updateWires(this.offset);
 
       forceUpdate();
