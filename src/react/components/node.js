@@ -4,6 +4,7 @@ import _times from 'lodash/times';
 
 import Form from './form';
 import { DataPort, FlowPort } from './../../ports.js';
+import { sumPoints, applyZoom } from './../../points';
 
 export class SVGContainer extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -57,18 +58,8 @@ export class SVGContainer extends React.Component {
   }
 }
 
-const addPoints = (...points) => points.reduce(
-  (result, point) => {
-    result.x += point.x;
-    result.y += point.y;
-    return result;
-  },
-  { x: 0, y: 0 }
-);
-const applyZoom = ({ x, y }, zoom = 1) => ({ x: x * zoom, y: y * zoom })
-
 export const NodeContainer = ({ children, width, node, zoom, offset }) => {
-  const { x, y } = applyZoom(addPoints(node, offset), zoom);
+  const { x, y } = applyZoom(sumPoints(node, offset), zoom);
   const zOffset = applyZoom(offset, zoom);
   const style = {
     transform: `scale(${zoom})`,
