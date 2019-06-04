@@ -57,13 +57,6 @@ Wire.describeJoint = (x1, y1, x2, y2, offset) =>
 Wire.dt2p = (x1, y1, x2, y2) => Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 
 Wire.prototype = {
-  _render(p1, p2, inv) {
-    inv = inv ? -1 : 1;
-    var offset = Wire.dt2p(p1.x, p1.y, p2.x, p2.y)/2;
-    var d = Wire.describeJoint(p1.x, p1.y, p2.x, p2.y, offset*inv);
-    for (let element of this._path)
-      element.setAttribute('d', d);
-  },
   seal() {
     if(this._cp1.direction == this._cp2.direction) return false;
     var wrapper1 = this._cp1._node;
@@ -86,10 +79,23 @@ Wire.prototype = {
     this._cp1.dettach(this._cp2);
     this._el.parentNode.removeChild(this._el);
   },
-  render(offset = { x: 0, y: 0 }) {
+
+  _render(p1, p2, inv) {
+    inv = inv ? -1 : 1;
+    var offset = Wire.dt2p(p1.x, p1.y, p2.x, p2.y)/2;
+    var d = Wire.describeJoint(p1.x, p1.y, p2.x, p2.y, offset*inv);
+    for (let element of this._path)
+      element.setAttribute('d', d);
+  },
+
+  renderAnnotated (pointA, pointB, offset = { x: 0, y: 0 }) {
+    this._render(pointA, pointB, this._inverted);
+  },
+
+  render (offset = { x: 0, y: 0 }) {
     const pointA = addPoints(this._cp1.getPoint(), offset);
     const pointB = addPoints(this._cp2.getPoint(), offset);
-    this._render(pointA, pointB, this._inverted);
+    this.renderAnnotated(pointA, pointB, offset);
   }
 
 };

@@ -149,6 +149,11 @@ export default class Render {
       var port = wire._cp1.getPoint();
 
       wire._render(port, mouse, wire._inverted);
+      wire.renderAnnotated(port, mouse, this.offset);
+      return true;
     }
+
+    event.stopPropagation();
+    return false;
   }
 }
