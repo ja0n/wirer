@@ -1,14 +1,15 @@
 import { getParentSvg } from './utils.js';
 import _throttle from 'lodash/throttle';
 
-const normalizeEvent = e => {
-  if (e.x == undefined) e.x = e.clientX;
-  if (e.y == undefined) e.y = e.clientY;
-};
-
 export function register () {
   const store = {};
   const svg = this._svg;
+
+  const normalizeEvent = e => {
+    if (e.x == undefined) e.x = e.clientX;
+    if (e.y == undefined) e.y = e.clientY;
+  };
+
   // DOM Events
   svg.addEventListener('mousedown', e => {
     normalizeEvent(e);
@@ -68,11 +69,6 @@ export function register () {
     }
   });
 
-  svg.addEventListener('mousemove', e => {
-    normalizeEvent(e);
-
-    return this.attachMove(e);
-  });
 
 
   const forceUpdate = _throttle(() => {
@@ -84,6 +80,8 @@ export function register () {
     normalizeEvent(e);
     const { dragging, zoom } = this;
 
+    if (this.attachMove(e)) return false;
+
     if (dragging && dragging.type == 'container') {
       const firstState = this._aux.mouseDown;
       this.offset = {
@@ -93,23 +91,25 @@ export function register () {
 
       console.debug('offset', this.offset);
       forceUpdate();
-
       return true;
     }
 
 
-    if (this.dragging) {
+    if (dragging) {
       const wrapper = this.dragging.wrapper;
       const SVGbox = wrapper._svg.getBoundingClientRect();
       const firstState = this._aux.mouseDown;
-      let OffsetX = e.x - SVGbox.left;
-      let OffsetY =  e.y - SVGbox.top;
+      const padding = {
+        x: e.x - SVGbox.left,
+        y: e.y - SVGbox.top,
+      };
 
-      wrapper.x = OffsetX - firstState.x;
-      wrapper.y = OffsetY - firstState.y;
+      wrapper.x = padding.x - firstState.x;
+      wrapper.y = padding.y - firstState.y;
       wrapper.updateWires(this.offset);
 
       forceUpdate();
+      return true;
     }
   });
 
