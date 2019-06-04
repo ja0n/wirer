@@ -37,15 +37,15 @@ export default class Sticky {
       this.render.react.forceUpdate();
   }
 
-  addObj(obj) {
+  addNode(obj) {
     this.addNodes([obj]);
   }
 
-  removeObj(obj, update) {
-    let index = this._objects.indexOf(obj);
+  removeNode(node, update) {
+    let index = this._objects.indexOf(node);
     if (index == -1) return;
 
-    for (let wire of [...obj.wires]) {
+    for (let wire of [...node.wires]) {
       wire.delete();
       this.render.removeWire(wire);
     }
@@ -55,8 +55,15 @@ export default class Sticky {
       return this._objects.splice(index, 1);
   }
 
+  addStartNode () {
+    const startNode = this.createNode('start');
+    startNode.x = 30; startNode.y = 30;
+    startNode.behavior = () => 0;
+    this.addNode(startNode);
+  }
+
   clearCanvas (start = true) {
-    this._objects.forEach(node => this.removeObj(node, false));
+    this._objects.forEach(node => this.removeNode(node, false));
     this._objects = [];
     this._wires = [];
 
@@ -64,13 +71,6 @@ export default class Sticky {
       this.addStartNode();
     if (this.render.react)
       this.render.react.forceUpdate();
-  }
-
-  addStartNode () {
-    const startNode = this.createNode('start');
-    startNode.x = 30; startNode.y = 30;
-    startNode.behavior = () => 0;
-    this.addObj(startNode);
   }
 
   _formatNodeRef (name, cfg) {
@@ -108,10 +108,6 @@ export default class Sticky {
     return _find(this._objects, { '_id': id });
   }
 
-  toJSON () {
-    return toJSON(this._objects, this._refNodes);
-  }
-
   loadPorts (nodey, ports, [from, to]) {
     ports.forEach((port, index) => {
       for (let conn of port) {
@@ -125,6 +121,10 @@ export default class Sticky {
     });
   }
 
+  toJSON () {
+    return toJSON(this._objects, this._refNodes);
+  }
+
   loadJSON (data) {
     this.clearCanvas(false);
 
@@ -135,7 +135,7 @@ export default class Sticky {
       obj.y = y;
       obj.value = value;
       obj._id = id;
-      this.addObj(obj);
+      this.addNode(obj);
     }
 
     // load wires
