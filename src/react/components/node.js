@@ -57,17 +57,27 @@ export class SVGContainer extends React.Component {
   }
 }
 
+const addPoints = (...points) => points.reduce(
+  (result, point) => {
+    result.x += point.x;
+    result.y += point.y;
+    return result;
+  },
+  { x: 0, y: 0 }
+);
+const applyZoom = ({ x, y }, zoom = 1) => ({ x: x * zoom, y: y * zoom })
+
 export const NodeContainer = ({ children, width, node, zoom, offset }) => {
-  const x = (node.x + offset.x) * zoom;
-  const y = (node.y + offset.y) * zoom;
+  const { x, y } = applyZoom(addPoints(node, offset), zoom);
+  const zOffset = applyZoom(offset, zoom);
   const style = {
     transform: `scale(${zoom})`,
     width: Math.max(node.cfg.width, 60),
     height: 80,
   }
-  const lOffset = { x: offset.x * zoom, y: offset.y * zoom };
+
   return (
-    <SVGContainer wrapper={node} title={node.cfg.title} x={x} y={y} offset={lOffset} zoom={zoom}>
+    <SVGContainer wrapper={node} title={node.cfg.title} x={x} y={y} offset={zOffset} zoom={zoom}>
       <foreignObject id="main" className="sticky-node-html" style={style}>
         {children}
       </foreignObject>
