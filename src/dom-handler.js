@@ -115,6 +115,8 @@ export function register () {
 
   const zoomVelocity = 0.1;
   window.addEventListener("wheel", event => {
+    if (this.dragging) return false;
+
     const delta = Math.sign(event.deltaY);
     console.info('MouseWheel delta', delta);
     this.zoom -= zoomVelocity * delta;
