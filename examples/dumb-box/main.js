@@ -53,7 +53,7 @@ function addNode(direction) {
   rect.x = 150 + getRandomInt(-25, 25);
   rect.y = 200 + getRandomInt(-25, 25);
 
-  canvas.addObj(rect);
+  canvas.addNode(rect);
 }
 
 window.addEventListener('keyup', function (e) {
