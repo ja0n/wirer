@@ -51,7 +51,7 @@
     "@storybook/addons": "^5.0.6"
   },
   "dependencies": {
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   }
