@@ -1,6 +1,6 @@
 import { getParentSvg } from './utils.js';
 import _throttle from 'lodash/throttle';
-import { minusPoints, multiplyPoints } from './points';
+import { sumPoints, minusPoints, multiplyPoints, dividePoints } from './points';
 
 export function register () {
   const store = {};
@@ -19,7 +19,11 @@ export function register () {
 
     if (target.type === 'container') {
       this.dragging = target;
-      this._aux.mouseDown = { x: e.x, y: e.y, offset: { ...this.offset } };
+      // const { x, y } = sumPoints(e, 0);
+      const { x, y } = dividePoints(e, this.zoom);
+      // this._aux.mouseDown = { x, y, offset: dividePoints(this.offset, this.zoom)};
+      this._aux.mouseDown = { x, y, offset: { ...this.offset } };
+      return ;
     }
 
     if (target.type === 'wire') {
@@ -86,9 +90,10 @@ export function register () {
     if (dragging && dragging.type == 'container') {
       const firstState = this._aux.mouseDown;
       this.offset = {
-        x: (firstState.offset.x - (firstState.x - e.x/zoom))/zoom,
-        y: (firstState.offset.y - (firstState.y - e.y/zoom))/zoom,
+        x: (firstState.offset.x + (e.x - firstState.x)/zoom),
+        y: (firstState.offset.y + (e.y - firstState.y)/zoom),
       };
+      this.offset = sumPoints(firstState.offset, minusPoints(dividePoints(e, zoom), firstState));
 
       console.debug('offset', this.offset);
       forceUpdate();
@@ -100,9 +105,10 @@ export function register () {
       const wrapper = this.dragging.wrapper;
       const SVGbox = wrapper._svg.getBoundingClientRect();
       const firstState = this._aux.mouseDown;
-      const mouse = multiplyPoints(e, 1);
+      // const mouse = multiplyPoints(e, 1);
+      const mouse = dividePoints(e, this.zoom);
       const padding = minusPoints(mouse, [SVGbox.left, SVGbox.top]);
-      const { x, y } = minusPoints(padding, firstState);
+      const { x, y } = dividePoints(minusPoints(padding, firstState), 1);
       wrapper.x = x;
       wrapper.y = y;
       wrapper.updateWires(this.offset);
@@ -122,6 +128,11 @@ export function register () {
     // svg.style.transform = `scale(${this.zoom})`;
     if (this.react)
       this.react.forceUpdate();
+
+
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
   });
 
   return store;
