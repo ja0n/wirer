@@ -44,11 +44,15 @@ export function register () {
       this.lastSelected = wrapper;
       this.dragging = nodeNode;
       var SVGbox = wrapper._svg.getBoundingClientRect();
-      const offset = {
-        x: e.x - SVGbox.left,
-        y: e.y - SVGbox.top,
+      const mouse = dividePoints(e, this.zoom);
+      const offset = minusPoints(mouse, [SVGbox.left, SVGbox.top]);
+      this._aux.mouseDown = {
+        wrapper: sumPoints(wrapper, 1),
+        barePos: sumPoints(e, 1),
+        mouse,
+        x: offset.x - wrapper.x,
+        y: offset.y - wrapper.y,
       };
-      this._aux.mouseDown = { x: offset.x - wrapper.x, y: offset.y - wrapper.y };
       this._svg.appendChild(this.dragging);
       wrapper.wires.forEach(wire => this._svg.appendChild(wire._el));
     }
@@ -89,12 +93,7 @@ export function register () {
 
     if (dragging && dragging.type == 'container') {
       const firstState = this._aux.mouseDown;
-      this.offset = {
-        x: (firstState.offset.x + (e.x - firstState.x)/zoom),
-        y: (firstState.offset.y + (e.y - firstState.y)/zoom),
-      };
       this.offset = sumPoints(firstState.offset, minusPoints(dividePoints(e, zoom), firstState));
-
       console.debug('offset', this.offset);
       forceUpdate();
       return true;
@@ -103,12 +102,10 @@ export function register () {
 
     if (dragging) {
       const wrapper = this.dragging.wrapper;
-      const SVGbox = wrapper._svg.getBoundingClientRect();
       const firstState = this._aux.mouseDown;
-      // const mouse = multiplyPoints(e, 1);
       const mouse = dividePoints(e, this.zoom);
-      const padding = minusPoints(mouse, [SVGbox.left, SVGbox.top]);
-      const { x, y } = dividePoints(minusPoints(padding, firstState), 1);
+      const dtMouse = minusPoints(e, firstState.barePos);
+      const { x, y } = sumPoints(firstState.wrapper, dtMouse);
       wrapper.x = x;
       wrapper.y = y;
       wrapper.updateWires(this.offset);
