@@ -1,4 +1,5 @@
 
+
 const castPoint = value => {
   if (Array.isArray(value)) {
     const [head, tail] = value;
