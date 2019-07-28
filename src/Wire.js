@@ -1,5 +1,5 @@
 import { createElement } from './utils';
-import { sumPoints } from './points';
+import { sumPoints, multiplyPoints, dividePoints } from './points';
 
 export default function Wire(p1, p2) {
   const styles = [
@@ -89,14 +89,15 @@ Wire.prototype = {
       element.setAttribute('d', d);
   },
 
-  renderAnnotated (pointA, pointB, offset = { x: 0, y: 0 }) {
+  renderAnnotated (pointA, pointB) {
     this._render(pointA, pointB, this._inverted);
   },
 
-  render (offset = { x: 0, y: 0 }) {
-    const pointA = sumPoints(this._cp1.getPoint(), offset);
-    const pointB = sumPoints(this._cp2.getPoint(), offset);
-    this.renderAnnotated(pointA, pointB, offset);
+  render (offset = { x: 0, y: 0 }, zoom) {
+    const zOffset = multiplyPoints(offset, zoom || 1);
+    const pointA = sumPoints(this._cp1.getPoint(), zOffset);
+    const pointB = sumPoints(this._cp2.getPoint(), zOffset);
+    this.renderAnnotated(pointA, pointB);
   }
 
 };

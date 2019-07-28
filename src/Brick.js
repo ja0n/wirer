@@ -77,8 +77,8 @@ export default class Brick {
     this._el.parentNode.removeChild(this._el);
   }
 
-  updateWires (offset) {
-    this.wires.forEach( wire => wire.render(offset) );
+  updateWires (offset, zoom) {
+    this.wires.forEach( wire => wire.render(offset, zoom) );
   }
 
   getValue (id) {

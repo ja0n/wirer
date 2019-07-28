@@ -146,6 +146,10 @@ export default class Sticky {
       this.loadPorts(nodey, node.ports.out, ['out', 'in']);
       this.loadPorts(nodey, node.ports.flow_out, ['flow_out', 'flow_in']);
     }
+
+    if (this.render) {
+      this.render.renderWires();
+    }
   }
 
   reload () {

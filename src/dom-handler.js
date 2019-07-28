@@ -108,16 +108,16 @@ export function register () {
       const { x, y } = sumPoints(firstState.wrapper, dtMouse);
       wrapper.x = x;
       wrapper.y = y;
-      wrapper.updateWires(this.offset);
+      wrapper.updateWires(dividePoints(this.offset, this.zoom));
 
       forceUpdate();
       return true;
     }
   });
 
-  const zoomVelocity = 0.1;
+  const zoomVelocity = 0.05;
   window.addEventListener("wheel", event => {
-    if (this.dragging) return false;
+    if (this.disableZoom && this.dragging) return false;
 
     const delta = Math.sign(event.deltaY);
     console.info('MouseWheel delta', delta);
@@ -126,9 +126,9 @@ export function register () {
     if (this.react)
       this.react.forceUpdate();
 
+    this.renderWires();
 
-    event.stopPropagation();
-    event.preventDefault();
+
     return false;
   });
 
