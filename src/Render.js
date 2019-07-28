@@ -6,6 +6,7 @@ import { createElement } from './utils';
 
 import { register } from './dom-handler.js'
 import { NodeGraph } from './react/components';
+import { sumPoints, multiplyPoints } from './points';
 
 const config = { width: 800, height: 600 };
 
@@ -122,6 +123,12 @@ export default class Render {
     this._wires.splice(index, 1);
   }
 
+  renderWires () {
+    this._wires.forEach(wire => {
+      wire.render(this.offset, this.zoom);
+    })
+  }
+
   sealOrDiscard (...cps) {
     const wire = new Wire(...cps);
 
@@ -153,7 +160,7 @@ export default class Render {
       return true;
     }
 
-    event.stopPropagation();
+    mouse.stopPropagation();
     return false;
   }
 }

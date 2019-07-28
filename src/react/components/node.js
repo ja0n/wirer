@@ -28,11 +28,13 @@ export class SVGContainer extends React.Component {
     }
 
     if (hasPositionChanged() || hasOffsetChanged()) {
-      this.props.wrapper.updateWires(nextProps.offset);
+      this.props.wrapper.updateWires(nextProps.offset, nextProps.zoom);
     }
 
-    if (hasZoomChanged())
+    if (hasZoomChanged()) {
+      this.props.wrapper.updateWires(nextProps.offset, nextProps.zoom);
       return true
+    }
 
     return false;
   }
@@ -69,7 +71,7 @@ export const NodeContainer = ({ children, width, node, zoom, offset }) => {
 
   return (
     <SVGContainer wrapper={node} title={node.cfg.title} x={x} y={y} offset={zOffset} zoom={zoom}>
-      <foreignObject id="main" className="sticky-node-html" style={style}>
+      <foreignObject id="main" className="sticky-node-html" width={style.width} height={style.height} style={style}>
         {children}
       </foreignObject>
     </SVGContainer>
