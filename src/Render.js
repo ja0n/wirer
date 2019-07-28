@@ -129,6 +129,17 @@ export default class Render {
     })
   }
 
+  renderGrid (offset, zoom = 1) {
+    const zOffset = multiplyPoints(offset, zoom);
+    this._svg.style.backgroundPositionX = `${zOffset.x}px`;
+    this._svg.style.backgroundPositionY = `${zOffset.y}px`;
+    this._svg.style.backgroundSize = `${50 * zoom}px ${50 * zoom}px`;
+    this._svg.style.backgroundImage = `
+      linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);
+    `;
+
+  }
+
   sealOrDiscard (...cps) {
     const wire = new Wire(...cps);
 
