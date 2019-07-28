@@ -59,3 +59,10 @@ export const dividePoints = (...points) => points.reduce(
 );
 
 export const applyZoom = (point, zoom = 1) => multiplyPoints(point, zoom);
+
+export const _p = {
+  add: sumPoints,
+  subtact: minusPoints,
+  multiply: multiplyPoints,
+  divide: dividePoints,
+};
