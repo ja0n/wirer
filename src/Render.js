@@ -67,6 +67,8 @@ export default class Render {
   setCanvasSize({ width, height }) {
     this._svg.style.width = width;
     this._svg.style.height = height;
+    this._svg.setAttribute('width', width);
+    this._svg.setAttribute('height', height);
     this._svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   }
 
@@ -111,7 +113,7 @@ export default class Render {
       return false;
     }
 
-    wire.render(this.offset);
+    wire.render(this.offset, this.zoom);
     this._wires.push(wire);
     this.addElement(wire._el);
     return true;
