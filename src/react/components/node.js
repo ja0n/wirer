@@ -61,11 +61,11 @@ export class SVGContainer extends React.Component {
 }
 
 export const NodeContainer = ({ children, width, node, zoom, offset }) => {
-  const { x, y } = sumPoints(node, multiplyPoints(offset, zoom));
+  const { x, y } = multiplyPoints(sumPoints(node, offset), zoom);
   const zOffset = applyZoom(offset, 1);
   const style = {
     transform: `scale(${zoom})`,
-    width: Math.max(node.cfg.width, 60),
+    width: Math.max(node.cfg.width || width, 60),
     height: 80,
   }
 

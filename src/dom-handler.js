@@ -94,6 +94,7 @@ export function register () {
     if (dragging && dragging.type == 'container') {
       const firstState = this._aux.mouseDown;
       this.offset = sumPoints(firstState.offset, minusPoints(dividePoints(e, zoom), firstState));
+      this.renderGrid(this.offset, zoom);
       console.debug('offset', this.offset);
       forceUpdate();
       return true;
@@ -125,6 +126,8 @@ export function register () {
     // svg.style.transform = `scale(${this.zoom})`;
     if (this.react)
       this.react.forceUpdate();
+
+    this.renderGrid(this.offset, this.zoom);
 
     this.renderWires();
 
