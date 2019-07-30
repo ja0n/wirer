@@ -6,7 +6,7 @@ import { createElement } from './utils';
 
 import { register } from './dom-handler.js'
 import { NodeGraph } from './react/components';
-import { sumPoints, multiplyPoints } from './points';
+import { _p } from './points';
 
 const config = { width: 800, height: 600 };
 
@@ -132,7 +132,7 @@ export default class Render {
   }
 
   renderGrid (offset, zoom = 1) {
-    const zOffset = multiplyPoints(offset, zoom);
+    const zOffset = _p.multiply(offset, zoom);
     this._svg.style.backgroundPositionX = `${zOffset.x}px`;
     this._svg.style.backgroundPositionY = `${zOffset.y}px`;
     this._svg.style.backgroundSize = `${50 * zoom}px ${50 * zoom}px`;
@@ -161,15 +161,15 @@ export default class Render {
 
   attachMove (mouse) {
     if (this.isState('attaching')) {
-      var wire = this._aux['wire'];
-      var SVGbox = this._svg.getBoundingClientRect();
-      //(below) pixel for removing the wire from the way so we can detect the event on port
-      var offset = wire._inverted ? 4 : -4;
-      var mouse = { x: mouse.x - SVGbox.left + offset, y: mouse.y - SVGbox.top };
-      var port = wire._cp1.getPoint();
+      const wire = this._aux['wire'];
+      const SVGbox = this._svg.getBoundingClientRect();
+      // offset the wire away so we can detect the event on port
+      const padding = wire._inverted ? 4 : -4;
+      const vMouse = _p.add(_p.subtract(mouse, [SVGbox.left, SVGbox.top]), padding);
+      const vOffset = _p.multiply(this.offset, this.zoom);
+      const port = wire._cp1.getPoint(this.zoom);
 
-      wire._render(port, mouse, wire._inverted);
-      wire.renderAnnotated(port, mouse, this.offset);
+      wire.renderPoints(_p.add(port, vOffset), vMouse, wire._inverted);
       return true;
     }
 

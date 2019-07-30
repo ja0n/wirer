@@ -1,6 +1,6 @@
 import { getParentSvg } from './utils.js';
 import _throttle from 'lodash/throttle';
-import { sumPoints, minusPoints, multiplyPoints, dividePoints } from './points';
+import { sumPoints, minusPoints, dividePoints, _p } from './points';
 
 export function register () {
   const store = {};
@@ -82,7 +82,7 @@ export function register () {
 
   const forceUpdate = _throttle(() => {
     if (this.react)
-      this.react.forceUpdate();
+      this.react.forceUpdate(() => this.renderWires());
   }, 1);
 
   svg.addEventListener('mousemove', e => {
@@ -106,10 +106,9 @@ export function register () {
       const firstState = this._aux.mouseDown;
       const mouse = dividePoints(e, this.zoom);
       const dtMouse = minusPoints(e, firstState.barePos);
-      const { x, y } = sumPoints(firstState.wrapper, dtMouse);
+      const { x, y } = sumPoints(firstState.wrapper, _p.divide(dtMouse, zoom));
       wrapper.x = x;
       wrapper.y = y;
-      wrapper.updateWires(dividePoints(this.offset, this.zoom));
 
       forceUpdate();
       return true;
@@ -128,9 +127,7 @@ export function register () {
       this.react.forceUpdate();
 
     this.renderGrid(this.offset, this.zoom);
-
     this.renderWires();
-
 
     return false;
   });

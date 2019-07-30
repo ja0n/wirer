@@ -1,4 +1,5 @@
 import { getParentSvg } from './utils';
+import { _p } from './points';
 
 export default class Port {
   constructor({ id, type, direction, node, ref }) {
@@ -54,8 +55,8 @@ export default class Port {
     // this.wrapper.getValue(this._id);
   }
 
-  getPoint () {
-    return { x: this._node.x + this.x, y: this._node.y + this.y };
+  getPoint (zoom = 1) {
+    return _p.add(_p.multiply(this._node, zoom), this);
   }
 
   attach (to) {
