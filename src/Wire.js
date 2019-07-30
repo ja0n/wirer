@@ -81,23 +81,30 @@ Wire.prototype = {
     this._el.parentNode.removeChild(this._el);
   },
 
-  _render(p1, p2, inv) {
-    inv = inv ? -1 : 1;
-    var offset = Wire.dt2p(p1.x, p1.y, p2.x, p2.y)/2;
-    var d = Wire.describeJoint(p1.x, p1.y, p2.x, p2.y, offset*inv);
+  renderPoints (p1, p2, invert) {
+    const direction = invert ? -1 : 1;
+    const offset = Wire.dt2p(p1.x, p1.y, p2.x, p2.y)/2;
+    const d = Wire.describeJoint(p1.x, p1.y, p2.x, p2.y, offset * direction);
     for (let element of this._path)
       element.setAttribute('d', d);
   },
 
-  renderAnnotated (pointA, pointB) {
-    this._render(pointA, pointB, this._inverted);
+
+  renderTranslated (cpA, cpB, offset = { x: 0, y: 0 }, zoom = 1) {
+    const vOffset = _p.multiply(offset, zoom);
+    const pointA = _p.add(cpA, vOffset);
+    const pointB = _p.add(cpB, vOffset);
+    this.renderPoints(pointA, pointB, this._inverted);
   },
 
-  render (offset = { x: 0, y: 0 }, zoom) {
-    const pointA = _p.multiply(_p.add(this._cp1.getPoint(), offset), zoom);
-    const pointB = _p.multiply(_p.add(this._cp2.getPoint(), offset), zoom);
-    this.renderAnnotated(pointA, pointB);
-  }
+  render (offset, zoom) {
+    this.renderTranslated(
+      this._cp1.getPoint(zoom),
+      this._cp2.getPoint(zoom),
+      offset,
+      zoom
+    );
+  },
 
 };
 
