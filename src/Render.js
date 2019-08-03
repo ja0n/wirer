@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Wire from './Wire.js';
 import { createElement } from './utils';
 
-import { register } from './dom-handler.js'
+import { registerEvents } from './dom-handler.js'
 import { NodeGraph } from './react/components';
 import { _p } from './points';
 
@@ -28,7 +28,7 @@ export default class Render {
   }
 
   registerEvents () {
-    register.call(this);
+    registerEvents.call(this);
   }
 
   reactDOM (element) {
@@ -159,21 +159,11 @@ export default class Render {
     return this._state === state;
   }
 
-  attachMove (mouse) {
-    if (this.isState('attaching')) {
-      const wire = this._aux['wire'];
-      const SVGbox = this._svg.getBoundingClientRect();
-      // offset the wire away so we can detect the event on port
-      const padding = wire._inverted ? 4 : -4;
-      const vMouse = _p.add(_p.subtract(mouse, [SVGbox.left, SVGbox.top]), padding);
-      const vOffset = _p.multiply(this.offset, this.zoom);
-      const port = wire._cp1.getPoint(this.zoom);
-
-      wire.renderPoints(_p.add(port, vOffset), vMouse, wire._inverted);
-      return true;
-    }
-
-    mouse.stopPropagation();
-    return false;
+  getCenterCoord() {
+    const { width, height } = this.config;
+    return _p.subtract(
+      this.offset,
+      _p.divide([width, height], 2),
+    );
   }
 }

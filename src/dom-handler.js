@@ -2,7 +2,7 @@ import { getParentSvg } from './utils.js';
 import _throttle from 'lodash/throttle';
 import { sumPoints, minusPoints, dividePoints, _p } from './points';
 
-export function register () {
+export function registerEvents () {
   const store = {};
   const svg = this._svg;
 
@@ -88,8 +88,22 @@ export function register () {
   svg.addEventListener('mousemove', e => {
     normalizeEvent(e);
     const { dragging, zoom } = this;
+    const mouse = e;
 
-    if (this.attachMove(e)) return false;
+    if (this.isState('attaching')) {
+      const { wire } = this._aux;
+      const SVGbox = this._svg.getBoundingClientRect();
+      // offset the wire away so we can detect the event on port
+      const padding = wire._inverted ? 4 : -4;
+      const vMouse = _p.add(_p.subtract(mouse, [SVGbox.left, SVGbox.top]), padding);
+      const vOffset = _p.multiply(this.offset, this.zoom);
+      const port = wire._cp1.getPoint(this.zoom);
+
+      wire.renderPoints(_p.add(port, vOffset), vMouse, wire._inverted);
+      return false;
+    }
+
+    mouse.stopPropagation();
 
     if (dragging && dragging.type == 'container') {
       const firstState = this._aux.mouseDown;
