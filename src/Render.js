@@ -18,6 +18,8 @@ export default class Render {
     this._wires = [];
     this.offset = { x: 0, y: 0 };
     this.zoom = 1;
+    this.disableZoom = false;
+    this.disableDragging = false;
 
     const element = document.getElementById(id);
     if (element) {
@@ -139,6 +141,9 @@ export default class Render {
     this._svg.style.backgroundImage = `
       linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);
     `;
+    this._svg.style.backgroundImage = `
+      linear-gradient(to right, grey ${1 * zoom}, transparent ${1 * zoom}), linear-gradient(to bottom, grey ${1 * zoom}, transparent ${1 * zoom})
+    `;
 
   }
 
@@ -159,11 +164,43 @@ export default class Render {
     return this._state === state;
   }
 
-  getCenterCoord() {
+  getCanvasSize () {
     const { width, height } = this.config;
+    return _p.add([width, height], 0);
+  }
+
+  getCenterPoint () {
+    const vOffset = _p.multiply(this.offset, this.zoom);
+    const vCanvasSize = _p.multiply(this.getCanvasSize(), this.zoom);
     return _p.subtract(
-      this.offset,
-      _p.divide([width, height], 2),
+      _p.divide(vCanvasSize, 2),
+      vOffset,
     );
+  }
+
+  setCenterPoint (point) {
+    const vPoint = _p.divide(_p.multiply(point, -1), this.zoom);
+    this.offset = _p.add(
+      _p.divide(this.getCanvasSize(), 2),
+      vPoint,
+    );
+    this.forceUpdate();
+  }
+
+  forceUpdate () {
+    if (this.react)
+      this.react.forceUpdate();
+
+    this.renderGrid(this.offset, this.zoom);
+  }
+
+  setZoom (value) {
+    this.zoom = value;
+    this.forceUpdate();
+  }
+
+  setOffset (point) {
+    this.offset = point;
+    this.forceUpdate();
   }
 }

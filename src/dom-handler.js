@@ -38,6 +38,9 @@ export function registerEvents () {
     const parentSvg = getParentSvg(target);
     const shouldCapture = tagName => !['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'].includes(tagName);
     if (shouldCapture(target.tagName) && parentSvg && parentSvg.type == 'node') {
+      if (this.disableDragging)
+        return true;
+
       const nodeNode = parentSvg;
       console.debug('Node selected:', nodeNode, 'Triggered by: ', target);
       var wrapper = nodeNode.wrapper;
@@ -100,10 +103,8 @@ export function registerEvents () {
       const port = wire._cp1.getPoint(this.zoom);
 
       wire.renderPoints(_p.add(port, vOffset), vMouse, wire._inverted);
-      return false;
+      return true;
     }
-
-    mouse.stopPropagation();
 
     if (dragging && dragging.type == 'container') {
       const firstState = this._aux.mouseDown;
@@ -130,19 +131,28 @@ export function registerEvents () {
   });
 
   const zoomVelocity = 0.05;
-  window.addEventListener("wheel", event => {
-    if (this.disableZoom && this.dragging) return false;
+  let lastTime = null;
+  window.addEventListener('wheel', event => {
+    if (this.disableZoom && this.dragging)
+      return false;
+
+    if (lastTime === null)
+      lastTime = Date.now();
 
     const delta = Math.sign(event.deltaY);
     console.info('MouseWheel delta', delta);
-    this.zoom -= zoomVelocity * delta;
+    const cameraTarget = this.getCenterPoint();
+    // this.zoom -= zoomVelocity * delta;
+    const zoomDt = (zoomVelocity * delta);
+    this.setZoom(this.zoom - zoomDt);
+    // this.setCenterPoint(cameraTarget);
     // svg.style.transform = `scale(${this.zoom})`;
-    if (this.react)
-      this.react.forceUpdate();
 
     this.renderGrid(this.offset, this.zoom);
+    this.forceUpdate();
     this.renderWires();
 
+    lastTime = Date.now();
     return false;
   });
 
