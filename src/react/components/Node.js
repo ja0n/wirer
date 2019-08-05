@@ -10,6 +10,6 @@ const Node = ({ title, width, gui, inputs, values, onChange, bgColor, wrapper, p
       <Form gui={gui} inputs={inputs} values={values} onChange={onChange} />
     </SplitSection>
   </body>
-)
+);
 
 export default Node;

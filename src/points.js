@@ -1,5 +1,3 @@
-
-
 const castPoint = value => {
   if (Array.isArray(value)) {
     const [head, tail] = value;
@@ -61,6 +59,7 @@ export const dividePoints = (...points) => points.reduce(
 export const applyZoom = (point, zoom = 1) => multiplyPoints(point, zoom);
 
 export const _p = {
+  cast: castPoint,
   add: sumPoints,
   subtract: minusPoints,
   multiply: multiplyPoints,
