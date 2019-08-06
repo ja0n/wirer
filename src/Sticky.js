@@ -69,12 +69,12 @@ export default class Sticky {
 
     if (start)
       this.addStartNode();
-    if (this.render.react)
-      this.render.react.forceUpdate();
+
+    this.render.forceUpdate();
   }
 
   _formatNodeRef (name, cfg) {
-    const behavior = typeof(cfg.behavior !== 'function')
+    const behavior = typeof(cfg.behavior) !== 'function'
       ? new Function('getNode', cfg.behavior)
       : cfg.behavior;
 
