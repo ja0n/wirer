@@ -171,7 +171,7 @@ export default class Render {
 
   getCenterPoint () {
     const vOffset = _p.multiply(this.offset, this.zoom);
-    const vCanvasSize = _p.multiply(this.getCanvasSize(), this.zoom);
+    const vCanvasSize = _p.multiply(this.getCanvasSize(), 1);
     return _p.subtract(
       _p.divide(vCanvasSize, 2),
       vOffset,
@@ -179,11 +179,13 @@ export default class Render {
   }
 
   setCenterPoint (point) {
-    const vPoint = _p.divide(_p.multiply(point, -1), this.zoom);
+    const vPoint = _p.multiply(_p.multiply(point, -1), this.zoom);
+    const vCanvasSize = _p.multiply(this.getCanvasSize(), 1);
     this.offset = _p.add(
-      _p.divide(this.getCanvasSize(), 2),
+      _p.divide(vCanvasSize, 2),
       vPoint,
     );
+    this.offset = _p.divide(this.offset, this.zoom);
     this.forceUpdate();
   }
 
