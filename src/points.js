@@ -1,4 +1,4 @@
-const castPoint = value => {
+export const castPoint = value => {
   if (Array.isArray(value)) {
     const [head, tail] = value;
     return { x: head, y: tail };
