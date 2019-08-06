@@ -140,13 +140,13 @@ export function registerEvents () {
       lastTime = Date.now();
 
     const delta = Math.sign(event.deltaY);
-    console.info('MouseWheel delta', delta);
     const cameraTarget = this.getCenterPoint();
-    // this.zoom -= zoomVelocity * delta;
     const zoomDt = (zoomVelocity * delta);
     this.setZoom(this.zoom - zoomDt);
-    // this.setCenterPoint(cameraTarget);
+    this.setCenterPoint(cameraTarget);
     // svg.style.transform = `scale(${this.zoom})`;
+    console.info('MouseWheel - zoomDt', zoomDt);
+    console.info('MouseWheel - zoom', this.zoom);
 
     this.renderGrid(this.offset, this.zoom);
     this.forceUpdate();
