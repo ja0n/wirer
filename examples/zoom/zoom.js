@@ -1,24 +1,30 @@
 var canvas = new Sticky.default('test', { width: 200, height: 200 });
 
-document.getElementById('run').onclick = function() {
-  canvas.run();
-};
-
 canvas.render.disableDragging = true;
 canvas.loadJSON(flowsJSON[0]);
 
 function setZoom (event) {
   const { value } = event.target.dataset;
-  canvas.render.zoom = value;
-  canvas.render.react.forceUpdate();
+  canvas.render.setZoom(value);
 };
-for (let button of document.getElementsByClassName('load')) {
+
+for (let button of document.getElementsByClassName('zoom')) {
   button.addEventListener('click', setZoom);
 }
 
+function setCenter (event) {
+  const { value } = event.target.dataset;
+  canvas.render.setCenterPoint(canvas.render._p.parse(value));
+};
+for (let button of document.getElementsByClassName('center')) {
+  button.addEventListener('click', setCenter);
+}
+function setReset () {
+  canvas.render.setZoom(1);
+  canvas.render.setCenterPoint([0, 0]);
+};
+for (let button of document.getElementsByClassName('reset')) {
+  button.addEventListener('click', setReset);
+}
+
 canvas.render.setCenterPoint([0, 0]);
-// window.setInterval(() => {
-//   window.setTimeout(() => canvas.render.setCenterPoint([100, 100]), 2000);
-//   window.setTimeout(() => canvas.render.setCenterPoint([-100, -100]), 4000);
-//   window.setTimeout(() => canvas.render.setCenterPoint([0, 0]), 6000);
-// }, 6000);
