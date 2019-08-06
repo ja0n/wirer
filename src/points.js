@@ -59,6 +59,8 @@ export const dividePoints = (...points) => points.reduce(
 export const applyZoom = (point, zoom = 1) => multiplyPoints(point, zoom);
 
 export const _p = {
+  parse: json => castPoint(JSON.parse(json)),
+  clamp: (min, num, max) => Math.min(Math.max(min, num), max),
   cast: castPoint,
   add: sumPoints,
   subtract: minusPoints,
