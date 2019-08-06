@@ -1,0 +1,57 @@
+diff --git a/src/Sticky.js b/src/Sticky.js
+index 8bcd4d4..89022ad 100644
+--- a/src/Sticky.js
++++ b/src/Sticky.js
+@@ -7,6 +7,18 @@ import { getParentSvg } from './utils.js';
+ 
+ import "./styles/default.scss";
+ 
++window.setInterval(() => { 
++  const elements = [...document.getElementsByClassName('chrome')];
++  for (let element of elements) {
++    element.classList.remove('chrome');
++    element.classList.add('chrome');
++    element.parentNode.replaceChild(
++      element.cloneNode(true),
++      element
++    );
++  }
++}, 5000);
++
+ export default class Sticky {
+   constructor(id, { width, height } = { width: 800, height: 600 }) {
+     this.el = document.getElementById(id);
+diff --git a/src/blockBuilder.js b/src/blockBuilder.js
+index 9585918..c148584 100644
+--- a/src/blockBuilder.js
++++ b/src/blockBuilder.js
+@@ -29,7 +29,9 @@ export function htmlblockBuilder (wrapper, cfg) {
+   const foreign = createElement('foreignObject', { ...attrs });
+   const body = document.createElement('body');
+   body.innerHTML = /*html*/`
+-    <header>${title}</header>
++    <header class="shine-container">
++      <span class="chrome">${title}</span>
++    </header>
+   `;
+   body.style.backgroundColor = fill;
+   const section = document.createElement('section');
+diff --git a/src/styles/default.scss b/src/styles/default.scss
+index dc7b879..bdff35d 100644
+--- a/src/styles/default.scss
++++ b/src/styles/default.scss
+@@ -1,3 +1,5 @@
++@import "./effects.scss";
++
+ .sticky__canvas {
+     font-family: 'Work Sans', sans-serif;
+     background-color: #fff9da;
+@@ -7,7 +9,7 @@
+     -ms-user-select: none;
+     user-select: none;
+     cursor: default;
+-  background-image: linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);
++    background-image: linear-gradient(to right, grey 1px, transparent 1px), linear-gradient(to bottom, grey 1px, transparent 1px);
+     background-size: 50px 50px;
+ 
+ }

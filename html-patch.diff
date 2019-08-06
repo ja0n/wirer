@@ -1,0 +1,53 @@
+diff --git a/examples/alert/index.html b/examples/alert/index.html
+index f232cda..ea414bb 100644
+--- a/examples/alert/index.html
++++ b/examples/alert/index.html
+@@ -49,7 +49,7 @@
+     </div>
+ 
+     <script>
+-      var canvas = new Sticky('test');
++      var canvas = new Sticky.default('test');
+ 
+       var rect1 = canvas.createnode('Source');
+       var rect2 = canvas.createnode('Source');
+diff --git a/src/Brick.js b/src/Brick.js
+index 7e1ba21..5d708ae 100644
+--- a/src/Brick.js
++++ b/src/Brick.js
+@@ -1,4 +1,4 @@
+-import blockBuilder from './blockBuilder.js';
++import blockBuilder, { htmlblockBuilder } from './blockBuilder.js';
+ import { getParentSvg } from './utils';
+ import arrangePorts from './arrangePorts';
+ 
+@@ -22,7 +22,7 @@ export default class Brick {
+ 
+     // this._id = id;
+     this.inputs = {};
+-    this._el = blockBuilder(this, cfg);
++    this._el = htmlblockBuilder(this, cfg);
+     this.behavior = behavior;
+     this._container = null;
+     this._refnode = id;
+@@ -46,7 +46,7 @@ export default class Brick {
+   }
+ 
+   get data () { return this.behavior(); }
+-  get main () { return this._el.getElementById('main'); }
++  get main () { return this._el.querySelector('#main'); }
+   get _svg () { return getParentSvg(this._el); }
+   get x () { return this._el.getAttribute('x') * 1; } // force coercion
+   get y () { return this._el.getAttribute('y') * 1; }
+diff --git a/webpack.config.js b/webpack.config.js
+index ed7cdb1..11f1639 100644
+--- a/webpack.config.js
++++ b/webpack.config.js
+@@ -13,7 +13,6 @@ module.exports = {
+     umdNamedDefine: true
+   },
+   devServer: {
+-    publicPath: 'build',
+     contentBase: [path.join(__dirname, 'examples'), path.join(__dirname, 'dist')],
+     compress: true,
+     port: 9000

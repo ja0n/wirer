@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sticky.js example - Zoom</title>
+    <link href="/themes/default.css" rel="stylesheet">
+    <style>
+    .svg-container {
+      /*height: auto;*/
+      /*display: inline-block;*/
+      /*width: ;*/
+      /*height: 500px;*/
+    }
+
+    .sticky-node {
+      stroke: black;
+      cursor: move;
+    }
+    .sticky-node:hover {
+      stroke: red;
+    }
+
+    .sticky-gui {
+      width: 200px;
+
+    }
+    .sticky-gui body {
+      margin: 0;
+    }
+
+    .sticky-gui label {
+      display: flex;
+    }
+
+    .sticky-gui input, select {
+      width: 60%;
+      display: inline-block;
+    }
+
+    .button-list {
+      left: 100%;
+    }
+
+    </style>
+    <script src="/webpack-dev-server.js"></script>
+    <script src="/sticky.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="test"></div>
+      <ul class="button-list">
+        <li><button id="run" type="button">run</button></li>
+        <li class="separator"></li>
+        <li><button class="load" type="button" data-index="0">Zoom 1x</button></li>
+        <li><button class="load" type="button" data-index="1">Zoom 2x</button></li>
+        <li><button class="load" type="button" data-index="2">Zoom 4x</button></li>
+      
+    </div>
+    <script src="./flows.js"></script>
+    <script src="./zoom.js"></script>
+  </body>
+</html>
