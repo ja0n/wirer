@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { linkTo } from '@storybook/addon-links';
 
 import { Welcome } from '@storybook/react/demo';
-import { Container, Section } from '../src/react/components';
+import { Container, SplitSection } from '../src/react/components';
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
@@ -26,21 +26,7 @@ const onLoad = canvas => {
 storiesOf('Sticky', module)
   .add('default', () => (
     <Container
-      onLoad={canvas => {
-        const initialNodes = [
-          'SourceNumber', 'SourceNumber', 'Alert',
-          'Sum', 'Operation', 'Operation', 'If',
-          'SourceString',
-        ];
-        const nodes = initialNodes.map(nodeName => {
-          return canvas.createNode(nodeName, {
-            x: getRandom(100, 600),
-            y: getRandom(100, 400),
-          });
-        });
-
-        canvas.addNodes(nodes);
-      }}
+      onLoad={onLoad}
     />
   ))
   .add('custom Node', () => {
@@ -60,7 +46,7 @@ storiesOf('Sticky', module)
       />
     );
   })
-  .add('custom Node with Section', () => {
+  .add('custom Node with SplitSection', () => {
     const style = {
       border: '3px solid black',
     }
@@ -69,9 +55,9 @@ storiesOf('Sticky', module)
         <header style={{ backgroundColor: 'grey', color: 'white' }}>
           {title}
         </header>
-        <Section wrapper={wrapper} ports={ports}>
+        <SplitSection wrapper={wrapper} ports={ports}>
 
-        </Section>
+        </SplitSection>
       </article>
     );
     return (
