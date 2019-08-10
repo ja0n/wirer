@@ -194,7 +194,8 @@ export default class Render {
     if (this.react)
       this.react.forceUpdate();
 
-    this.renderGrid(this.offset, this.zoom);
+    if (this._svg)
+      this.renderGrid(this.offset, this.zoom);
   }
 
   setZoom (value) {
