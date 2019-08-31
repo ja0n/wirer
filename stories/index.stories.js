@@ -23,7 +23,7 @@ const onLoad = canvas => {
   canvas.addNodes(nodes);
 }
 
-storiesOf('Sticky', module)
+storiesOf('Custom', module)
   .add('default', () => (
     <Container
       onLoad={onLoad}
