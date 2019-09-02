@@ -1,12 +1,8 @@
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { linkTo } from '@storybook/addon-links';
 
-import { Welcome } from '@storybook/react/demo';
 import { Container, SplitSection } from '../src/react/components';
-
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
 const getRandom = (min, max) => min + (Math.random() * (max - min));
 const onLoad = canvas => {
@@ -29,7 +25,7 @@ storiesOf('Custom', module)
       onLoad={onLoad}
     />
   ))
-  .add('custom Node', () => {
+  .add('square Node', () => {
     const style = {
       padding: 15,
       border: '3px solid black',
