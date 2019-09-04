@@ -1,3 +1,5 @@
+window.DumbBox = DumbBox;
+
 function DumbBox(id, obj) {
   var el = document.getElementById(id);
   this.ctx = el.getContext('2d');
