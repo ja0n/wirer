@@ -36,7 +36,8 @@ export function registerEvents () {
     }
 
     const parentSvg = getParentSvg(target);
-    const shouldCapture = tagName => !['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'].includes(tagName);
+    const captureList = ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'];
+    const shouldCapture = tagName => !captureList.includes(tagName);
     if (shouldCapture(target.tagName) && parentSvg && parentSvg.type == 'node') {
       if (this.disableDragging)
         return true;
