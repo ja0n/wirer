@@ -8,7 +8,8 @@
     "start": "webpack --config webpack.config.js",
     "start:dev": "webpack-dev-server --config webpack.config.js",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,11 @@
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
+    "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-links": "^5.1.11",
+    "@storybook/addons": "^5.1.11",
+    "@storybook/react": "^5.1.11",
+    "@storybook/storybook-deployer": "^2.8.1",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.5",
     "babel-plugin-add-module-exports": "^1.0.0",
@@ -44,11 +50,7 @@
     "typescript": "^3.3.3",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1",
-    "webpack-dev-server": "^3.1.14",
-    "@storybook/react": "^5.1.11",
-    "@storybook/addon-actions": "^5.1.11",
-    "@storybook/addon-links": "^5.1.11",
-    "@storybook/addons": "^5.1.11"
+    "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
     "lodash": "^4.17.13",
