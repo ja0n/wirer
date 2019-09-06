@@ -3,10 +3,9 @@ import Node from './Node';
 import NodeContainer from './NodeContainer';
 
 export const NodeList = ({ nodes, offset, zoom, renderNode }) => {
-  const NodeComponent = renderNode || Node;
-
+  console.debug(`NodeList - customNode: ${renderNode != null}`)
   console.debug("NodeList - nodes prop:", nodes)
-  console.debug('NodeList - NodeComponent', NodeComponent);
+  const NodeComponent = renderNode || Node;
 
   return (
     <React.Fragment>
