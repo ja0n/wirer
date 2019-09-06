@@ -110,9 +110,9 @@ export function registerEvents () {
     if (dragging && dragging.type == 'container') {
       const firstState = this._aux.mouseDown;
       this.offset = sumPoints(firstState.offset, minusPoints(dividePoints(e, zoom), firstState));
-      this.renderGrid(this.offset, zoom);
       console.debug('offset', this.offset);
       forceUpdate();
+      this.renderGrid(this.offset, zoom);
       return true;
     }
 
