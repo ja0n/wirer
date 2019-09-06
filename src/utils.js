@@ -1,3 +1,9 @@
+export const colors = [
+  "#B8D430", "#3AB745", "#029990", "#3501CB",
+  "#2E2C75", "#673A7E", "#CC0071", "#F80120",
+  "#F35B20", "#FB9A00", "#FFCC00", "#FEF200",
+];
+
 export function getParentSvg(el) {
   if (!el.parentNode) return null;
   if (el.parentNode.nodeName === 'svg')
@@ -12,8 +18,10 @@ export function createElement(name, attrs) {
   return el;
 }
 
-export const colors = [
-  "#B8D430", "#3AB745", "#029990", "#3501CB",
-  "#2E2C75", "#673A7E", "#CC0071", "#F80120",
-  "#F35B20", "#FB9A00", "#FFCC00", "#FEF200",
-];
+export function inIframe () {
+  try {
+      return window.self !== window.top;
+  } catch (e) {
+      return true;
+  }
+}

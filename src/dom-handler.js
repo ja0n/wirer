@@ -1,4 +1,4 @@
-import { getParentSvg } from './utils.js';
+import { getParentSvg, inIframe } from './utils.js';
 import _throttle from 'lodash/throttle';
 import { sumPoints, minusPoints, dividePoints, _p } from './points';
 
@@ -14,6 +14,8 @@ export function registerEvents () {
   // DOM Events
   svg.addEventListener('mousedown', e => {
     normalizeEvent(e);
+    console.debug(`Render - mouseDown - inIframe: ${inIframe()}`);
+
     this.lastSelected = null;
     const { target } = e;
 
@@ -82,15 +84,15 @@ export function registerEvents () {
     }
   });
 
-
-
   const forceUpdate = _throttle(() => {
     if (this.react)
       this.react.forceUpdate(() => this.renderWires());
   }, 1);
 
   svg.addEventListener('mousemove', e => {
+    console.debug(`Render - mousemove - inIframe: ${inIframe()}`);
     normalizeEvent(e);
+
     const { dragging, zoom } = this;
     const mouse = e;
 
