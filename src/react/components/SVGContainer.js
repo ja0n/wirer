@@ -19,35 +19,51 @@ class SVGContainer extends React.Component {
     if (hasPositionChanged()) {
       this.ref.setAttribute('x', nextProps.x);
       this.ref.setAttribute('y', nextProps.y);
+      this.onComponentUpdate();
     }
 
     if (hasPositionChanged() || hasOffsetChanged()) {
       this.props.wrapper.updateWires(nextProps.offset, nextProps.zoom);
+      this.onComponentUpdate();
     }
 
     if (hasZoomChanged()) {
       this.props.wrapper.updateWires(nextProps.offset, nextProps.zoom);
-      return true;
+      this.onComponentUpdate();
     }
 
     return false;
   }
 
-  render () {
-    const { children, wrapper, x, y, offset } = this.props
-    console.debug('SVGContainer rendering', wrapper, offset);
+  onComponentUpdate () {
+    const { onComponentUpdate } = this.props;
 
-    const setupInstance = ref => {
-      this.ref = ref;
-      if (!ref) return null;
-      ref.wrapper = wrapper;
-      ref.type = 'node';
-      ref.style.overflow = 'visible';
-      wrapper._el = ref;
+    if (typeof(onComponentUpdate) === 'function') {
+      onComponentUpdate(this);
     }
+  }
 
+  setupInstance (ref) {
+    const { wrapper } = this.props;
+    this.ref = ref;
+
+    if (!ref)
+      return null;
+
+    ref.style.overflow = 'visible';
+    ref.wrapper = wrapper;
+    ref.type = 'node';
+    wrapper._el = ref;
+
+    if (typeof(this.props.ref) === 'function') {
+      return this.props.ref(ref);
+    }
+  }
+
+  render () {
+    const { children, x, y } = this.props;
     return (
-      <svg x={x} y={y} ref={setupInstance}>
+      <svg x={x} y={y} ref={ref => this.setupInstance(ref)}>
         {children}
       </svg>
     );
