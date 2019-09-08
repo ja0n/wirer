@@ -20,9 +20,12 @@
     min-width: 60px;
     overflow: visible;
 
-    * {
-        max-width: 100%;
+    & > * {
+        width: fit-content;
+        max-width: fit-content;
     }
+
+
     body {
         overflow: visible;
         background-color: red;
