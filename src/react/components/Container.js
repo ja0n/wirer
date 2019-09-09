@@ -1,6 +1,7 @@
 import React from 'react';
 import Sticky from '../../Sticky';
 import { NodeList } from './index'
+import { Connections } from './Line';
 
 export default class Container extends React.Component {
   buildUp (ref) {
@@ -32,8 +33,26 @@ export default class Container extends React.Component {
 
     return (
       <NodeList
-        nodes={wrapper.nodes}
+        nodes={canvas.nodes}
         renderNode={props.renderNode}
+        offset={canvas.render.offset}
+        zoom={canvas.render.zoom}
+      />
+    );
+  }
+
+  renderConnections () {
+    const { canvas, props } = this;
+    console.debug('canvas', canvas);
+    if (!canvas)
+      return null;
+
+    const { wrapper } = canvas.render.config;
+    console.debug('canvas offset', canvas.render.offset);
+
+    return (
+      <Connections
+        connections={canvas.render._wires}
         offset={canvas.render.offset}
         zoom={canvas.render.zoom}
       />
@@ -53,6 +72,7 @@ export default class Container extends React.Component {
       <div className="sticky__canvas">
         <svg style={style} className="svg-content" preserveAspectRatio="xMidYMid meet" ref={ref => this.buildUp(ref)} >
           {this.renderNodes()}
+          {this.renderConnections()}
         </svg>
       </div>
     );
