@@ -12,7 +12,7 @@ export class FlowPort extends Port {
   constructor ({ ...args }) {
     super({ ...args, type: 'flow' });
 
-    this._max_conn = 1;
+    this.maxConnections = 1;
 
     this._el.setAttribute('fill', '#2549e4');
 

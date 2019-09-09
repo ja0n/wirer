@@ -11,7 +11,7 @@ export const toJSON = (nodes, nodeRefs) => {
 
     for (let type in node._ports) {
       console.debug('to JSON - ', type, node._ports[type]);
-      object.ports[type] = node._ports[type].map(port => [...port._conn]);
+      object.ports[type] = node._ports[type].map(port => [...port.connections]);
     }
 
     return object;

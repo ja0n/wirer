@@ -36,14 +36,14 @@ export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, f
   y = marginTop + ds/2; // center circle origin
 
   for (i = 0; i < flow_in; i++, y+=ds) {
-    let port = new FlowPort({ id: i, dir: 'in', brick: this });
+    let port = new FlowPort({ id: i, dir: 'in', node: this });
     port.attr('cy', y);
     ports.flow_in.push(port);
     this._el.appendChild(port._el);
   }
 
   for (i = 0; i < data_in; i++, y+=ds) {
-    let port = new DataPort({ id: i, dir: 'in', brick: this });
+    let port = new DataPort({ id: i, dir: 'in', node: this });
     port.attr('cy', y);
     ports.in.push(port);
     this._el.appendChild(port._el);
@@ -53,7 +53,7 @@ export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, f
   y = marginTop + ds/2;
 
   for (i = 0; i < flow_out; i++, y+=ds) {
-    let port = new FlowPort({ id: i, dir: 'out', brick: this });
+    let port = new FlowPort({ id: i, dir: 'out', node: this });
     port.attr('cx', width);
     port.attr('cy', y);
     ports.flow_out.push(port);
@@ -61,7 +61,7 @@ export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, f
   }
 
   for (i = 0; i < data_out; i++, y+=ds) {
-    let port = new DataPort({ id: i, dir: 'out', brick: this });
+    let port = new DataPort({ id: i, dir: 'out', node: this });
     port.attr('cx', width);
     port.attr('cy', y);
     ports.out.push(port);

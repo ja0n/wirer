@@ -69,7 +69,7 @@ export function registerEvents () {
     if (e.keyCode == 46) {
       console.debug('deleting', this.lastSelected);
       this.lastSelected.delete();
-      // @TODO should remove from state (brick, wire, port)
+      // @TODO should remove from state (node, wire, port)
     }
   }, false);
 
@@ -103,7 +103,7 @@ export function registerEvents () {
       const padding = wire._inverted ? 4 : -4;
       const vMouse = _p.add(_p.subtract(mouse, [SVGbox.left, SVGbox.top]), padding);
       const vOffset = _p.multiply(this.offset, this.zoom);
-      const port = wire._cp1.getPoint(this.zoom);
+      const port = wire.sourcePort.getPoint(this.zoom);
 
       wire.renderPoints(_p.add(port, vOffset), vMouse, wire._inverted);
       return true;

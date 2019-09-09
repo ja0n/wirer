@@ -1,14 +1,20 @@
 import { _p } from './points';
 
 export default class BaseWire {
-  constructor(p1, p2) {
-    this.controlPoints = [p1, p2];
-    this._cp1 = p1;
-    this._cp2 = p2;
+  constructor(sourcePort, targetPort) {
+    this.controlPoints = [sourcePort, targetPort];
+    this.sourcePort = sourcePort;
+    this.targetPort = targetPort;
     this._inverted = false;
     this._behavior = undefined;
 
     return this;
+  }
+
+  getControlPoints () {
+    const [first] = this.controlPoints.slice(0, 1);
+    const [last] = this.controlPoints.slice(-1, 1);
+    return [first, last];
   }
 
   setupInstance (ref) {
@@ -18,11 +24,12 @@ export default class BaseWire {
   }
 
   seal() {
-    if(this._cp1.direction == this._cp2.direction) return false;
-    var wrapper1 = this._cp1._node;
-    var wrapper2 = this._cp2._node;
+    if (this.sourcePort.direction == this.targetPort.direction)
+      return false;
+    var wrapper1 = this.sourcePort.node;
+    var wrapper2 = this.targetPort.node;
 
-    const canAttach = this._cp1.attach(this._cp2);
+    const canAttach = this.sourcePort.attach(this.targetPort);
     if (canAttach) {
       wrapper1.wires.push(this);
       wrapper2.wires.push(this);
@@ -31,11 +38,11 @@ export default class BaseWire {
   }
 
   delete() {
-    var wrapper1 = this._cp1._node;
-    var wrapper2 = this._cp2._node;
+    var wrapper1 = this.sourcePort.node;
+    var wrapper2 = this.targetPort.node;
     spliceByIndex(wrapper1.wires, this);
     spliceByIndex(wrapper2.wires, this);
-    this._cp1.dettach(this._cp2);
+    this.sourcePort.dettach(this.targetPort);
     if (this._el)
       this._el.parentNode.removeChild(this._el);
   }
@@ -49,8 +56,8 @@ export default class BaseWire {
 
   render (offset, zoom) {
     this.renderTranslated(
-      this._cp1.getPoint(zoom),
-      this._cp2.getPoint(zoom),
+      this.sourcePort.getPoint(zoom),
+      this.targetPort.getPoint(zoom),
       offset,
       zoom
     );
