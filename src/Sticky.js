@@ -5,6 +5,7 @@ import _find from 'lodash/find';
 import Brick from './Brick.js';
 import Render from './Render.js';
 import defaultNodes from './nodeRefs.js';
+import behaviorRunner from './behaviorRunner.js';
 import { toJSON } from './json-loader.js';
 
 import "./styles/default.scss";
@@ -158,34 +159,11 @@ export default class Sticky {
   }
 
   run () {
-    let flow, nextNodeId, refNode;
-    let node = _find(this._objects, { _refNode: 'start' });
-
-    if (!node) {
-      console.warn('Start node not found');
-      return false;
-    }
-
-    console.debug('Start node found:', node);
-
-    // flow = start.behavior();
-    // an ActuatorBrick should return the flow_out port id
-    // it'll be useful for if node
-    const getNode = this.getNode.bind(this);
-
-    let step = 0;
-    do {
-      refNode = this.nodeRefs[node._refNode] || this._refNodes[node._refNode];
-      flow = refNode.behavior.call(node, getNode);
-      nextNodeId = _get(node._ports, ['flow_out', flow, 'connections', 0, 'nodeId'], null);
-      node = getNode(nextNodeId);
-      console.debug('Step', ++step, refNode);
-      console.debug('Next Step', flow, node);
-    } while(node);
+    return behaviorRunner(this);
   }
 
   __compile () {
-    // TODO(ja0n): a pretty method name huh
+    // TODO(ja0n): a fancy method name huh
   }
 }
 
