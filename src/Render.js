@@ -137,10 +137,10 @@ export default class Render {
 
   renderGrid (offset, zoom = 1) {
     const zOffset = _p.multiply(offset, zoom);
+    const lineWidthPx = `${parseInt(_p.clamp(1, 1 * zoom, 10))}px`;
     this._svg.style.backgroundPositionX = `${zOffset.x}px`;
     this._svg.style.backgroundPositionY = `${zOffset.y}px`;
     this._svg.style.backgroundSize = `${50 * zoom}px ${50 * zoom}px`;
-    const lineWidthPx = `${parseInt(_p.clamp(1, 1 * zoom, 10))}px`;
     this._svg.style.backgroundImage = `
       linear-gradient(to right, grey ${lineWidthPx}, transparent ${lineWidthPx}), linear-gradient(to bottom, grey ${lineWidthPx}, transparent ${lineWidthPx})
     `;
