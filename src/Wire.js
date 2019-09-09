@@ -1,6 +1,47 @@
+import BaseWire from './BaseWire';
 import { createElement } from './utils';
 import { _p } from './points';
 
+export default class Wire extends BaseWire {
+  constructor(p1, p2) {
+    super(p1, p2);
+    this._cp1 = p1;
+    this._cp2 = p2;
+    this._inverted = false;
+    this._behavior = undefined;
+
+    this.initDom();
+
+    return this;
+  }
+
+  initDom () {
+    const group = createElement('g');
+    this._path = styles.map(style => {
+      const path = createElement('path', style);
+      path.type = 'wire';
+      path.wrapper = this;
+      group.appendChild(path);
+      return path;
+    });
+    this.setupInstance(group);
+  }
+
+  renderPoints (p1, p2, invert) {
+    const direction = invert ? -1 : 1;
+    const offset = dt2p(p1.x, p1.y, p2.x, p2.y)/2;
+    const d = describeJoint(p1.x, p1.y, p2.x, p2.y, offset * direction);
+    for (let element of this._path)
+      element.setAttribute('d', d);
+  }
+}
+
+const describeJoint = (x1, y1, x2, y2, offset) =>
+  [ "M", x1, y1,
+    "C", x1 + offset, y1, x2 - offset, y2, x2, y2
+  ].join(" ");
+
+const dt2p = (x1, y1, x2, y2) => Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 const styles = [
   {
     'stroke': '#000000',
@@ -27,95 +68,3 @@ const styles = [
     'opacity': 0.8
   },
 ];
-
-export default class Wire {
-  constructor(p1, p2) {
-    this._cp1 = p1;
-    this._cp2 = p2;
-    this._inverted = false;
-    this._behavior = undefined;
-
-    this.initDom();
-
-    return this;
-  }
-
-  initDom () {
-    const group = createElement('g');
-    this._path = styles.map(style => {
-      const path = createElement('path', style);
-      path.type = 'wire';
-      path.wrapper = this;
-      group.appendChild(path);
-      return path;
-    });
-    this._el = group;
-    this._el.type = 'wire';
-    this._el.wrapper = this;
-  }
-
-  seal() {
-    if(this._cp1.direction == this._cp2.direction) return false;
-    var wrapper1 = this._cp1._node;
-    var wrapper2 = this._cp2._node;
-
-    if(this._cp1.attach(this._cp2)) {
-      wrapper1.wires.push(this);
-      wrapper2.wires.push(this);
-      return true;
-    } else {
-      return false;
-    }
-
-  }
-
-  delete() {
-    var wrapper1 = this._cp1._node;
-    var wrapper2 = this._cp2._node;
-    spliceByIndex(wrapper1.wires, this);
-    spliceByIndex(wrapper2.wires, this);
-    this._cp1.dettach(this._cp2);
-    this._el.parentNode.removeChild(this._el);
-  }
-
-  renderPoints (p1, p2, invert) {
-    const direction = invert ? -1 : 1;
-    const offset = dt2p(p1.x, p1.y, p2.x, p2.y)/2;
-    const d = describeJoint(p1.x, p1.y, p2.x, p2.y, offset * direction);
-    for (let element of this._path)
-      element.setAttribute('d', d);
-  }
-
-  renderTranslated (cpA, cpB, offset = { x: 0, y: 0 }, zoom = 1) {
-    const vOffset = _p.multiply(offset, zoom);
-    const pointA = _p.add(cpA, vOffset);
-    const pointB = _p.add(cpB, vOffset);
-    this.renderPoints(pointA, pointB, this._inverted);
-  }
-
-  render (offset, zoom) {
-    this.renderTranslated(
-      this._cp1.getPoint(zoom),
-      this._cp2.getPoint(zoom),
-      offset,
-      zoom
-    );
-  }
-}
-
-const describeJoint = (x1, y1, x2, y2, offset) =>
-  [ "M", x1, y1,
-    "C", x1 + offset, y1, x2 - offset, y2, x2, y2
-  ].join(" ");
-
-const dt2p = (x1, y1, x2, y2) => Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-
-function spliceByIndex(arr, obj) {
-  let index = arr.indexOf(obj);
-
-  if (index != -1) {
-    arr.splice(index, 1);
-    return true;
-  }
-  return false;
-}
