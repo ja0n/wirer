@@ -103,7 +103,7 @@ export default class Render {
     if (this.isState('attaching')) {
       this.setState(null);
       var wire = this._aux['wire'];
-      wire._cp2 = port.wrapper;
+      wire.targetPort = port.wrapper;
 
       this.addWire(wire);
 

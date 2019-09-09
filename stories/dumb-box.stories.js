@@ -129,7 +129,7 @@ function onLoad (canvas) {
     ]
   };
 
-  var map2 = [
+  var matargetPort = [
     "0000000000",
     "0000000000",
     "0000000000"

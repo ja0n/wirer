@@ -113,7 +113,7 @@ export default class Sticky {
   loadPorts (nodey, ports, [from, to]) {
     ports.forEach((port, index) => {
       for (let conn of port) {
-        const nodey2 = this.getNode(conn.brick);
+        const nodey2 = this.getNode(conn.node);
         const cps = [
           nodey._ports[from][index],
           nodey2._ports[to][conn.id],
@@ -158,7 +158,7 @@ export default class Sticky {
   }
 
   run () {
-    let flow, id, refNode;
+    let flow, nextNodeId, refNode;
     let node = _find(this._objects, { _refNode: 'start' });
 
     if (!node) {
@@ -177,8 +177,8 @@ export default class Sticky {
     do {
       refNode = this.nodeRefs[node._refNode] || this._refNodes[node._refNode];
       flow = refNode.behavior.call(node, getNode);
-      id = _get(node._ports, ['flow_out', flow, '_conn', 0, 'brick'], null);
-      node = getNode(id);
+      nextNodeId = _get(node._ports, ['flow_out', flow, 'connections', 0, 'nodeId'], null);
+      node = getNode(nextNodeId);
       console.debug('Step', ++step, refNode);
       console.debug('Next Step', flow, node);
     } while(node);

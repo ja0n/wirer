@@ -3,15 +3,9 @@ import { createElement } from './utils';
 import { _p } from './points';
 
 export default class Wire extends BaseWire {
-  constructor(p1, p2) {
-    super(p1, p2);
-    this._cp1 = p1;
-    this._cp2 = p2;
-    this._inverted = false;
-    this._behavior = undefined;
-
+  constructor(sourcePort, targetPort) {
+    super(sourcePort, targetPort);
     this.initDom();
-
     return this;
   }
 
@@ -27,10 +21,10 @@ export default class Wire extends BaseWire {
     this.setupInstance(group);
   }
 
-  renderPoints (p1, p2, invert) {
+  renderPoints (sourcePort, targetPort, invert) {
     const direction = invert ? -1 : 1;
-    const offset = dt2p(p1.x, p1.y, p2.x, p2.y)/2;
-    const d = describeJoint(p1.x, p1.y, p2.x, p2.y, offset * direction);
+    const offset = dt2p(sourcePort.x, sourcePort.y, targetPort.x, targetPort.y)/2;
+    const d = describeJoint(sourcePort.x, sourcePort.y, targetPort.x, targetPort.y, offset * direction);
     for (let element of this._path)
       element.setAttribute('d', d);
   }

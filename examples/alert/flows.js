@@ -13,7 +13,7 @@ const flowsJSON = [
         "flow_out": [
           [
             {
-              "brick": 6,
+              "node": 6,
               "id": 0
             }
           ]
@@ -33,7 +33,7 @@ const flowsJSON = [
         "out": [
           [
             {
-              "brick": 5,
+              "node": 5,
               "id": 0
             }
           ]
@@ -55,11 +55,11 @@ const flowsJSON = [
         "out": [
           [
             {
-              "brick": 4,
+              "node": 4,
               "id": 0
             },
             {
-              "brick": 4,
+              "node": 4,
               "id": 1
             }
           ]
@@ -78,7 +78,7 @@ const flowsJSON = [
         "in": [
           [
             {
-              "brick": 5,
+              "node": 5,
               "id": 0
             }
           ]
@@ -87,7 +87,7 @@ const flowsJSON = [
         "flow_in": [
           [
             {
-              "brick": 6,
+              "node": 6,
               "id": 0
             }
           ]
@@ -109,13 +109,13 @@ const flowsJSON = [
         "in": [
           [
             {
-              "brick": 2,
+              "node": 2,
               "id": 0
             }
           ],
           [
             {
-              "brick": 2,
+              "node": 2,
               "id": 0
             }
           ]
@@ -123,7 +123,7 @@ const flowsJSON = [
         "out": [
           [
             {
-              "brick": 5,
+              "node": 5,
               "id": 1
             }
           ]
@@ -144,13 +144,13 @@ const flowsJSON = [
         "in": [
           [
             {
-              "brick": 1,
+              "node": 1,
               "id": 0
             }
           ],
           [
             {
-              "brick": 4,
+              "node": 4,
               "id": 0
             }
           ]
@@ -158,11 +158,11 @@ const flowsJSON = [
         "out": [
           [
             {
-              "brick": 3,
+              "node": 3,
               "id": 0
             },
             {
-              "brick": 6,
+              "node": 6,
               "id": 0
             }
           ]
@@ -181,7 +181,7 @@ const flowsJSON = [
         "in": [
           [
             {
-              "brick": 5,
+              "node": 5,
               "id": 0
             }
           ]
@@ -190,7 +190,7 @@ const flowsJSON = [
         "flow_in": [
           [
             {
-              "brick": 0,
+              "node": 0,
               "id": 0
             }
           ]
@@ -198,7 +198,7 @@ const flowsJSON = [
         "flow_out": [
           [
             {
-              "brick": 3,
+              "node": 3,
               "id": 0
             }
           ],
@@ -221,7 +221,7 @@ const flowsJSON = [
         "flow_out": [
           [
             {
-              "brick": 3,
+              "node": 3,
               "id": 0
             }
           ]
@@ -241,7 +241,7 @@ const flowsJSON = [
         "out": [
           [
             {
-              "brick": 6,
+              "node": 6,
               "id": 1
             }
           ]
@@ -263,7 +263,7 @@ const flowsJSON = [
         "out": [
           [
             {
-              "brick": 6,
+              "node": 6,
               "id": 0
             }
           ]
@@ -282,7 +282,7 @@ const flowsJSON = [
         "in": [
           [
             {
-              "brick": 5,
+              "node": 5,
               "id": 0
             }
           ]
@@ -291,7 +291,7 @@ const flowsJSON = [
         "flow_in": [
           [
             {
-              "brick": 0,
+              "node": 0,
               "id": 0
             }
           ]
@@ -313,13 +313,13 @@ const flowsJSON = [
         "in": [
           [
             {
-              "brick": 8,
+              "node": 8,
               "id": 0
             }
           ],
           [
             {
-              "brick": 6,
+              "node": 6,
               "id": 0
             }
           ]
@@ -327,7 +327,7 @@ const flowsJSON = [
         "out": [
           [
             {
-              "brick": 3,
+              "node": 3,
               "id": 0
             }
           ]
@@ -348,13 +348,13 @@ const flowsJSON = [
         "in": [
           [
             {
-              "brick": 2,
+              "node": 2,
               "id": 0
             }
           ],
           [
             {
-              "brick": 1,
+              "node": 1,
               "id": 0
             }
           ]
@@ -362,7 +362,7 @@ const flowsJSON = [
         "out": [
           [
             {
-              "brick": 5,
+              "node": 5,
               "id": 1
             }
           ]
@@ -384,7 +384,7 @@ const flowsJSON = [
         "out": [
           [
             {
-              "brick": 5,
+              "node": 5,
               "id": 0
             }
           ]
