@@ -6,6 +6,8 @@ import zoomFlows from './flows/zoom-flows.json';
 
 import '../examples/themes/default.css';
 
+import 'leader-line';
+
 storiesOf('Features', module)
   .add('zoom', () => (
     <div id="container">

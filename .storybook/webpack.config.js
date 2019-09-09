@@ -12,6 +12,7 @@ module.exports = {
   ],
   module: {
     rules: [
+      { test: require.resolve('leader-line'), loader: 'script-loader' },
       {
         test: /\.(scss|css)$/,
         use: [
@@ -21,7 +22,6 @@ module.exports = {
           "sass-loader"
         ]
       },
-      // add your custom rules.
     ],
   },
 };
