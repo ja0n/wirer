@@ -25,7 +25,12 @@ export default class Line extends React.Component {
   
   initLine () {
 		const {start, end} = this.props;
-    this.line = new window.LeaderLine(start, end);
+    this.line = new LeaderLine({
+      start,
+      end,
+      path: 'magnet',
+      dash: true,
+    });
   }
   
   render () {
