@@ -8,6 +8,8 @@ export default class Line extends React.Component {
   }
   
   componentWillUnmount () {
+    if (this.line)
+      this.line.remove();
   }
   
   shouldComponentUpdate () {
