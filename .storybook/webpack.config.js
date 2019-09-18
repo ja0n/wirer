@@ -12,7 +12,11 @@ module.exports = {
   ],
   module: {
     rules: [
-      { test: require.resolve('leader-line'), loader: 'script-loader' },
+      {
+        test: require.resolve('leader-line/'),
+        loader: 'skeleton-loader',
+        options: { procedure: content => `${content} export default LeaderLine` }
+      },
       {
         test: /\.(scss|css)$/,
         use: [

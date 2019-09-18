@@ -20,7 +20,11 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: require.resolve('leader-line'), loader: 'script-loader' },
+      {
+        test: require.resolve('leader-line/'),
+        loader: 'skeleton-loader',
+        options: { procedure: content => `${content} export default LeaderLine` }
+      },
       { test: /\.tsx?$/, exclude: /(node_modules)/, loader: "awesome-typescript-loader" },
       { test: /\.js?$/, exclude: /(node_modules)/, loader: 'babel-loader' },
       { test: /\.js?$/, exclude: /(node_modules)/, loader: 'source-map-loader', enforce: 'pre' },
