@@ -8,6 +8,7 @@ export default class BaseWire {
     this._inverted = false;
     this._behavior = undefined;
     this.renderInstance = render;
+    this.custom = false;
 
     return this;
   }
@@ -46,13 +47,17 @@ export default class BaseWire {
     return canAttach;
   }
 
-  delete() {
+  delete () {
     const [sourcePort, targetPort] = this.getControlPoints();
 
     spliceByIndex( sourcePort.node.wires, this );
     spliceByIndex( targetPort.node.wires, this );
     sourcePort.dettach(targetPort);
 
+    this.removeFromParent();
+  }
+
+  removeFromParent () {
     if (this._el)
       this._el.parentNode.removeChild(this._el);
   }
@@ -65,6 +70,9 @@ export default class BaseWire {
   }
 
   render (offset, zoom) {
+    if (this.custom)
+      return null;
+
     const [sourcePort, targetPort] = this.getControlPoints();
     this.renderTranslated(
       sourcePort.getPoint(zoom),
