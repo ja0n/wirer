@@ -25,6 +25,7 @@ export default class Container extends React.Component {
   renderNodes () {
     const { canvas, props } = this;
     console.debug('canvas', canvas);
+
     if (!canvas)
       return null;
 

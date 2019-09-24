@@ -60,7 +60,9 @@ export function registerEvents () {
         y: offset.y - wrapper.y,
       };
       this._svg.appendChild(this.dragging);
-      wrapper.wires.forEach(wire => this._svg.appendChild(wire._el));
+      wrapper.wires.forEach(
+        wire => wire._el && this._svg.appendChild(wire._el)
+      );
     }
 
   }, false);
@@ -103,7 +105,7 @@ export function registerEvents () {
       const padding = wire._inverted ? 4 : -4;
       const vMouse = _p.add(_p.subtract(mouse, [SVGbox.left, SVGbox.top]), padding);
       const vOffset = _p.multiply(this.offset, this.zoom);
-      const port = wire.sourcePort.getPoint(this.zoom);
+      const port = wire.getControlPoints()[0].getPoint(this.zoom);
 
       wire.renderPoints(_p.add(port, vOffset), vMouse, wire._inverted);
       return true;
