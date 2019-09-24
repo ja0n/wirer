@@ -1,7 +1,6 @@
 import React from 'react';
 import Sticky from '../../Sticky';
-import { NodeList } from './index'
-import { Connections } from './Line';
+import { NodeList, Connections } from './index'
 
 export default class Container extends React.Component {
   buildUp (ref) {
@@ -53,6 +52,7 @@ export default class Container extends React.Component {
 
     return (
       <Connections
+        canvas={canvas}
         connections={canvas.render._wires}
         offset={canvas.render.offset}
         zoom={canvas.render.zoom}
