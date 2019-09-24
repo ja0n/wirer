@@ -8,11 +8,13 @@ import { registerEvents } from './dom-handler.js'
 import { NodeGraph } from './react/components';
 import { _p } from './points';
 
-const config = { width: 800, height: 600 };
+const defaultConfig = { width: 800, height: 600 };
+
+export const internalRender = false;
 
 export default class Render {
-  constructor (id, cfg) {
-    this.config = { ...config, ...cfg };
+  constructor (id, config) {
+    this.config = { ...defaultConfig, ...config };
     this._aux = {};
     this._state = null;
     this._wires = [];
@@ -92,7 +94,7 @@ export default class Render {
   }
 
   startAttach (port) {
-    let wire = new Wire(port.wrapper);
+    const wire = new Wire(port.wrapper);
     wire._inverted = port.wrapper.direction === 'in';
     this.setState('attaching');
     this._aux['wire'] = wire;
@@ -113,13 +115,11 @@ export default class Render {
 
   addWire (wire) {
     if (!wire.seal()) {
-      this.removeElement(wire._el);
       return false;
     }
 
     wire.render(this.offset, this.zoom);
     this._wires.push(wire);
-    this.addElement(wire._el);
     return true;
   }
 
@@ -147,8 +147,8 @@ export default class Render {
     console.info('rengerGrid - lineWidthPx', lineWidthPx);
   }
 
-  sealOrDiscard (...cps) {
-    const wire = new Wire(...cps);
+  sealOrDiscard (...controlPoints) {
+    const wire = new Wire({ controlPoints, render: this });
 
     if (this.addWire(wire))
       return wire;

@@ -29,7 +29,9 @@ export default class Sticky {
 
   addNodes(nodes) {
     for (let node of nodes) {
-      if (node._id == null) node._id = this._uid++;
+      // TODO: use uuid4
+      if (node._id == null)
+        node._id = this._uid++;
       // this._objects = [...this._objects, node];
       this._objects.push(node);
     }

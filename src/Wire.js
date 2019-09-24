@@ -2,10 +2,15 @@ import BaseWire from './BaseWire';
 import { createElement } from './utils';
 import { _p } from './points';
 
+import { internalRender } from './Render'
+
 export default class Wire extends BaseWire {
-  constructor(sourcePort, targetPort) {
-    super(sourcePort, targetPort);
-    this.initDom();
+  constructor(...args) {
+    super(...args);
+
+    if (internalRender)
+      this.initDom();
+
     return this;
   }
 
@@ -19,12 +24,17 @@ export default class Wire extends BaseWire {
       return path;
     });
     this.setupInstance(group);
+    this.renderInstance.addElement(this._el);
   }
 
   renderPoints (sourcePort, targetPort, invert) {
+    if (!this._path)
+      return null;
+
     const direction = invert ? -1 : 1;
     const offset = dt2p(sourcePort.x, sourcePort.y, targetPort.x, targetPort.y)/2;
     const d = describeJoint(sourcePort.x, sourcePort.y, targetPort.x, targetPort.y, offset * direction);
+
     for (let element of this._path)
       element.setAttribute('d', d);
   }

@@ -25,3 +25,14 @@ export function inIframe () {
       return true;
   }
 }
+
+export function spliceByIndex (arr, obj) {
+  const index = arr.indexOf(obj);
+
+  if (index != -1) {
+    arr.splice(index, 1);
+    return true;
+  }
+
+  return false;
+}

@@ -1,20 +1,20 @@
 import { _p } from './points';
+import { spliceByIndex } from './utils'
 
 export default class BaseWire {
-  constructor(sourcePort, targetPort) {
-    this.controlPoints = [sourcePort, targetPort];
-    this.sourcePort = sourcePort;
-    this.targetPort = targetPort;
+  constructor ( config ) {
+    const { controlPoints, render } = config;
+    this.controlPoints = controlPoints || [];
     this._inverted = false;
     this._behavior = undefined;
+    this.renderInstance = render;
 
     return this;
   }
 
   getControlPoints () {
-    const [first] = this.controlPoints.slice(0, 1);
-    const [last] = this.controlPoints.slice(-1, 1);
-    return [first, last];
+    const [head, ...tail] = this.controlPoints;
+    return [head, tail.pop()];
   }
 
   setupInstance (ref) {
@@ -23,26 +23,36 @@ export default class BaseWire {
     this._el.wrapper = this;
   }
 
-  seal() {
-    if (this.sourcePort.direction == this.targetPort.direction)
-      return false;
-    var wrapper1 = this.sourcePort.node;
-    var wrapper2 = this.targetPort.node;
+  getNodes () {
+    const [sourcePort, targetPort] = this.getControlPoints();
+    return [sourcePort.node, targetPort.node]
+  }
 
-    const canAttach = this.sourcePort.attach(this.targetPort);
+  seal() {
+    const [sourcePort, targetPort] = this.getControlPoints();
+
+    if (sourcePort.direction == targetPort.direction)
+      return false;
+
+    const canAttach = sourcePort.attach(targetPort);
     if (canAttach) {
-      wrapper1.wires.push(this);
-      wrapper2.wires.push(this);
+      sourcePort.node.wires.push(this);
+      targetPort.node.wires.push(this);
     }
+
+    if ( !canAttach && this._el && this.renderInstance )
+      this.renderInstance.removeElement(this._el);
+
     return canAttach;
   }
 
   delete() {
-    var wrapper1 = this.sourcePort.node;
-    var wrapper2 = this.targetPort.node;
-    spliceByIndex(wrapper1.wires, this);
-    spliceByIndex(wrapper2.wires, this);
-    this.sourcePort.dettach(this.targetPort);
+    const [sourcePort, targetPort] = this.getControlPoints();
+
+    spliceByIndex( sourcePort.node.wires, this );
+    spliceByIndex( targetPort.node.wires, this );
+    sourcePort.dettach(targetPort);
+
     if (this._el)
       this._el.parentNode.removeChild(this._el);
   }
@@ -55,21 +65,12 @@ export default class BaseWire {
   }
 
   render (offset, zoom) {
+    const [sourcePort, targetPort] = this.getControlPoints();
     this.renderTranslated(
-      this.sourcePort.getPoint(zoom),
-      this.targetPort.getPoint(zoom),
+      sourcePort.getPoint(zoom),
+      targetPort.getPoint(zoom),
       offset,
       zoom
     );
   }
-}
-
-function spliceByIndex(arr, obj) {
-  let index = arr.indexOf(obj);
-
-  if (index != -1) {
-    arr.splice(index, 1);
-    return true;
-  }
-  return false;
 }
