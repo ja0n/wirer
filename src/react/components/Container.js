@@ -56,6 +56,13 @@ export default class Container extends React.Component {
         connections={canvas.render._wires}
         offset={canvas.render.offset}
         zoom={canvas.render.zoom}
+        onLoad={
+          (line, lineElement) => {
+            window.setTimeout(() => {
+              this.linesContainer.appendChild(lineElement);
+            }, 1000)
+          }
+        }
       />
     );
   }
@@ -69,12 +76,24 @@ export default class Container extends React.Component {
         backgroundPosition: `${offset.x}px ${offset.y}px`,
       }
     }
+    const linesStyle = {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      pointerEvents: 'none',
+    }
     return (
-      <div className="sticky__canvas">
-        <svg style={style} className="svg-content" preserveAspectRatio="xMidYMid meet" ref={ref => this.buildUp(ref)} >
-          {this.renderNodes()}
-          {this.renderConnections()}
-        </svg>
+      <div className="sticky__container">
+        <div className="sticky__canvas">
+          <svg style={style} className="svg-content" preserveAspectRatio="xMidYMid meet" ref={ref => this.buildUp(ref)} >
+            {this.renderNodes()}
+            {this.renderConnections()}
+          </svg>
+        </div>
+        <div className="sticky__connections" style={linesStyle} ref={ ref => { this.linesContainer = ref } }>
+        </div>
       </div>
     );
   }
@@ -84,4 +103,4 @@ Container.defaultProps = {
   width: 800,
   height: 600,
   onLoad: null,
-}
+  }

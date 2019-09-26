@@ -1,7 +1,7 @@
 import React from 'react';
 import Line from './Line';
 
-const Connections = ({ connections, canvas }) => {
+const Connections = ({ connections, canvas, onLoad }) => {
   return connections.map((wire, index) => {
     const [sourcePort, targetPort] = wire.getControlPoints();
     if (sourcePort && targetPort)
@@ -10,14 +10,12 @@ const Connections = ({ connections, canvas }) => {
           key={index}
           start={sourcePort._el}
           end={targetPort._el}
-          onLoad={line => {
+          onLoad={(line, linesContainer) => {
             const lineEl = line.getProps().svg;
-            wire.setupInstance(lineEl);
-            // wire.removeFromParent();
+            // wire.setupInstance(lineEl);
             wire.custom = true;
-            const containerEl = document.getElementById('container');
-            // canvas.render.addElement(lineEl);
-            // containerEl.appendChild(lineEl);
+            if (typeof(onLoad) === 'function')
+              onLoad(line, lineEl);
           }}
           />
       );

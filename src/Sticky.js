@@ -136,10 +136,10 @@ export default class Sticky {
     for (let node of data) {
       const { refNode, inputs, x, y, value, id } = node;
       const obj = this.createNode(refNode, { inputs });
+      obj._id = id;
       obj.x = x;
       obj.y = y;
       obj.value = value;
-      obj._id = id;
       this.addNode(obj);
     }
 
