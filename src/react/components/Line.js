@@ -1,5 +1,6 @@
 import LeaderLine from 'leader-line';
 import React from 'react';
+
 export default class Line extends React.Component {
   componentWillUnmount () {
     if (this.line)
@@ -22,9 +23,12 @@ export default class Line extends React.Component {
   initLine() {
     const { start, end } = this.props;
 
+    const startPoint =  LeaderLine.pointAnchor( start, { x: 0, y: 0 } );
+    const endPoint = LeaderLine.pointAnchor( end, { x: 0, y: 0 } );
+
     this.line = new LeaderLine({
-      start,
-      end,
+      start: startPoint,
+      end: endPoint,
       path: 'fluid',
       dash: true,
     });
