@@ -10,9 +10,9 @@ const Connections = ({ connections, canvas, onLoad }) => {
           key={index}
           start={sourcePort._el}
           end={targetPort._el}
-          onLoad={(line, linesContainer) => {
+          onLoad={(line) => {
             const lineEl = line.getProps().svg;
-            // wire.setupInstance(lineEl);
+            wire.setupInstance(lineEl);
             wire.custom = true;
             if (typeof(onLoad) === 'function')
               onLoad(line, lineEl);

@@ -56,13 +56,6 @@ export default class Container extends React.Component {
         connections={canvas.render._wires}
         offset={canvas.render.offset}
         zoom={canvas.render.zoom}
-        onLoad={
-          (line, lineElement) => {
-            window.setTimeout(() => {
-              this.linesContainer.appendChild(lineElement);
-            }, 1000)
-          }
-        }
       />
     );
   }
