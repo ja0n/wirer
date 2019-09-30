@@ -31,6 +31,7 @@ export default class Line extends React.Component {
       end: endPoint,
       path: 'fluid',
       dash: true,
+      disableViewBox: true,
     });
 
     const { svg } = this.line.getProps();
@@ -60,7 +61,7 @@ export default class Line extends React.Component {
         this.line.end = shimPointAnchor(nextProps.end);
       }
 
-      this.line.position(false);
+      this.line.position();
     }
 
     return false;
