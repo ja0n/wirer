@@ -18,6 +18,15 @@ export default class BaseWire {
     return [head, tail.pop()];
   }
 
+  addControlPoints (...controlPoints) {
+    this.controlPoints = [...this.controlPoints, ...controlPoints];
+  }
+
+  setTarget (value) {
+    const [head, ...tail] = this.controlPoints;
+    this.controlPoints = [head, value];
+  }
+
   setupInstance (ref) {
     this._el = ref;
     this._el.type = 'wire';

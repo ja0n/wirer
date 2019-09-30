@@ -10,14 +10,15 @@ function shimPointAnchor (point) {
 
 export default class Line extends React.Component {
   componentWillUnmount () {
-    const { svg } = this.line.getProps();
-    const { parentNode } = svg;
+    if (this.line) {
+      const { svg } = this.line.getProps();
+      const { parentNode } = svg;
 
-    if (parentNode)
-      parentNode.replaceChild( this.mockSvg, svg );
+      if (parentNode)
+        parentNode.removeChild(svg);
 
-    if (this.line)
       this.line.remove();
+    }
   }
 
   initLine() {
@@ -37,7 +38,7 @@ export default class Line extends React.Component {
     svg.leaderLine = this.line;
 
     if (parentNode)
-      parentNode.replaceChild( svg, this.mockSvg );
+      parentNode.appendChild(svg);
 
     if (typeof(this.props.onLoad) === 'function')
       this.props.onLoad(this.line);

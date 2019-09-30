@@ -1,6 +1,7 @@
 import { getParentSvg, inIframe } from './utils.js';
 import _throttle from 'lodash/throttle';
 import { sumPoints, minusPoints, dividePoints, _p } from './points';
+import { internalRender } from './Render.js';
 
 export function registerEvents () {
   const store = {};
@@ -17,7 +18,8 @@ export function registerEvents () {
     console.debug(`Render - mouseDown - inIframe: ${inIframe()}`);
 
     this.lastSelected = null;
-    const { target } = e;
+    let { target } = e;
+    const mouse = e;
 
     if (target.type === 'container') {
       this.dragging = target;
@@ -28,13 +30,24 @@ export function registerEvents () {
       return ;
     }
 
+    if (target.classList.value.includes('leader-line'))
+      target = getParentSvg(target);
+
     if (target.type === 'wire') {
       this.lastSelected = target.wrapper;
       return this.selectedWire = target.wrapper;
     }
 
     if (target.type === 'port' && target.direction === 'out') {
-      return this.startAttach(target);
+      this.startAttach(target);
+
+      const { wire } = this._aux;
+      const SVGbox = this._svg.getBoundingClientRect();
+      const vMouse = _p.subtract(mouse, [SVGbox.left, SVGbox.top]);
+      wire.addControlPoints(vMouse);
+      forceUpdate();
+
+      return true;
     }
 
     const parentSvg = getParentSvg(target);
@@ -67,23 +80,22 @@ export function registerEvents () {
 
   }, false);
 
-  document.addEventListener('keydown', e => {
-    if (e.keyCode == 46) {
-      console.debug('deleting', this.lastSelected);
-      this.lastSelected.delete();
-      // @TODO should remove from state (node, wire, port)
-    }
-  }, false);
-
   svg.addEventListener('mouseup', e => {
     this.dragging = null;
-    if(e.target.type === 'port')
-      return this.endAttach(e.target);
 
-    if(this.isState('attaching')) {
-      this.setState(null)
-      svg.removeChild(this._aux['wire']._el);
+    if (e.target.type === 'port') {
+      this.endAttach(e.target);
     }
+
+    if (this.isState('attaching')) {
+      if (internalRender)
+        svg.removeChild(this._aux['wire']._el);
+
+      this.setState(null)
+      this._aux['wire'] = null;
+    }
+
+    forceUpdate();
   });
 
   const forceUpdate = _throttle(() => {
@@ -101,13 +113,26 @@ export function registerEvents () {
     if (this.isState('attaching')) {
       const { wire } = this._aux;
       const SVGbox = this._svg.getBoundingClientRect();
-      // offset the wire away so we can detect the event on port
-      const padding = wire._inverted ? 4 : -4;
-      const vMouse = _p.add(_p.subtract(mouse, [SVGbox.left, SVGbox.top]), padding);
-      const vOffset = _p.multiply(this.offset, this.zoom);
-      const port = wire.getControlPoints()[0].getPoint(this.zoom);
 
-      wire.renderPoints(_p.add(port, vOffset), vMouse, wire._inverted);
+      if (internalRender) {
+        // offset the wire away so we can detect the event on port
+        const padding = wire._inverted ? 4 : -4;
+        const vMouse = _p.add(_p.subtract(mouse, [SVGbox.left, SVGbox.top]), padding);
+        const vOffset = _p.multiply(this.offset, this.zoom);
+        const port = wire.getControlPoints()[0].getPoint(this.zoom);
+
+        wire.renderPoints(_p.add(port, vOffset), vMouse, wire._inverted);
+      }
+      else {
+        const vMouse =_p.subtract(mouse, [SVGbox.left, SVGbox.top]);
+
+        if (wire._el && wire._el.leaderLine) {
+          wire.setTarget(vMouse);
+        }
+
+        forceUpdate();
+      }
+
       return true;
     }
 
@@ -158,6 +183,15 @@ export function registerEvents () {
     lastTime = Date.now();
     return false;
   });
+
+  document.addEventListener('keydown', e => {
+    if (e.keyCode == 46) {
+      console.debug('deleting', this.lastSelected);
+      this.lastSelected.delete();
+      // @TODO should remove from state (node, wire, port)
+    }
+  }, false);
+
 
   return store;
 }
