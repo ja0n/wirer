@@ -94,18 +94,22 @@ export default class Render {
   }
 
   startAttach (port) {
-    const wire = new Wire(port.wrapper);
+    const controlPoints = [port.wrapper];
+    const wire = new Wire({ controlPoints, render: this });
     wire._inverted = port.wrapper.direction === 'in';
     this.setState('attaching');
     this._aux['wire'] = wire;
-    this.addElement(wire._el);
+
+    if (internalRender) {
+      this.addElement(wire._el);
+    }
   }
 
   endAttach (port) {
     if (this.isState('attaching')) {
       this.setState(null);
-      var wire = this._aux['wire'];
-      wire.targetPort = port.wrapper;
+      const { wire } = this._aux;
+      wire.setTarget(port.wrapper);
 
       this.addWire(wire);
 
@@ -119,7 +123,7 @@ export default class Render {
     }
 
     wire.render(this.offset, this.zoom);
-    this._wires.push(wire);
+    this._wires = [...this._wires, wire];
     return true;
   }
 
@@ -152,6 +156,8 @@ export default class Render {
 
     if (this.addWire(wire))
       return wire;
+
+    this.forceUpdate();
 
     return null;
   }

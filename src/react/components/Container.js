@@ -50,10 +50,15 @@ export default class Container extends React.Component {
     const { wrapper } = canvas.render.config;
     console.debug('canvas offset', canvas.render.offset);
 
+    const connections = [...canvas.render._wires];
+    // float connection
+    const { wire } = canvas.render._aux;
+    if (wire) connections.push(wire);
+
     return (
       <Connections
         canvas={canvas}
-        connections={canvas.render._wires}
+        connections={connections}
         offset={canvas.render.offset}
         zoom={canvas.render.zoom}
       />
