@@ -22,15 +22,16 @@ export default class Line extends React.Component {
   }
 
   initLine() {
-    const { start, end } = this.props;
+    const { start, end, options } = this.props;
     const startPoint = shimPointAnchor(start);
     const endPoint = shimPointAnchor(end);
 
     this.line = new LeaderLine({
-      start: startPoint,
-      end: endPoint,
       path: 'fluid',
       dash: true,
+      ...options,
+      start: startPoint,
+      end: endPoint,
       disableViewBox: true,
     });
 
