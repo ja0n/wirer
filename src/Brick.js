@@ -1,12 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import get from 'lodash/get';
 import set from 'lodash/set';
 import forEach from 'lodash/forEach';
 
 import { SVGContainer } from './blockBuilder';
 import { getParentSvg } from './utils';
-import { Node } from './react/components';
 
 const defaultConfig = {
   x: 0,
