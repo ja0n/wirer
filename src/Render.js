@@ -124,6 +124,7 @@ export default class Render {
 
     wire.render(this.offset, this.zoom);
     this._wires = [...this._wires, wire];
+    this.forceUpdate();
     return true;
   }
 

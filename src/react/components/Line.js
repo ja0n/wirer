@@ -1,5 +1,6 @@
 import LeaderLine from 'leader-line';
 import React from 'react';
+import _get from 'lodash/get';
 
 function shimPointAnchor (point) {
   return point instanceof Element
@@ -11,18 +12,33 @@ function shimPointAnchor (point) {
 export default class Line extends React.Component {
   componentWillUnmount () {
     if (this.line) {
-      const { svg } = this.line.getProps();
-      const { parentNode } = svg;
-
-      if (parentNode)
-        parentNode.removeChild(svg);
-
       this.line.remove();
     }
   }
 
-  initLine() {
-    const { start, end, options } = this.props;
+  setupInstance (ref) {
+    this.svg = ref;
+
+    if (ref) {
+      this.shouldInitLine();
+    }
+  }
+
+  shouldComponentUpdate (nextProps) {
+    this.shouldInitLine(nextProps);
+
+    if (this.line) {
+      if (this.props.start != nextProps.start)
+        this.line.start = shimPointAnchor(nextProps.start);
+      if (this.props.end != nextProps.end)
+        this.line.end = shimPointAnchor(nextProps.end);
+      this.line.position();
+    }
+
+    return false;
+  }
+
+  initLine ({ start, end, options }) {
     const startPoint = shimPointAnchor(start);
     const endPoint = shimPointAnchor(end);
 
@@ -33,43 +49,31 @@ export default class Line extends React.Component {
       start: startPoint,
       end: endPoint,
       disableViewBox: true,
+      svg: this.svg
     });
 
     const { svg } = this.line.getProps();
-    const { parentNode } = this.mockSvg;
     svg.leaderLine = this.line;
-
-    if (parentNode)
-      parentNode.appendChild(svg);
 
     if (typeof(this.props.onLoad) === 'function')
       this.props.onLoad(this.line);
   }
 
-  shouldComponentUpdate (nextProps) {
-    if (!this.line && this.mockSvg && this.props.start && this.props.end) {
-      this.initLine();
+  shouldInitLine (nextProps) {
+    if (this.line)
       return false;
-    }
 
-    if (this.line) {
+    const start = _get(nextProps, 'start', this.props.start);
+    const end = _get(nextProps, 'end', this.props.end);
+    const options = _get(nextProps, 'options', this.props.options);
 
-      if (this.props.start != nextProps.start) {
-        this.line.start = shimPointAnchor(nextProps.start);
-      }
+    if (this.svg && start && end)
+      this.initLine({ start, end, options });
 
-      if (this.props.end != nextProps.end) {
-        this.line.end = shimPointAnchor(nextProps.end);
-      }
-
-      this.line.position();
-    }
-
-    return false;
+    return true;
   }
 
-
   render() {
-    return <svg ref={ ref => this.mockSvg = ref } />;
+    return <svg ref={ ref => this.setupInstance(ref) } />;
   }
 }
