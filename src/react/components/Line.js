@@ -10,9 +10,15 @@ function shimPointAnchor (point) {
 }
 
 export default class Line extends React.Component {
+
+  static defaultProps = {
+    float: false,
+  }
+
   componentWillUnmount () {
     if (this.line) {
       this.line.remove();
+      this.line = null;
     }
   }
 
@@ -33,6 +39,9 @@ export default class Line extends React.Component {
       if (this.props.end != nextProps.end)
         this.line.end = shimPointAnchor(nextProps.end);
       this.line.position();
+
+      if (nextProps.float)
+        this.svg.parentNode.appendChild(this.svg);
     }
 
     return false;
