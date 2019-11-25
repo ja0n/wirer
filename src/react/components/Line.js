@@ -2,11 +2,13 @@ import LeaderLine from 'leader-line';
 import React from 'react';
 import _get from 'lodash/get';
 
-function shimPointAnchor (point) {
-  return point instanceof Element
-    ? LeaderLine.pointAnchor( point, { x: 0, y: 0 } )
-    : LeaderLine.pointAnchor( document.body, point )
-    ;
+function shimPointAnchor (point, padding) {
+  if (point instanceof Element) {
+    if (padding)
+      return LeaderLine.pointAnchor( point, padding )
+    return point;
+  }
+  return LeaderLine.pointAnchor( document.body, point );
 }
 
 export default class Line extends React.Component {
@@ -38,6 +40,9 @@ export default class Line extends React.Component {
         this.line.start = shimPointAnchor(nextProps.start);
       if (this.props.end != nextProps.end)
         this.line.end = shimPointAnchor(nextProps.end);
+      const options = _get(nextProps, 'options', {});
+      options['size'] = nextProps.size || 4;
+      this.line.setOptions(options);
       this.line.position();
 
       if (nextProps.float)
@@ -86,3 +91,14 @@ export default class Line extends React.Component {
     return <svg ref={ ref => this.setupInstance(ref) } />;
   }
 }
+
+Line.defaultProps = {
+  options: {
+    path: 'fluid',
+    dash: true,
+    startSocket: 'right',
+    endSocket: 'left',
+    disableViewBox: true,
+    size: 4,
+  },
+};
