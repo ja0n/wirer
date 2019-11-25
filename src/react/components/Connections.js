@@ -16,6 +16,7 @@ const Connections = ({ connections, canvas, onLoad }) => {
           key={index}
           start={_get(sourcePort, '_el', sourcePort)}
           end={_get(targetPort, '_el', targetPort)}
+          size={4 * canvas.render.zoom}
           onLoad={(line) => {
             const { svg } = line.getProps();
             wire.setupInstance(svg);
