@@ -2,10 +2,8 @@ import React from 'react';
 import Line from './Line';
 import _get from 'lodash/get'
 
-import { internalRender } from '../../Render';
-
 const Connections = ({ connections, canvas, onLoad }) => {
-  if (internalRender)
+  if (canvas.render.internalRender)
     return null;
 
   return connections.map((wire, index) => {
@@ -20,7 +18,7 @@ const Connections = ({ connections, canvas, onLoad }) => {
           onLoad={(line) => {
             const { svg } = line.getProps();
             wire.setupInstance(svg);
-            wire.custom = !internalRender;
+            wire.custom = !canvas.render.internalRender;
             if (typeof(onLoad) === 'function')
               onLoad(line, svg);
           }}

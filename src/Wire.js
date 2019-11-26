@@ -2,13 +2,11 @@ import BaseWire from './BaseWire';
 import { createElement } from './utils';
 import { _p } from './points';
 
-import { internalRender } from './Render'
-
 export default class Wire extends BaseWire {
-  constructor(...args) {
-    super(...args);
+  constructor(config, ...args) {
+    super(config, ...args);
 
-    if (internalRender)
+    if (config.render.internalRender)
       this.initDom();
 
     return this;

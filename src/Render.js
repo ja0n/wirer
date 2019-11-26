@@ -10,8 +10,6 @@ import { _p } from './points';
 
 const defaultConfig = { width: 800, height: 600 };
 
-export const internalRender = false;
-
 export default class Render {
   constructor (id, config) {
     this.config = { ...defaultConfig, ...config };
@@ -22,6 +20,7 @@ export default class Render {
     this.zoom = 1;
     this.disableZoom = false;
     this.disableDragging = false;
+    this.internalRender = true;
 
     const element = document.getElementById(id);
     if (element) {
@@ -100,7 +99,7 @@ export default class Render {
     this.setState('attaching');
     this._aux['wire'] = wire;
 
-    if (internalRender) {
+    if (this.internalRender) {
       this.addElement(wire._el);
     }
   }
