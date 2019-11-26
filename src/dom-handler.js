@@ -1,7 +1,6 @@
 import { getParentSvg, inIframe } from './utils.js';
 import _throttle from 'lodash/throttle';
 import { sumPoints, minusPoints, dividePoints, _p } from './points';
-import { internalRender } from './Render.js';
 
 export function registerEvents () {
   const store = {};
@@ -88,7 +87,7 @@ export function registerEvents () {
     }
 
     if (this.isState('attaching')) {
-      if (internalRender)
+      if (this.internalRender)
         svg.removeChild(this._aux['wire']._el);
 
       this.setState(null)
@@ -114,7 +113,7 @@ export function registerEvents () {
       const { wire } = this._aux;
       const SVGbox = this._svg.getBoundingClientRect();
 
-      if (internalRender) {
+      if (this.internalRender) {
         // offset the wire away so we can detect the event on port
         const padding = wire._inverted ? 4 : -4;
         const vMouse = _p.add(_p.subtract(mouse, [SVGbox.left, SVGbox.top]), padding);
