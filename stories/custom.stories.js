@@ -19,7 +19,7 @@ const onLoad = canvas => {
   canvas.addNodes(nodes);
 }
 
-storiesOf('Custom', module)
+storiesOf('Custom Node', module)
   .add('default', () => (
     <Container
       onLoad={onLoad}
@@ -74,4 +74,17 @@ storiesOf('Custom', module)
       />
     );
   })
-  ;
+
+import alertFlows from './flows/alert-flows.json';
+
+storiesOf('Custom Lines', module)
+  .add('leader-line', () => (
+    <Container
+      onLoad={canvas => {
+        canvas.render.internalRender = false;
+        window.setTimeout(function () {
+          canvas.loadJSON(alertFlows[0])
+        }, 0);
+      }}
+    />
+  ))
