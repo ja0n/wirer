@@ -1,5 +1,7 @@
-import { getParentSvg, inIframe } from './utils.js';
 import _throttle from 'lodash/throttle';
+
+import Brick from './Brick.js';
+import { getParentSvg, inIframe } from './utils.js';
 import { sumPoints, minusPoints, dividePoints, _p } from './points';
 
 export function registerEvents () {
@@ -186,6 +188,12 @@ export function registerEvents () {
   document.addEventListener('keydown', e => {
     if (e.keyCode == 46) {
       console.debug('deleting', this.lastSelected);
+      if (this.lastSelected instanceof Brick) {
+        this.config.wrapper.removeNode(this.lastSelected, true);
+        // avoid forceUpdate and renew wrapper.nodes array instead
+        this.forceUpdate();
+      }
+
       this.lastSelected.delete();
       // @TODO should remove from state (node, wire, port)
     }

@@ -46,6 +46,7 @@ export default class Sticky {
 
   removeNode(node, update) {
     let index = this._objects.indexOf(node);
+
     if (index == -1) return;
 
     for (let wire of [...node.wires]) {
