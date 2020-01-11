@@ -21,14 +21,16 @@ export default class Line extends React.Component {
     if (this.line) {
       this.line.remove();
       this.line = null;
+      this.svg = null;
     }
   }
 
   setupInstance (ref) {
-    this.svg = ref;
-
     if (ref) {
       this.shouldInitLine();
+      this.svg = ref;
+    } else {
+      this.componentWillUnmount();
     }
   }
 
