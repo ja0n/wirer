@@ -86,8 +86,6 @@ export default class Container extends React.Component {
             {this.renderConnections()}
           </svg>
         </div>
-        <div className="sticky__connections" style={linesStyle} ref={ ref => { this.linesContainer = ref } }>
-        </div>
       </div>
     );
   }
