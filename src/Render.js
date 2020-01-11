@@ -135,7 +135,8 @@ export default class Render {
   renderWires () {
     this._wires.forEach(wire => {
       wire.render(this.offset, this.zoom);
-    })
+    });
+    this.forceUpdate();
   }
 
   renderGrid (offset, zoom = 1) {
