@@ -61,6 +61,7 @@ export default class BaseWire {
 
     spliceByIndex( sourcePort.node.wires, this );
     spliceByIndex( targetPort.node.wires, this );
+
     sourcePort.dettach(targetPort);
 
     if (!this.custom)

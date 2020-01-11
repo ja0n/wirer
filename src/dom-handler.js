@@ -4,39 +4,45 @@ import Brick from './Brick.js';
 import { getParentSvg, inIframe } from './utils.js';
 import { sumPoints, minusPoints, dividePoints, _p } from './points';
 
+const normalizeEvent = e => {
+  if (e.x == undefined) e.x = e.clientX;
+  if (e.y == undefined) e.y = e.clientY;
+};
+
 export function registerEvents () {
   const store = {};
   const svg = this._svg;
 
-  const normalizeEvent = e => {
-    if (e.x == undefined) e.x = e.clientX;
-    if (e.y == undefined) e.y = e.clientY;
-  };
-
   // DOM Events
-  svg.addEventListener('mousedown', e => {
-    normalizeEvent(e);
+  svg.addEventListener('mousedown', event => {
     console.debug(`Render - mouseDown - inIframe: ${inIframe()}`);
-
+    normalizeEvent(event);
     this.lastSelected = null;
-    let { target } = e;
-    const mouse = e;
+
+    let { target } = event;
+    const mouse = event;
 
     if (target.type === 'container') {
       this.dragging = target;
-      // const { x, y } = sumPoints(e, 0);
-      const { x, y } = dividePoints(e, this.zoom);
-      // this._aux.mouseDown = { x, y, offset: dividePoints(this.offset, this.zoom)};
+
+      const { x, y } = dividePoints(event, this.zoom);
       this._aux.mouseDown = { x, y, offset: { ...this.offset } };
-      return ;
+
+      // const { x, y } = sumPoints(e, 0);
+      // this._aux.mouseDown = { x, y, offset: dividePoints(this.offset, this.zoom)};
+
+      return null;
     }
 
-    if (target.classList.value.includes('leader-line'))
+    if (target.classList.value.includes('leader-line')) {
       target = getParentSvg(target);
+    }
 
     if (target.type === 'wire') {
       this.lastSelected = target.wrapper;
-      return this.selectedWire = target.wrapper;
+      this.selectedWire = target.wrapper;
+
+      return null;
     }
 
     if (target.type === 'port' && target.direction === 'out') {
@@ -51,29 +57,32 @@ export function registerEvents () {
       return true;
     }
 
-    const parentSvg = getParentSvg(target);
     const captureList = ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'];
     const shouldCapture = tagName => !captureList.includes(tagName);
-    if (shouldCapture(target.tagName) && parentSvg && parentSvg.type == 'node') {
+    const parentSvg = getParentSvg(target);
+    const isNode = shouldCapture(target.tagName) && parentSvg && parentSvg.type == 'node';
+
+    if (isNode) {
       if (this.disableDragging)
         return true;
 
-      const nodeNode = parentSvg;
-      console.debug('Node selected:', nodeNode, 'Triggered by: ', target);
-      var wrapper = nodeNode.wrapper;
+      const node = parentSvg;
+      console.debug('Node selected:', node, 'Triggered by: ', target);
+      const wrapper = node.wrapper;
       this.lastSelected = wrapper;
-      this.dragging = nodeNode;
-      var SVGbox = wrapper._svg.getBoundingClientRect();
-      const mouse = dividePoints(e, this.zoom);
+      this.dragging = node;
+      const SVGbox = wrapper._svg.getBoundingClientRect();
+      const mouse = dividePoints(event, this.zoom);
       const offset = minusPoints(mouse, [SVGbox.left, SVGbox.top]);
       this._aux.mouseDown = {
         wrapper: sumPoints(wrapper, 1),
-        barePos: sumPoints(e, 1),
+        barePos: sumPoints(event, 1),
         mouse,
         x: offset.x - wrapper.x,
         y: offset.y - wrapper.y,
       };
       this._svg.appendChild(this.dragging);
+
       wrapper.wires.forEach(
         wire => wire._el && this._svg.appendChild(wire._el)
       );
@@ -81,11 +90,13 @@ export function registerEvents () {
 
   }, false);
 
-  svg.addEventListener('mouseup', e => {
+  svg.addEventListener('mouseup', event => {
+    let { target } = event;
+
     this.dragging = null;
 
-    if (e.target.type === 'port') {
-      this.endAttach(e.target);
+    if (target.type === 'port') {
+      this.endAttach(target);
     }
 
     if (this.isState('attaching')) {
@@ -105,7 +116,6 @@ export function registerEvents () {
   }, 1);
 
   svg.addEventListener('mousemove', e => {
-    console.debug(`Render - mousemove - inIframe: ${inIframe()}`);
     normalizeEvent(e);
 
     const { dragging, zoom } = this;
@@ -187,15 +197,18 @@ export function registerEvents () {
 
   document.addEventListener('keydown', e => {
     if (e.keyCode == 46) {
-      console.debug('deleting', this.lastSelected);
+      console.debug('Keydown - deleting', this.lastSelected);
+
+      // @TODO should remove from state (node, wire, port)
       if (this.lastSelected instanceof Brick) {
         this.config.wrapper.removeNode(this.lastSelected, true);
         // avoid forceUpdate and renew wrapper.nodes array instead
         this.forceUpdate();
       }
 
-      this.lastSelected.delete();
-      // @TODO should remove from state (node, wire, port)
+      if (this.lastSelected) {
+        this.lastSelected.delete();
+      }
     }
   }, false);
 

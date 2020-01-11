@@ -38,8 +38,10 @@ export default class Line extends React.Component {
     if (this.line) {
       if (this.props.start != nextProps.start)
         this.line.start = shimPointAnchor(nextProps.start);
+
       if (this.props.end != nextProps.end)
         this.line.end = shimPointAnchor(nextProps.end);
+
       const options = _get(nextProps, 'options', {});
       options['size'] = nextProps.size || 4;
       this.line.setOptions(options);
