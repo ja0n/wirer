@@ -45,12 +45,13 @@ export default class BaseWire {
       return false;
 
     const canAttach = sourcePort.attach(targetPort);
+
     if (canAttach) {
       sourcePort.node.wires.push(this);
       targetPort.node.wires.push(this);
     }
 
-    if ( !canAttach && this._el && this.renderInstance )
+    if ( !canAttach && this._el && this.renderInstance && this.renderInstance.internalRender)
       this.renderInstance.removeElement(this._el);
 
     return canAttach;
