@@ -95,4 +95,4 @@ Container.defaultProps = {
   width: 800,
   height: 600,
   onLoad: null,
-  }
+};
