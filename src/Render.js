@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 
 import Wire from './Wire.js';
 import { createElement } from './utils';
-
 import { registerEvents } from './dom-handler.js'
 import { NodeGraph } from './react/components';
 import { _p } from './points';

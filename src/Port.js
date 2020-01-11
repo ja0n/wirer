@@ -5,8 +5,10 @@ export default class Port {
   constructor({ id, type, direction, node, ref }) {
     if (!['in', 'out'].includes(direction))
       throw "port direction must be 'in' or 'out'";
+
     if (!['data', 'flow'].includes(type))
       throw "type must be 'data' or 'flow'";
+
     Object.assign(this, { id, type, direction, node});
     Object.assign(this, { connections: [], maxConnections: 2 });
     this.setupInstance(ref);
@@ -14,7 +16,6 @@ export default class Port {
 
   setupInstance (ref) {
     this._el = ref;
-    console.debug("Port ref", this.id, this.node, ref);
     Object.assign(this._el, {
       wrapper: this,
       type: 'port',

@@ -4,7 +4,6 @@ import NodeContainer from './NodeContainer';
 
 export const NodeList = ({ nodes, offset, zoom, renderNode }) => {
   console.debug(`NodeList - customNode: ${renderNode != null}`)
-  console.debug("NodeList - nodes prop:", nodes)
   const NodeComponent = renderNode || Node;
 
   return (

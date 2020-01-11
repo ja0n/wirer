@@ -78,6 +78,7 @@ export default class Sticky {
   }
 
   _formatNodeRef (name, cfg) {
+    // TODO(ja0n); split behavior to a middleware architecture
     const behavior = typeof(cfg.behavior) !== 'function'
       ? new Function('getNode', cfg.behavior)
       : cfg.behavior;
@@ -99,18 +100,25 @@ export default class Sticky {
 
   createNode(name, data = {}) {
     const cfg = this.nodeRefs[name] || this._refNodes[name];
-    if (!cfg) throw `Node '${name}' not registered`;
+
+    if (!cfg)
+      throw `Node '${name}' not registered`;
+
     return new Brick({ ...cfg, ...data });
   }
 
   static createNode(name, data = {}) {
     const cfg = this.prototype._refNodes[name];
-    if (!cfg) throw "Node not registered";
+
+    if (!cfg)
+      throw "Node not registered";
+
     return new Brick({ ...cfg, ...data });
   }
 
   getNode (id) {
-    if (_isNil(id)) return null;
+    if (_isNil(id))
+      return null;
     return _find(this._objects, { '_id': id });
   }
 
@@ -136,19 +144,19 @@ export default class Sticky {
 
     for (let node of data) {
       const { refNode, inputs, x, y, value, id } = node;
-      const obj = this.createNode(refNode, { inputs });
-      obj._id = id;
-      obj.x = x;
-      obj.y = y;
-      obj.value = value;
-      this.addNode(obj);
+      const instance = this.createNode(refNode, { inputs });
+      instance._id = id;
+      instance.x = x;
+      instance.y = y;
+      instance.value = value;
+      this.addNode(instance);
     }
 
-    // load wires
+    // loop again to load wires
     for (let node of data) {
-      const nodey = this.getNode(node.id);
-      this.loadPorts(nodey, node.ports.out, ['out', 'in']);
-      this.loadPorts(nodey, node.ports.flow_out, ['flow_out', 'flow_in']);
+      const instance = this.getNode(node.id);
+      this.loadPorts(instance, node.ports.out, ['out', 'in']);
+      this.loadPorts(instance, node.ports.flow_out, ['flow_out', 'flow_in']);
     }
 
     if (this.render) {

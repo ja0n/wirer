@@ -28,9 +28,6 @@ export default class Container extends React.Component {
     if (!canvas)
       return null;
 
-    const { wrapper } = canvas.render.config;
-    console.debug('canvas offset', canvas.render.offset);
-
     return (
       <NodeList
         nodes={canvas.nodes}
@@ -43,17 +40,16 @@ export default class Container extends React.Component {
 
   renderConnections () {
     const { canvas, props } = this;
-    console.debug('canvas', canvas);
+
     if (!canvas)
       return null;
 
-    const { wrapper } = canvas.render.config;
-    console.debug('canvas offset', canvas.render.offset);
-
     const connections = [...canvas.render._wires];
-    // float connection
     const { wire } = canvas.render._aux;
-    if (wire) connections.push(wire);
+
+    // float connection
+    if (wire)
+      connections.push(wire);
 
     return (
       <Connections
