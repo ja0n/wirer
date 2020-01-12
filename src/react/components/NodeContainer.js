@@ -23,6 +23,8 @@ class NodeContainer extends React.Component {
     this.ref.style.width = node.cfg.width;
     this.ref.style.height = node.cfg.height;
     this.ref.style.transform = `scale(${zoom})`;
+    this.ref.setAttribute('width', node.cfg.width);
+    this.ref.setAttribute('height', node.cfg.height);
   }
 
   render () {
@@ -43,6 +45,8 @@ class NodeContainer extends React.Component {
           ref={ref => this.ref = ref}
           className="sticky-node-html"
           style={style}
+          width={style.width}
+          height={style.height}
         >
           {this.props.children}
         </foreignObject>

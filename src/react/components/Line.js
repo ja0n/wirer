@@ -72,6 +72,7 @@ export default class Line extends React.Component {
 
     const { svg } = this.line.getProps();
     svg.leaderLine = this.line;
+    svg.removeAttribute('viewBox');
 
     if (typeof(this.props.onLoad) === 'function')
       this.props.onLoad(this.line);
