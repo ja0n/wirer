@@ -9,7 +9,7 @@ import '../examples/themes/default.css';
 import 'leader-line';
 
 storiesOf('Features', module)
-  .add('zoom', () => (
+  .add('Zoom In and Out', () => (
     <div id="container">
       <div id="test">
         <Container
@@ -38,22 +38,22 @@ storiesOf('Features', module)
           }}
         />
       </div>
-      <div class="button-list">
+      <div className="button-list">
         <ul>
-          <li><button class="zoom" type="button" data-value="0.5">Zoom 0.5x</button></li>
-          <li><button class="zoom" type="button" data-value="0.7">Zoom 0.7x</button></li>
-          <li><button class="zoom" type="button" data-value="1">Zoom 1x</button></li>
-          <li><button class="zoom" type="button" data-value="2">Zoom 2x</button></li>
-          <li><button class="zoom" type="button" data-value="3">Zoom 3x</button></li>
-          <li><button class="zoom" type="button" data-value="4">Zoom 4x</button></li>
+          <li><button className="zoom" type="button" data-value="0.5">0.5x</button></li>
+          <li><button className="zoom" type="button" data-value="0.7">0.7x</button></li>
+          <li><button className="zoom" type="button" data-value="1">1.0x</button></li>
+          <li><button className="zoom" type="button" data-value="2">2.0x</button></li>
+          <li><button className="zoom" type="button" data-value="3">3.0x</button></li>
+          <li><button className="zoom" type="button" data-value="4">4.0x</button></li>
         </ul>
         <ul>
-          <li><button class="reset" type="button" data-value="4">Reset</button></li>
+          <li><button className="reset" type="button" data-value="4">Reset</button></li>
         </ul>
       </div>
     </div>
   ))
-  .add('recenter', () => (
+  .add('Center position', () => (
     <div id="container">
       <div id="test">
         <Container
@@ -80,16 +80,16 @@ storiesOf('Features', module)
           }}
         />
       </div>
-      <div class="button-list">
+      <div className="button-list">
         <ul>
-          <li><button class="center" type="button" data-value="[0, 0]">Center [0, 0]</button></li>
-          <li><button class="center" type="button" data-value="[100, -100]">Center [100, -100]</button></li>
-          <li><button class="center" type="button" data-value="[-100, -100]">Center [-100, -100]</button></li>
-          <li><button class="center" type="button" data-value="[-100, 100]">Center [-100, 100]</button></li>
-          <li><button class="center" type="button" data-value="[100, 100]">Center [100, 100]</button></li>
+          <li><button className="center" type="button" data-value="[0, 0]">[0, 0]</button></li>
+          <li><button className="center" type="button" data-value="[100, -100]">[100, -100]</button></li>
+          <li><button className="center" type="button" data-value="[-100, -100]">[-100, -100]</button></li>
+          <li><button className="center" type="button" data-value="[-100, 100]">[-100, 100]</button></li>
+          <li><button className="center" type="button" data-value="[100, 100]">[100, 100]</button></li>
         </ul>
         <ul>
-          <li><button class="reset" type="button" data-value="4">Reset</button></li>
+          <li><button className="reset" type="button" data-value="4">Reset</button></li>
         </ul>
       </div>
     </div>

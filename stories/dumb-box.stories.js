@@ -8,19 +8,21 @@ import flowsJSON from './flows/dumb-box-flows.json';
 import '../examples/dumb-box/dumb-box.js';
 
 storiesOf('Examples', module)
-  .add('dumb box', () => (
+  .add('Dumb Box', () => (
     <div>
+      <p>Try clicking and deleting some node or connection to break the flow</p>
+      <p>You can reset and run again at any time</p>
       <div id="container">
         <Container onLoad={onLoad} />
-        <ul class="button-list">
+        <ul className="button-list">
           <li><button id="run" type="button">Run</button></li>
           <li><button id="reset" type="button">Reset</button></li>
-          <li class="separator"></li>
+          <li className="separator"></li>
           <li><button id="up" type="button">Up</button></li>
           <li><button id="down" type="button">Down</button></li>
           <li><button id="left" type="button">Left</button></li>
           <li><button id="right" type="button">Right</button></li>
-          <li class="separator"></li>
+          <li className="separator"></li>
           <li><button id="gameshark" type="button">gameshark</button></li>
         </ul>
       </div>
@@ -118,6 +120,11 @@ function onLoad (canvas) {
       addNode(dir);
     };
   });
+
+  window.setTimeout(() => {
+    canvas.loadJSON(flowsJSON[0]);
+  }, 0);
+
   var map = {
     initialPos: [1, 0],
     tiled: [

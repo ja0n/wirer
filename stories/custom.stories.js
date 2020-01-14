@@ -25,7 +25,47 @@ storiesOf('Custom Node', module)
       onLoad={onLoad}
     />
   ))
-  .add('square Node', () => {
+  .add('SplitSection', () => {
+    const Node = ({ title, bgColor, wrapper, ports }) => (
+      <main style={{ backgroundColor: bgColor }}>
+        <header> {title} </header>
+        <SplitSection wrapper={wrapper} ports={ports}>
+
+        </SplitSection>
+      </main>
+    );
+
+    const CustomNode = ({ title, bgColor, wrapper, ports }) => (
+      <main style={{ backgroundColor: bgColor }}>
+        <header> {title} </header>
+        <section>
+
+        </section>
+      </main>
+    );
+
+    return (
+      <React.Fragment>
+        <p><strong>SplitSection</strong> splits the section and position the ports on the nodes</p>
+
+        <p>With SplitSection</p>
+        <Container
+          renderNode={Node}
+          width={120}
+          height={120}
+          onLoad={canvas => canvas.clearCanvas()}
+        />
+        <p>Without SplitSection</p>
+        <Container
+          renderNode={CustomNode}
+          width={120}
+          height={120}
+          onLoad={canvas => canvas.clearCanvas()}
+        />
+      </React.Fragment>
+    );
+  })
+  .add('Square Node', () => {
     const style = {
       padding: 15,
       border: '3px solid black',
@@ -42,28 +82,7 @@ storiesOf('Custom Node', module)
       />
     );
   })
-  .add('custom Node with SplitSection', () => {
-    const style = {
-      border: '3px solid black',
-    }
-    const Node = ({ title, bgColor, wrapper, ports }) => (
-      <article style={{ ...style, backgroundColor: bgColor }}>
-        <header style={{ backgroundColor: 'grey', color: 'white' }}>
-          {title}
-        </header>
-        <SplitSection wrapper={wrapper} ports={ports}>
-
-        </SplitSection>
-      </article>
-    );
-    return (
-      <Container
-        renderNode={Node}
-        onLoad={onLoad}
-      />
-    );
-  })
-  .add('custom Node Text', () => {
+  .add('Text Node', () => {
     const Text = ({ title, bgColor }) => (
       <h1 style={{ backgroundColor: bgColor }}>{title}</h1>
     );

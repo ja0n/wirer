@@ -3,7 +3,7 @@ window.DumbBox = DumbBox;
 function DumbBox(id, obj) {
   var el = document.getElementById(id);
   this.ctx = el.getContext('2d');
-  
+
   if (obj.controls)
   window.addEventListener('keyup', e => {
 
@@ -81,9 +81,9 @@ DumbBox.prototype = {
   },
   runCycle: function(dt) {
     if (this.paused) return null;
-    
+
     this.player.update(dt);
-    
+
     this.clearCanvas();
     this.drawMap();
     this.drawPlayer();
@@ -94,6 +94,7 @@ DumbBox.prototype = {
   reset: function() {
     this.player.x = this.map.initialPos[0];
     this.player.y = this.map.initialPos[1];
+    this.player.clearMoves();
   },
   start: function() {
     var lastTime = null;
@@ -106,7 +107,7 @@ DumbBox.prototype = {
       window.requestAnimationFrame(anim);
     };
     anim = anim.bind(this);
-    
+
     window.requestAnimationFrame(anim);
   }
 
@@ -124,6 +125,10 @@ Player.prototype = {
   pushMove: function(move) {
     if (!(['left', 'right', 'up', 'down'].includes(move))) return null;
     this.moves.push(move);
+  },
+  clearMoves: function () {
+    this.moves = [];
+    this.actions = [];
   },
   pushNextAction: function(){
     var move = this.moves.splice(0, 1)[0];
@@ -162,19 +167,19 @@ Player.prototype = {
       var vel = 0.0025;
 
       var invalid = x < 0 || x >= map.data[0].length || y < 0 || y >= map.data.length || (map.coord(x, y) != '0');
-     
+
       if ((this.x == x && this.y == y) || invalid) return true;
-      
+
       if (x < this.x) {
-        this.x = this.x - (dt*vel) <= x ? x : this.x - (dt*vel); 
+        this.x = this.x - (dt*vel) <= x ? x : this.x - (dt*vel);
       } else {
-        this.x = this.x + (dt*vel) >= x ? x : this.x + (dt*vel); 
+        this.x = this.x + (dt*vel) >= x ? x : this.x + (dt*vel);
       }
-      
+
       if (y < this.y) {
-        this.y = this.y - (dt*vel) <= y ? y : this.y - (dt*vel); 
+        this.y = this.y - (dt*vel) <= y ? y : this.y - (dt*vel);
       } else {
-        this.y = this.y + (dt*vel) >= y ? y : this.y + (dt*vel); 
+        this.y = this.y + (dt*vel) >= y ? y : this.y + (dt*vel);
       }
     };
   }
