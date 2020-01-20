@@ -27,21 +27,21 @@ storiesOf('Custom Node', module)
   ))
   .add('SplitSection', () => {
     const Node = ({ title, bgColor, wrapper, ports }) => (
-      <main style={{ backgroundColor: bgColor }}>
+      <article style={{ backgroundColor: bgColor }}>
         <header> {title} </header>
         <SplitSection wrapper={wrapper} ports={ports}>
-
+          <span role="img">🐣</span>
         </SplitSection>
-      </main>
+      </article>
     );
 
     const CustomNode = ({ title, bgColor, wrapper, ports }) => (
-      <main style={{ backgroundColor: bgColor }}>
+      <article style={{ backgroundColor: bgColor }}>
         <header> {title} </header>
         <section>
-
+          <span role="img">🐣</span>
         </section>
-      </main>
+      </article>
     );
 
     return (
