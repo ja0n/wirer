@@ -51,10 +51,10 @@ const styles = [
     'stroke-linejoin': 'round',
     'stroke-linecap': 'round',
     'fill': 'none',
-    'opacity': 1
+    'opacity': 0.4
   },
   {
-    'stroke': '#505050',
+    'stroke': '#AF2B37',
     'stroke-width': 6,
     'stroke-linejoin': 'round',
     'stroke-linecap': 'round',
@@ -62,7 +62,7 @@ const styles = [
     'opacity': 0.8
   },
   {
-    'stroke': '#F3F375',
+    'stroke': '#E0DEDE',
     'stroke-width': 2,
     'stroke-linecap': 'round',
     'stroke-dasharray': 6,

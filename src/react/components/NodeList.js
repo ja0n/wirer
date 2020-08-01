@@ -2,7 +2,8 @@ import React from 'react';
 import Node from './Node';
 import NodeContainer from './NodeContainer';
 
-export const NodeList = ({ nodes, offset, zoom, renderNode }) => {
+export const NodeList = ({ renderNode, ...props }) => {
+  const { nodes, offset, zoom } = props;
   console.debug(`NodeList - customNode: ${renderNode != null}`)
   const NodeComponent = renderNode || Node;
 
@@ -10,7 +11,7 @@ export const NodeList = ({ nodes, offset, zoom, renderNode }) => {
     <React.Fragment>
       {nodes.map(node => (
         <NodeContainer key={node._id} node={node} offset={offset} zoom={zoom}>
-          <NodeComponent {...deriveProps(node, offset)} />
+          <NodeComponent {...deriveProps(node, props)} zoom={zoom} />
         </NodeContainer>
       ))}
     </React.Fragment>

@@ -5,17 +5,17 @@ import _times from 'lodash/times';
 import { DataPort, FlowPort } from '../../ports.js';
 import { _p } from '../../points';
 
-const PortList = ({ wrapper, type, direction, length }) => (
+const PortList = ({ wrapper, type, direction, length, zoom }) => (
   <React.Fragment>
     {_times(length, (index) => (
-      <Port key={index} id={index} node={wrapper} type={type} direction={direction} />
+      <Port key={index} id={index} node={wrapper} type={type} direction={direction} zoom={zoom} />
     ))}
   </React.Fragment>
 );
 
-const Port = ({ children, node, id, type, direction }) => {
+const Port = ({ children, node, id, type, direction, zoom }) => {
   // node._ports.{ in: [], out: [], flow_in: [], flow_out: [] };
-  const circleProps = { r: 7, fill: '#B8D430', stroke: 'black', strokeWidth: 2.5 };
+  const circleProps = { r: 8 * zoom, fill: '#B8D430', stroke: 'black', strokeWidth: 2.5 };
 
   return (
     <svg style={{ overflow: 'visible' }}>

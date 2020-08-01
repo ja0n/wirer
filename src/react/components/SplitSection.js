@@ -1,8 +1,8 @@
 import React from 'react';
 import SplitPorts from './SplitPorts';
 
-const SplitSection = ({ children, wrapper, ports }) => (
-  <SplitPorts node={wrapper} ports={ports}>
+const SplitSection = ({ children, wrapper, ports, zoom }) => (
+  <SplitPorts node={wrapper} ports={ports} zoom={zoom}>
     {
       ({ InputPorts, OutputPorts }) => (
         <section className="sticky-node-section">

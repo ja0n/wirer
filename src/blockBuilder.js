@@ -36,7 +36,9 @@ export function htmlNodeBuilder (wrapper, cfg) {
   const body = document.createElement('body');
   foreign.appendChild(body);
   body.innerHTML = /*html*/`
-    <header>${title}</header>
+    <header class="shine-container">
+      <span class="chrome">${title}</span>
+    </header>
   `;
   body.style.backgroundColor = fill;
   const section = document.createElement('section');

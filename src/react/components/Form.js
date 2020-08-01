@@ -35,7 +35,7 @@ const Input = ({ label, type, value, onChange }) => {
 
   return (
     <label>
-      {label}
+      <span>{label}</span>
       <input type={type} defaultValue={value} onChange={onChange} />
     </label>
   )

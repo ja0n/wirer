@@ -34,6 +34,8 @@ $bgr-color: #333;
 	-webkit-animation-duration: $duration;
 	// -webkit-animation-iteration-count: infinite;
 	text-shadow: 0 0px 0px rgba(255, 255, 255, 0.5);
+
+  animation: shine 10s infinite;
 }
 
 @-webkit-keyframes shine {
@@ -50,3 +52,42 @@ $bgr-color: #333;
 		background-position: 140px;
 	}
 }
+
+.glow {
+  color: #fff;
+  text-align: center;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+  }
+
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+  }
+}
+
+
+.glowing-box {
+
+  animation: glowing-box 1s infinite alternate;
+}
+
+@-webkit-keyframes glowing-box {
+  from {
+    box-shadow:
+        0 0 50px #fff,
+        -10px 0 80px #f0f,
+        10px 0 80px #0ff;
+  }
+
+  to {
+    box-shadow:
+        10px 0 80px #0ff,
+        -10px 0 80px #f0f,
+        0 0 50px #fff;
+  }
+}
+
