@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "leader-line": "ja0n/leader-line",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.19",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-uid": "^2.2.0",
