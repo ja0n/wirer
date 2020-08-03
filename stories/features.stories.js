@@ -1,12 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-
 import { Container } from '../src/react/components';
 import zoomFlows from './flows/zoom-flows.json';
-
-import '../examples/themes/default.css';
-
-import 'leader-line';
 
 storiesOf('Features', module)
   .add('Zoom In and Out', () => (

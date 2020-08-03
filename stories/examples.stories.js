@@ -1,10 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-
 import { Container } from '../src/react/components';
 import alertFlows from './flows/alert-flows.json';
-
-import '../examples/themes/default.css';
 
 const getRandom = (min, max) => min + (Math.random() * (max - min));
 

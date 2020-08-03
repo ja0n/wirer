@@ -17,15 +17,6 @@ module.exports = {
         loader: 'skeleton-loader',
         options: { procedure: content => `${content} export default LeaderLine` }
       },
-      {
-        test: /\.(scss|css)$/,
-        use: [
-          // fallback to style-loader in development
-          'style-loader',
-          "css-loader",
-          "sass-loader"
-        ]
-      },
     ],
   },
 };

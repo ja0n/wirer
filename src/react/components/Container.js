@@ -1,5 +1,7 @@
 import React from 'react';
 import Sticky from '../../Sticky';
+import { GlobalStyle } from '../../globalStyles';
+import { ChromeStyle } from '../../themes/chrome';
 import { NodeList, Connections } from './index'
 
 export default class Container extends React.Component {
@@ -80,6 +82,8 @@ export default class Container extends React.Component {
     }
     return (
       <div className="sticky__container">
+        <GlobalStyle />
+        <ChromeStyle />
         <div className="sticky__canvas">
           <svg style={style} className="svg-content" preserveAspectRatio="xMidYMid meet" ref={ref => this.buildUp(ref)} >
             {this.renderNodes()}

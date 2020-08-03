@@ -8,7 +8,7 @@ import defaultNodes from './nodeRefs.js';
 import behaviorRunner from './behaviorRunner.js';
 import { toJSON } from './json-loader.js';
 
-import "./styles/default.scss";
+// import "./styles/default.scss";
 
 export default class Sticky {
   constructor(id, { width, height } = { width: 800, height: 600 }) {
