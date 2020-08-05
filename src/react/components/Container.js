@@ -25,7 +25,7 @@ export default class Container extends React.Component {
 
   renderNodes () {
     const { canvas, props } = this;
-    console.debug('canvas', canvas);
+    console.debug('Sticky::canvas', canvas);
 
     if (!canvas)
       return null;
@@ -41,22 +41,15 @@ export default class Container extends React.Component {
   }
 
   renderConnections () {
-    const { canvas, props } = this;
+    const { canvas } = this;
 
     if (!canvas)
       return null;
 
-    const connections = [...canvas.render._wires];
-    const { wire } = canvas.render._aux;
-
-    // float connection
-    if (wire)
-      connections.push(wire);
-
     return (
       <Connections
         canvas={canvas}
-        connections={connections}
+        connections={canvas.render.getConnections()}
         offset={canvas.render.offset}
         zoom={canvas.render.zoom}
       />

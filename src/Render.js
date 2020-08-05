@@ -31,6 +31,17 @@ export default class Render {
     return this;
   }
 
+  getConnections () {
+    const connections = [...this._wires];
+    const { wire } = this._aux;
+
+    // float connection
+    if (wire)
+      connections.push(wire);
+
+    return connections
+  }
+
   registerEvents () {
     registerEvents.call(this);
   }
@@ -45,7 +56,7 @@ export default class Render {
 
     ReactDOM.render(
       <NodeGraph
-        ref={ref => this.react = ref}
+        ref={ref => { this.react = ref }}
         getNodes={() => wrapper.nodes}
         getOffset={() => this.offset}
         getZoom={() => this.zoom}
