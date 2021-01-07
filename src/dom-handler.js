@@ -45,7 +45,7 @@ export function registerEvents () {
       return null;
     }
 
-    if (target.type === 'port' && target.direction === 'out') {
+    if (target.type === 'port') {
       this.startAttach(target);
 
       const { wire } = this._aux;
@@ -95,16 +95,17 @@ export function registerEvents () {
 
     this.dragging = null;
 
-    if (target.type === 'port') {
-      this.endAttach(target);
-    }
-
     if (this.isState('attaching')) {
-      if (this.internalRender)
-        svg.removeChild(this._aux['wire']._el);
+      if (target.type === 'port') {
+        this.endAttach(target);
+      } else {
+        if (this.internalRender) {
+          this.removeElement(this._aux['wire']._el);
+        }
 
-      this.setState(null)
-      this._aux['wire'] = null;
+        this.setState(null)
+        this._aux['wire'] = null;
+      }
     }
 
     forceUpdate();
