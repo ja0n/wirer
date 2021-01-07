@@ -46,23 +46,15 @@ const describeJoint = (x1, y1, x2, y2, offset) =>
 const dt2p = (x1, y1, x2, y2) => Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 const styles = [
   {
-    'stroke': '#000000',
-    'stroke-width': 7,
-    'stroke-linejoin': 'round',
-    'stroke-linecap': 'round',
-    'fill': 'none',
-    'opacity': 0.4
-  },
-  {
-    'stroke': '#AF2B37',
+    'stroke': '#505050',
     'stroke-width': 6,
     'stroke-linejoin': 'round',
     'stroke-linecap': 'round',
     'fill': 'none',
-    'opacity': 0.8
+    'opacity': 1
   },
   {
-    'stroke': '#E0DEDE',
+    'stroke': '#F3F375',
     'stroke-width': 2,
     'stroke-linecap': 'round',
     'stroke-dasharray': 6,
