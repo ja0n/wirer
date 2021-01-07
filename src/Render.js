@@ -119,10 +119,13 @@ export default class Render {
       this.setState(null);
       const { wire } = this._aux;
       wire.setTarget(port.wrapper);
+      const success = this.addWire(wire);
 
-      this.addWire(wire);
+      if (!success && this.internalRender) {
+        this.removeElement(this._aux['wire']._el);
+      }
 
-      delete this._aux['wire'];
+      this._aux['wire'] = null;
     }
   }
 
