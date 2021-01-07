@@ -12,8 +12,8 @@ const Node = (props) => {
 
   return (
     <article style={{ backgroundColor: bgColor }} className="glowing-box">
-      <header class="node__header shine-container chrome">
-        <span class="">{title}</span>
+      <header className="node__header shine-container chrome">
+        <span className="node__header-title">{title}</span>
       </header>
 
       <SplitSection wrapper={wrapper} ports={ports} zoom={zoom}>
