@@ -196,7 +196,7 @@ export function registerEvents () {
   });
 
   document.addEventListener('keydown', e => {
-    if (e.keyCode == 46) {
+    if (e.keyCode === 46 || e.code === 'Delete') {
       console.debug('Keydown - deleting', this.lastSelected);
 
       // @TODO should remove from state (node, wire, port)
