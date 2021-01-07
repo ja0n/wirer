@@ -1,15 +1,18 @@
 import { getParentSvg } from './utils';
 import { _p } from './points';
 
+const directionTypes = ['in', 'out']
+const portTypes = ['data', 'flow']
+
 export default class Port {
   constructor({ id, type, direction, node, ref }) {
-    if (!['in', 'out'].includes(direction))
+    if (!directionTypes.includes(direction))
       throw "port direction must be 'in' or 'out'";
 
-    if (!['data', 'flow'].includes(type))
+    if (!portTypes.includes(type))
       throw "type must be 'data' or 'flow'";
 
-    Object.assign(this, { id, type, direction, node});
+    Object.assign(this, { id, type, direction, node });
     Object.assign(this, { connections: [], maxConnections: 2 });
     this.setupInstance(ref);
   }
@@ -40,7 +43,7 @@ export default class Port {
   }
 
   get available () {
-     return this.connections.length < this.maxConnections;
+    return this.connections.length < this.maxConnections;
   }
 
   getBBoxes() {
@@ -67,24 +70,26 @@ export default class Port {
   }
 
   canAttach (to) {
-    return this.available && to.available && (this.type === to.type);
+    return  (this.type === to.type) && this.available && to.available;
   }
 
   attach (to) {
-    if(this.canAttach(to)) {
+    if (this.canAttach(to)) {
       this.connections.push({ nodeId: to.node._id, id: to.id });
       to.connections.push({ nodeId: this.node._id, id: this.id });
-      // console.log(this, to);
+      console.debug('Port attaching', { port: this, to });
       return true;
     }
     return false;
   }
 
-  dettach (to) {
-    let index1 = this.connections.indexOf({ nodeId: to.node._id, id: to.id });
-    let index2 = this.connections.indexOf({ nodeId: this.node._id, id: this.id });
-    // guess it's not working ^
-    this.connections.splice(index1, 1);
-    to.connections.splice(index2, 1);
+  dettach (from) {
+    // guess it's not working due to equality comparison^
+    // maybe we should create a Node.connectionSignature symbol or use findIndex
+    const index = this.connections.indexOf({ nodeId: from.node._id, id: from.id });
+    const fromIndex = from.connections.indexOf({ nodeId: this.node._id, id: this.id });
+    this.connections.splice(index, 1);
+    from.connections.splice(fromIndex, 1);
+    console.debug('Port dettaching', { port: this, from });
   }
 }
