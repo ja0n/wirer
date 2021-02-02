@@ -1,4 +1,4 @@
-import { DataPort, FlowPort } from './ports.js';
+import { DataPort, FlowPort } from './ports';
 
 export default function arrangePorts({ data_in = 1, data_out = 1, flow_in = 1, flow_out = 1 } = {}, gui = {}) {
   var radius = 10;

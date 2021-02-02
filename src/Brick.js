@@ -2,7 +2,7 @@ import set from 'lodash/set';
 import forEach from 'lodash/forEach';
 
 import { SVGContainer } from './blockBuilder';
-import { getParentSvg } from './utils';
+import { getParentSvg } from './utils/dom';
 
 const defaultConfig = {
   x: 0,

@@ -1,4 +1,4 @@
-import Port from './Port.js';
+import Port from './Port';
 
 export class DataPort extends Port {
   constructor ({ ...args }) {

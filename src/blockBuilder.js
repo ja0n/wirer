@@ -1,4 +1,4 @@
-import { createElement } from './utils';
+import { createElement } from './utils/dom';
 import { buildForm } from './gui';
 
 const example = {

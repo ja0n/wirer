@@ -41,7 +41,7 @@ export default {
     ports: { data_in: 2, data_out: 1, flow_in: 0, flow_out: 0 },
     title: 'Operation',
     gui: {
-      op: { label: 'Operation', type: 'select', options: ['==', '!=', '===', '!==', '>', '>=', '<', '<=', '+', '-', '*', '/' ] },
+      op: { label: 'Operation', type: 'select', options: ['==', '!=', '===', '!==', '>', '>=', '<', '<=', '+', '-', '*', '/'] },
     },
     behavior: function(findById) {
       const conn1 = (this._ports['in'][0].connections[0]);

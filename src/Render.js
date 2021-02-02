@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Wire from './Wire.js';
-import { createElement } from './utils';
-import { registerEvents } from './dom-handler.js'
+import Wire from './Wire';
+import { createElement } from './utils/dom';
+import { registerEvents } from './domEventHandlers'
 import { NodeGraph } from './react/components';
-import { _p } from './points';
+import { _p } from './utils/points';
 
 const defaultConfig = { width: 800, height: 600 };
 

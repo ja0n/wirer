@@ -2,11 +2,11 @@ import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
 import _find from 'lodash/find';
 
-import Brick from './Brick.js';
-import Render from './Render.js';
-import defaultNodes from './nodeRefs.js';
-import behaviorRunner from './behaviorRunner.js';
-import { toJSON } from './json-loader.js';
+import Brick from './Brick';
+import Render from './Render';
+import standardNodes from './nodes/standard';
+import behaviorRunner from './behaviorRunner';
+import { toJSON } from './jsonLoader';
 
 // import "./styles/default.scss";
 
@@ -178,4 +178,4 @@ export default class Sticky {
   }
 }
 
-Sticky.prototype._refNodes = defaultNodes || {};
+Sticky.prototype._refNodes = standardNodes || {};

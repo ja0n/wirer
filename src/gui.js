@@ -1,4 +1,4 @@
-import { createElement } from './utils';
+import { createElement } from './utils/dom';
 
 const _identity = v => v;
 

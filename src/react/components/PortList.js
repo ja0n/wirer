@@ -2,8 +2,8 @@ import React from 'react';
 import _findIndex from 'lodash/findIndex';
 import _times from 'lodash/times';
 
-import { DataPort, FlowPort } from '../../ports.js';
-import { _p } from '../../points';
+import { DataPort, FlowPort } from '../../ports';
+import { _p } from '../../utils/points';
 
 const PortList = ({ wrapper, type, direction, length, zoom }) => (
   <React.Fragment>

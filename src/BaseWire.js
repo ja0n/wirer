@@ -1,5 +1,5 @@
-import { _p } from './points';
-import { spliceByIndex } from './utils'
+import { _p } from './utils/points';
+import { spliceByIndex } from './utils/dom'
 
 export default class BaseWire {
   constructor ( config ) {

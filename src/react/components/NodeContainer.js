@@ -1,6 +1,6 @@
 import React from 'react';
 import SVGContainer from './SVGContainer';
-import { _p } from '../../points';
+import { _p } from '../../utils/points';
 import { get } from 'lodash';
 
 const reduceMax = (key) => (max, obj) => {

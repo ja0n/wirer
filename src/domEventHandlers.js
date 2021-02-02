@@ -1,8 +1,8 @@
 import _throttle from 'lodash/throttle';
 
-import Brick from './Brick.js';
-import { getParentSvg, inIframe } from './utils.js';
-import { sumPoints, minusPoints, dividePoints, _p } from './points';
+import Brick from './Brick';
+import { getParentSvg, inIframe } from './utils/dom';
+import { _p } from './utils/points';
 
 const normalizeEvent = e => {
   if (e.x == undefined) e.x = e.clientX;
@@ -25,11 +25,11 @@ export function registerEvents () {
     if (target.type === 'container') {
       this.dragging = target;
 
-      const { x, y } = dividePoints(event, this.zoom);
+      const { x, y } = _p.divide(event, this.zoom);
       this._aux.mouseDown = { x, y, offset: { ...this.offset } };
 
-      // const { x, y } = sumPoints(e, 0);
-      // this._aux.mouseDown = { x, y, offset: dividePoints(this.offset, this.zoom)};
+      // const { x, y } = _p.add(e, 0);
+      // this._aux.mouseDown = { x, y, offset: _p.divide(this.offset, this.zoom)};
 
       return null;
     }
@@ -72,11 +72,11 @@ export function registerEvents () {
       this.lastSelected = wrapper;
       this.dragging = node;
       const SVGbox = wrapper._svg.getBoundingClientRect();
-      const mouse = dividePoints(event, this.zoom);
-      const offset = minusPoints(mouse, [SVGbox.left, SVGbox.top]);
+      const mouse = _p.divide(event, this.zoom);
+      const offset = _p.subtract(mouse, [SVGbox.left, SVGbox.top]);
       this._aux.mouseDown = {
-        wrapper: sumPoints(wrapper, 1),
-        barePos: sumPoints(event, 1),
+        wrapper: _p.add(wrapper, 1),
+        barePos: _p.add(event, 1),
         mouse,
         x: offset.x - wrapper.x,
         y: offset.y - wrapper.y,
@@ -150,7 +150,7 @@ export function registerEvents () {
 
     if (dragging && dragging.type == 'container') {
       const firstState = this._aux.mouseDown;
-      this.offset = sumPoints(firstState.offset, minusPoints(dividePoints(e, zoom), firstState));
+      this.offset = _p.add(firstState.offset, _p.subtract(_p.divide(e, zoom), firstState));
       console.debug('offset', this.offset);
       forceUpdate();
       this.renderGrid(this.offset, zoom);
@@ -161,9 +161,9 @@ export function registerEvents () {
     if (dragging) {
       const wrapper = this.dragging.wrapper;
       const firstState = this._aux.mouseDown;
-      const mouse = dividePoints(e, this.zoom);
-      const dtMouse = minusPoints(e, firstState.barePos);
-      const { x, y } = sumPoints(firstState.wrapper, _p.divide(dtMouse, zoom));
+      const mouse = _p.divide(e, this.zoom);
+      const dtMouse = _p.subtract(e, firstState.barePos);
+      const { x, y } = _p.add(firstState.wrapper, _p.divide(dtMouse, zoom));
       wrapper.x = x;
       wrapper.y = y;
 

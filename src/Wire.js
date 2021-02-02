@@ -1,6 +1,6 @@
 import BaseWire from './BaseWire';
-import { createElement } from './utils';
-import { _p } from './points';
+import { createElement } from './utils/dom';
+import { _p } from './utils/points';
 
 export default class Wire extends BaseWire {
   constructor(config, ...args) {

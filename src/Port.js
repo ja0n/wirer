@@ -1,5 +1,5 @@
-import { getParentSvg } from './utils';
-import { _p } from './points';
+import { getParentSvg } from './utils/dom';
+import { _p } from './utils/points';
 
 const directionTypes = ['in', 'out']
 const portTypes = ['data', 'flow']
