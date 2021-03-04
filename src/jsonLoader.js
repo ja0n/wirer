@@ -26,6 +26,6 @@ export const toJSON = (nodes, nodeRefs) => {
   );
 
   const string = JSON.stringify({ refNode, fluxgram }, null, 2);
-  copy(string);
+  // copy(string);
   return JSON.parse(string);
 } 

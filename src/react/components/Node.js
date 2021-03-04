@@ -7,11 +7,12 @@ const Node = (props) => {
   const {
     title, width, bgColor, zoom,
     gui, inputs, ports,
-    values, onChange, wrapper
+    values, onChange, wrapper,
+    className
   } = props;
 
   return (
-    <article style={{ backgroundColor: bgColor }} className="glowing-box">
+    <article style={{ backgroundColor: bgColor }} className={className}>
       <header className="node__header shine-container chrome">
         <span className="node__header-title">{title}</span>
       </header>

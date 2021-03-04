@@ -169,8 +169,15 @@ export default class Sticky {
     this.loadJSON(flow);
   }
 
-  run () {
-    return behaviorRunner(this);
+  async run (context) {
+    const nodes = []
+    const generator = behaviorRunner(this, context)
+    for await (let node of generator) {
+      // console.log({ node });
+      // nodes.push[node];
+    }
+
+    return nodes;
   }
 
   __compile () {

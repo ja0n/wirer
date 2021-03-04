@@ -1,7 +1,8 @@
 import _find from 'lodash/find';
 import _get from 'lodash/get';
+import Sticky from './Sticky';
 
-export default function behaviorRunner (instance) {
+export default async function* behaviorRunner (instance: Sticky, context?: Record<any, any>) {
   let flow, nextNodeId, refNode;
   let node = _find(instance._objects, { _refNode: 'start' });
 
@@ -20,10 +21,11 @@ export default function behaviorRunner (instance) {
   let step = 0;
   do {
     refNode = instance.nodeRefs[node._refNode] || instance._refNodes[node._refNode];
-    flow = refNode.behavior.call(node, getNode);
+    flow = await refNode.behavior.call(node, getNode, { ...context });
     nextNodeId = _get(node._ports, ['flow_out', flow, 'connections', 0, 'nodeId'], null);
     node = getNode(nextNodeId);
     console.debug('Step', ++step, refNode);
     console.debug('Next Step', flow, node);
+    yield node
   } while (node);
 }

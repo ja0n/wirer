@@ -5,7 +5,47 @@ import { storiesOf } from '@storybook/react';
 
 import { Container } from '../src/react/components';
 import flowsJSON from './flows/dumb-box-flows.json';
-import '../examples/dumb-box/dumb-box.js';
+import '../examples/dumb-box/dumb-box';
+
+var nodeConfig = {
+  'PushUp': {
+    fill: '#F5E867',
+    ports: { data_in: 2, data_out: 0, flow_in: 1, flow_out: 1 },
+    title: 'Up',
+    behavior (_, { board }) {
+      board.push('up');
+      return 0;
+    }
+  },
+  'PushDown': {
+    fill: '#FF8D4F',
+    ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
+    title: 'Down',
+    behavior (_, { board }) {
+      board.push('down');
+      return 0;
+    }
+  },
+  'PushLeft': {
+    fill: '#D592F7',
+    ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
+    title: 'Left',
+    behavior (_, { board }) {
+      board.push('left');
+      return 0;
+    }
+  },
+  'PushRight': {
+    fill: '#289E71',
+    ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
+    title: 'Right',
+    behavior (_, { board }) {
+      board.push('right');
+      return 0;
+    }
+  },
+};
+
 
 storiesOf('Examples', module)
   .add('Dumb Box', () => (
@@ -32,46 +72,7 @@ storiesOf('Examples', module)
 
 function onLoad (canvas) {
   var game = new DumbBox('canvas', { controls: false });
-  var sum = [];
-  var nodeConfig = {
-    'PushUp': {
-      fill: '#F5E867',
-      ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
-      title: 'Up',
-      behavior: function () {
-        sum.push('up');
-        return 0;
-      }
-    },
-    'PushDown': {
-      fill: '#FF8D4F',
-      ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
-      title: 'Down',
-      behavior: function () {
-        sum.push('down');
-        return 0;
-      }
-    },
-    'PushLeft': {
-      fill: '#D592F7',
-      ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
-      title: 'Left',
-      behavior: function () {
-        sum.push('left');
-        return 0;
-      }
-    },
-    'PushRight': {
-      fill: '#289E71',
-      ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
-      title: 'Right',
-      behavior: function () {
-        sum.push('right');
-        return 0;
-      }
-    },
-  };
-
+  var board = [];
   Object.keys(nodeConfig).forEach(key => canvas.registerNode(key, nodeConfig[key]));
 
   function getRandomInt(min, max) {
@@ -98,13 +99,12 @@ function onLoad (canvas) {
   });
 
   document.getElementById('run').onclick = function () {
-    sum = [];
-    canvas.run();
-    for (var i = 0; i < sum.length; i++) {
-      console.log(sum[i]);
-      game.player.pushMove(sum[i]);
+    board = [];
+    canvas.run({ board });
+    for (var i = 0; i < board.length; i++) {
+      console.log(board[i]);
+      game.player.pushMove(board[i]);
     }
-
   };
 
   document.getElementById('reset').onclick = function () {

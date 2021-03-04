@@ -49,7 +49,7 @@ const Select = ({ label, options, value, onChange }) => {
       {label}
       <select defaultValue={value} onChange={onChange}>
         {options.map(value => (
-          <option key={value} defaultValue={value}>{value}</option>
+          <option key={value} defaultValue={value}>{value.toString()}</option>
         ))}
       </select>
     </label>

@@ -54,6 +54,10 @@ body {
   color: #FFF;
 }
 
+.button-list button:disabled {
+  background: #9e9292
+}
+
 .button-list button:active {
   opacity: 1;
   background: white;
