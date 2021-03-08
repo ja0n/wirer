@@ -98,8 +98,12 @@ export default class Sticky {
     this.prototype._refNodes[name] = this._formatNodeRef(name, cfg);
   }
 
+  getNodeRef (name) {
+    return this.nodeRefs[name] || this._refNodes[name];
+  }
+
   createNode(name, data = {}) {
-    const cfg = this.nodeRefs[name] || this._refNodes[name];
+    const cfg = this.getNodeRef(name);
 
     if (!cfg)
       throw `Node '${name}' not registered`;
@@ -169,8 +173,15 @@ export default class Sticky {
     this.loadJSON(flow);
   }
 
-  run () {
-    return behaviorRunner(this);
+  async run (context) {
+    const runner = behaviorRunner(this, context)
+    let result = await runner.next();
+
+    while (!result.done) {
+      result = await runner.next();
+    }
+
+    return result.value;
   }
 
   __compile () {
