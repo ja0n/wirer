@@ -29,6 +29,7 @@ const Node = (props: Props) => {
     <article style={{ backgroundColor: bgColor }} className={className}>
       <header className="node__header shine-container chrome">
         <span className="node__header-title">{title}</span>
+        <a className="node__header-delete" onClick={() => wrapper.delete()}>{'X'}</a>
       </header>
 
       <SplitSection wrapper={wrapper} ports={ports} zoom={zoom}>
