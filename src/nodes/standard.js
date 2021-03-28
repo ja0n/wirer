@@ -6,10 +6,22 @@ export default {
     rx: 10,
     ry: 10,
     fill: '#AF2B37',
-    ports: { data_in: 0, data_out: 0, flow_in: 0, flow_out: 1 },
+    ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
     title: 'Start',
     icon: 'img/icon.png',
     behavior: () => 0
+  },
+  'delay': {
+    id: 'delay',
+    fill: '#FF8D4F',
+    title: 'delay',
+    ports: { data_in: 0, data_out: 0, flow_in: 1, flow_out: 1 },
+    gui: {
+      value: { label: 'value (ms)', type: 'number' },
+    },
+    async behavior () {
+      return new Promise(resolve => setTimeout(() => resolve(0), this.inputs.value))
+    }
   },
   'SourceNumber': {
     id: 'SourceNumber',
