@@ -1,4 +1,5 @@
-export default {
+import { NodeConfig } from '../Node'
+const nodes: Record<string, NodeConfig> = {
   'start': {
     id: 'start',
     width: 35,
@@ -95,3 +96,5 @@ export default {
     }
   },
 }
+
+export default nodes

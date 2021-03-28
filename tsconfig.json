@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "outDir": "./built",
     "allowJs": true,
     // better ie 11 integration

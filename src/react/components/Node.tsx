@@ -2,16 +2,31 @@ import React from 'react';
 
 import SplitSection from './SplitSection';
 import Form from './Form';
+import NodeModel, { GuiConfig, PortCount } from '../../Node'
 
-const Node = (props) => {
+type Props = {
+  wrapper: NodeModel;
+  title: string;
+  width?: number
+  bgColor: string;
+  zoom: number;
+  gui?: GuiConfig;
+  className?: string;
+  ports?: PortCount;
+  inputs:  Record<string, any>;
+  onChange: Function;
+}
+
+const Node = (props: Props) => {
   const {
     title, width, bgColor, zoom,
     gui, inputs, ports,
-    values, onChange, wrapper
+    onChange, wrapper,
+    className
   } = props;
 
   return (
-    <article style={{ backgroundColor: bgColor }} className="glowing-box">
+    <article style={{ backgroundColor: bgColor }} className={className}>
       <header className="node__header shine-container chrome">
         <span className="node__header-title">{title}</span>
       </header>
@@ -19,8 +34,7 @@ const Node = (props) => {
       <SplitSection wrapper={wrapper} ports={ports} zoom={zoom}>
         <Form
           gui={gui}
-          inputs={inputs}
-          values={values}
+          values={inputs}
           onChange={onChange}
         />
       </SplitSection>

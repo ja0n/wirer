@@ -1,23 +1,27 @@
 import React from 'react';
-import set from 'lodash/set';
 import invoke from 'lodash/invoke';
+import { GuiConfig } from '../../Node'
 
-const _identity = v => v;
+type Props = {
+  gui: GuiConfig;
+  values: Record<string, any>;
+  onChange?: Function;
+}
 
-export const Form = ({ gui, inputs, values, onChange = _identity }) => (
+export const Form = ({ gui, values, onChange }: Props) => (
   <form>
     {Object.entries(gui).map(( [id, input] ) => {
       const { label, type, options } = input;
-      const createHandler = (f = _identity)  => event => {
+      const createHandler = (f = v => v)  => event => {
         const value  = f(event.target.value);
-        onChange({ event, id, value });
+        onChange?.({ event, id, value });
       };
       const props = {
         key: id,
         label,
         type,
         options,
-        value: inputs[id],
+        value: values[id],
       };
       const inputTypes = {
         'number': (props) => <Input {...props} onChange={createHandler(Number)} />,
@@ -49,7 +53,7 @@ const Select = ({ label, options, value, onChange }) => {
       {label}
       <select defaultValue={value} onChange={onChange}>
         {options.map(value => (
-          <option key={value} defaultValue={value}>{value}</option>
+          <option key={value} defaultValue={value}>{value.toString()}</option>
         ))}
       </select>
     </label>

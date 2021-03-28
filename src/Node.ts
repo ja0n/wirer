@@ -13,6 +13,8 @@ export type NodeConfig = {
   y?: number;
   rx?: number;
   ry?: number;
+  width?: number;
+  height?: number;
   title?: string;
   fill?: string;
   stroke?: string;
@@ -20,7 +22,15 @@ export type NodeConfig = {
   behavior?: Function;
   icon?: string;
   inputs?: Record<string, any>
+  ports?: PortCount;
 };
+
+export type PortCount = {
+  flow_in: number;
+  flow_out: number;
+  data_in: number;
+  data_out: number;
+}
 
 export type PortMap = {
   flow_in: Port[];
@@ -63,7 +73,7 @@ export default class Node {
 
   constructor (custom: NodeConfig = {}) {
     const cfg = { ...defaultConfig, ...custom };
-    const { behavior, title, ports, gui, id, x, y, inputs } = cfg;
+    const { behavior, ports, gui, id, x, y, inputs } = cfg;
     console.debug('ports', ports);
 
     this._refNode = id;

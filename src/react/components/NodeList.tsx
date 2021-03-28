@@ -1,4 +1,5 @@
 import React from 'react';
+import NodeModel from '../../Node';
 import Node from './Node';
 import NodeContainer from './NodeContainer';
 
@@ -11,7 +12,7 @@ export const NodeList = ({ renderNode, ...props }) => {
     <React.Fragment>
       {nodes.map(node => (
         <NodeContainer key={node._id} node={node} offset={offset} zoom={zoom}>
-          <NodeComponent {...deriveProps(node, props)} zoom={zoom} />
+          <NodeComponent {...deriveProps(node)} zoom={zoom} />
         </NodeContainer>
       ))}
     </React.Fragment>
@@ -23,11 +24,11 @@ NodeList.defaultProps = {
   offset: { x: 0, y: 0 },
 }
 
-const deriveProps = (node) => ({
+const deriveProps = (node: NodeModel) => ({
   wrapper: node,
   gui: node.gui,
   inputs: node.inputs,
-  values: node.values,
+  // values: node.values,
   onChange: node.onChange,
   title: node.cfg.title,
   width: node.cfg.width,
