@@ -43,13 +43,13 @@ export default {
     gui: {
       op: { label: 'Operation', type: 'select', options: ['==', '!=', '===', '!==', '>', '>=', '<', '<=', '+', '-', '*', '/'] },
     },
-    behavior: function(findById) {
+    behavior: async function (findById, context) {
       const conn1 = (this._ports['in'][0].connections[0]);
       const conn2 = (this._ports['in'][1].connections[0]);
       const node1 = findById(conn1.nodeId);
       const node2 = findById(conn2.nodeId);
-      const val1 = node1.behavior(findById)[conn1.id];
-      const val2 = node2.behavior(findById)[conn2.id];
+      const val1 = await node1.getValue(findById, context, conn1.id);
+      const val2 = await node2.getValue(findById, context, conn2.id);
 
       return [eval(`${JSON.stringify(val1)} ${this.inputs.op} ${JSON.stringify(val2)}`)];
     }
@@ -59,30 +59,14 @@ export default {
     fill: '#EC962F',
     ports: { data_in: 1, data_out: 0, flow_in: 1, flow_out: 1 },
     title: 'Alert',
-    behavior: function(findById) {
+    behavior: async function (findById, context) {
       const conn = this._ports['in'][0].connections[0];
       const node = findById(conn.nodeId);
-      const data = node.behavior(findById)[conn.id];
+      const value = await node.getValue(findById, context, conn.id)
 
-      alert(data);
+      alert(value);
 
       return 0;
-    }
-  },
-  'Sum': {
-    id: 'Sum',
-    fill: '#cfec2f',
-    ports: { data_in: 2, data_out: 1, flow_in: 0, flow_out: 0 },
-    title: 'Sum',
-    behavior: function(findById) {
-      const conn1 = (this._ports['in'][0].connections[0]);
-      const conn2 = (this._ports['in'][1].connections[0]);
-      const node1 = findById(conn1.nodeId);
-      const node2 = findById(conn2.nodeId);
-      const val1 = node1.behavior(findById)[conn1.id];
-      const val2 = node2.behavior(findById)[conn2.id];
-
-      return [val1 + val2];
     }
   },
   'If': {
@@ -90,12 +74,12 @@ export default {
     fill: '#EC962F',
     ports: { data_in: 1, data_out: 0, flow_in: 1, flow_out: 2 },
     title: 'If',
-    behavior: function(findById) {
+    behavior: async function (findById, context) {
       const conn = this._ports['in'][0].connections[0];
       const node = findById(conn.nodeId);
-      const data = node.behavior(findById)[conn.id];
+      const value = await node.getValue(findById, context, conn.id)
 
-      return data ? 0 : 1;
+      return value ? 0 : 1;
     }
   },
 }

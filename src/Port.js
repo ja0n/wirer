@@ -60,11 +60,6 @@ export default class Port {
       return this._el.getAttribute(key);
   }
 
-  value () {
-    this.node.getValue();
-    // this.wrapper.getValue(this._id);
-  }
-
   getPoint (zoom = 1) {
     return _p.add(_p.multiply(this.node, zoom), this);
   }

@@ -19,7 +19,7 @@ async function* behaviorRunner (instance: Sticky, context?: Record<any, any>) {
     const refNode = instance.getNodeRef(node._refNode);
     // TODO(ja0n): merge { getNode, context } into one parameter structure
     const nodeBehavior = refNode.behavior.call(node, getNode, internalContext)
-    const flowPort = await new Promise(resolve => resolve(nodeBehavior));
+    const flowPort = await Promise.resolve(nodeBehavior);
     const nextNodeId = _get(node._ports, ['flow_out', flowPort, 'connections', 0, 'nodeId'], null);
     node = getNode(nextNodeId);
     console.debug('Step', ++step, refNode);

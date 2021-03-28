@@ -1,6 +1,6 @@
 import _throttle from 'lodash/throttle';
 
-import Brick from './Brick';
+import Node from './Node';
 import { getParentSvg, inIframe } from './utils/dom';
 import { _p } from './utils/points';
 
@@ -201,7 +201,7 @@ export function registerEvents () {
       console.debug('Keydown - deleting', this.lastSelected);
 
       // @TODO should remove from state (node, wire, port)
-      if (this.lastSelected instanceof Brick) {
+      if (this.lastSelected instanceof Node) {
         this.config.wrapper.removeNode(this.lastSelected, true);
         // avoid forceUpdate and renew wrapper.nodes array instead
         this.forceUpdate();

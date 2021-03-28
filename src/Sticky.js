@@ -2,7 +2,7 @@ import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
 import _find from 'lodash/find';
 
-import Brick from './Brick';
+import Node from './Node';
 import Render from './Render';
 import standardNodes from './nodes/standard';
 import behaviorRunner from './behaviorRunner';
@@ -108,7 +108,7 @@ export default class Sticky {
     if (!cfg)
       throw `Node '${name}' not registered`;
 
-    return new Brick({ ...cfg, ...data });
+    return new Node({ ...cfg, ...data });
   }
 
   static createNode(name, data = {}) {
@@ -117,7 +117,7 @@ export default class Sticky {
     if (!cfg)
       throw "Node not registered";
 
-    return new Brick({ ...cfg, ...data });
+    return new Node({ ...cfg, ...data });
   }
 
   getNode (id) {
