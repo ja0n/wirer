@@ -129,7 +129,8 @@ export default class Sticky {
   loadPorts (nodey, ports, [from, to]) {
     ports.forEach((port, index) => {
       for (let conn of port) {
-        const nodey2 = this.getNode(conn.node);
+        // TODO: Fix 'node' and 'nodeId' difference
+        const nodey2 = this.getNode(conn.node || conn.nodeId);
         const cps = [
           nodey._ports[from][index],
           nodey2._ports[to][conn.id],

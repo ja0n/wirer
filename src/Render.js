@@ -9,6 +9,9 @@ import { _p } from './utils/points';
 
 const defaultConfig = { width: 800, height: 600 };
 
+// TODO:
+// change id argument approach, use 'element' from config
+// move reactDom outside
 export default class Render {
   constructor (id, config) {
     this.config = { ...defaultConfig, ...config };
