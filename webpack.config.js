@@ -8,7 +8,7 @@ module.exports = {
   devtool: 'source-map',
   output: {
     path: __dirname + '/dist',
-    filename: 'sticky',
+    filename: 'sticky.js',
     library: 'Sticky',
     libraryTarget: 'umd',
     umdNamedDefine: true
@@ -39,6 +39,9 @@ module.exports = {
         ]
       },
     ]
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
   },
   plugins: [
     new MiniCssExtractPlugin({

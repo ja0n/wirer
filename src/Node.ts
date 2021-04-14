@@ -61,7 +61,7 @@ const defaultConfig = {
 export default class Node {
   _ports: PortMap;
   _refNode: string;
-  _el: HTMLElement; // _domElement || _element
+  _el: HTMLElement | SVGAElement; // _domElement || _element
   _states: { dragging: boolean };
   x: number;
   y: number;
