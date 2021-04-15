@@ -27,8 +27,8 @@ describe('LeaderLine support', () => {
     const wrapper = mount(
       <Container
         onLoad={ref => {
-          canvas.render.internalRender = false;
           canvas = ref;
+          canvas.render.internalRender = false;
         }}
       />
     );
@@ -38,7 +38,7 @@ describe('LeaderLine support', () => {
     canvas.addNodes([source, alert]);
     debugger;
     const sealed = canvas.render.sealOrDiscard(source._ports.out[0], alert._ports.in[0]);
-
+    expect(sealed).toBeTruthy();
     // const connections = wrapper.find('.leader-line');
     const connections = wrapper.find('.leader-line');
     expect(connections).toHaveLength(1);
