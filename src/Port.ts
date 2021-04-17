@@ -8,6 +8,8 @@ export type DirectionName = typeof directionTypes[number];
 export type PortName = typeof portTypes[number];
 export type Connection = { nodeId?: string, node?: string, id: string };
 
+const makeFinder = (node, port) => ({ nodeId, id }) => nodeId === node && id === port;
+
 export default class Port {
   id: string;
   _el: HTMLElement | SVGAElement;
@@ -17,7 +19,7 @@ export default class Port {
   maxConnections: number;
   node: Node;
 
-  constructor({ id, type, direction, node, ref }) {
+  constructor ({ id, type, direction, node, ref }) {
     if (!directionTypes.includes(direction))
       throw "port direction must be 'in' or 'out'";
 
@@ -46,11 +48,11 @@ export default class Port {
     ];
   }
 
-  get x() {
+  get x () {
     return this.position[0];
   }
 
-  get y() {
+  get y () {
     return this.position[1];
   }
 
@@ -58,7 +60,7 @@ export default class Port {
     return this.connections.length < this.maxConnections;
   }
 
-  getBBoxes() {
+  getBBoxes () {
     const portSVG = getParentSvg(this._el);
     const nodeSVG = this.node._el;
 
@@ -84,7 +86,14 @@ export default class Port {
     return this.isCompatible(to) && this.available && to.available;
   }
 
+  hasConnection (to: Port) {
+    return this.connections.find(makeFinder(to.node._id, to.id))
+  }
+
   attach (to: Port) {
+    if (this.hasConnection(to)) {
+      return false
+    }
     if (this.canAttach(to)) {
       this.connections.push({ nodeId: to.node._id, id: to.id });
       to.connections.push({ nodeId: this.node._id, id: this.id });
@@ -99,7 +108,6 @@ export default class Port {
       return false;
     }
     // maybe we should create a Node.connectionSignature symbol
-    const makeFinder = (node, port) => ({ nodeId, id }) => nodeId === node && id === port;
     const index = this.connections.findIndex(makeFinder(from.node._id, from.id));
     const fromIndex = from.connections.findIndex(makeFinder(this.node._id, this.id));
     safeSplice(this.connections, index)
