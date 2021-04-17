@@ -28,7 +28,10 @@ export function inIframe () {
 
 export function spliceByIndex (arr, obj) {
   const index = arr.indexOf(obj);
+  return safeSplice(arr, index);
+}
 
+export function safeSplice (arr, index) {
   if (index != -1) {
     arr.splice(index, 1);
     return true;

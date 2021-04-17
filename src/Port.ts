@@ -1,10 +1,22 @@
-import { getParentSvg } from './utils/dom';
+import { getParentSvg, safeSplice } from './utils/dom';
 import { _p } from './utils/points';
+import Node from './Node';
 
-const directionTypes = ['in', 'out']
-const portTypes = ['data', 'flow']
+const directionTypes = ['in', 'out'] as const
+const portTypes = ['data', 'flow'] as const
+export type DirectionName = typeof directionTypes[number];
+export type PortName = typeof portTypes[number];
+export type Connection = { nodeId?: string, node?: string, id: string };
 
 export default class Port {
+  id: string;
+  _el: HTMLElement | SVGAElement;
+  direction: DirectionName;
+  type: PortName;
+  connections: Connection[];
+  maxConnections: number;
+  node: Node;
+
   constructor({ id, type, direction, node, ref }) {
     if (!directionTypes.includes(direction))
       throw "port direction must be 'in' or 'out'";
@@ -53,7 +65,7 @@ export default class Port {
     return [portSVG.getBoundingClientRect(), nodeSVG.getBoundingClientRect()];
   }
 
-  attr (key, value) {
+  attr (key: string, value: string) {
     if (value)
       return this._el.setAttribute(key, value);
     else
@@ -64,27 +76,35 @@ export default class Port {
     return _p.add(_p.multiply(this.node, zoom), this);
   }
 
-  canAttach (to) {
-    return  (this.type === to.type) && this.available && to.available;
+  isCompatible (to: Port) {
+    return this.type === to.type && this.direction !== to.direction;
   }
 
-  attach (to) {
+  canAttach (to: Port) {
+    return this.isCompatible(to) && this.available && to.available;
+  }
+
+  attach (to: Port) {
     if (this.canAttach(to)) {
       this.connections.push({ nodeId: to.node._id, id: to.id });
       to.connections.push({ nodeId: this.node._id, id: this.id });
-      console.debug('Port attaching', { port: this, to });
+      // console.debug('Port attaching', { port: this, to });
       return true;
     }
     return false;
   }
 
-  dettach (from) {
-    // guess it's not working due to equality comparison^
-    // maybe we should create a Node.connectionSignature symbol or use findIndex
-    const index = this.connections.indexOf({ nodeId: from.node._id, id: from.id });
-    const fromIndex = from.connections.indexOf({ nodeId: this.node._id, id: this.id });
-    this.connections.splice(index, 1);
-    from.connections.splice(fromIndex, 1);
-    console.debug('Port dettaching', { port: this, from });
+  dettach (from: Port) {
+    if (!this.isCompatible(from)) {
+      return false;
+    }
+    // maybe we should create a Node.connectionSignature symbol
+    const makeFinder = (node, port) => ({ nodeId, id }) => nodeId === node && id === port;
+    const index = this.connections.findIndex(makeFinder(from.node._id, from.id));
+    const fromIndex = from.connections.findIndex(makeFinder(this.node._id, this.id));
+    safeSplice(this.connections, index)
+    safeSplice(from.connections, fromIndex)
+    // console.debug('Port detaching', { port: this, to });
+    return index !== -1 || fromIndex !== -1;
   }
 }
