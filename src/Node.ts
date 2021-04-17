@@ -59,6 +59,7 @@ const defaultConfig = {
 };
 
 export default class Node {
+  _id?: string;
   _ports: PortMap;
   _refNode: string;
   _el: HTMLElement | SVGAElement; // _domElement || _element
@@ -74,7 +75,6 @@ export default class Node {
   constructor (custom: NodeConfig = {}) {
     const cfg = { ...defaultConfig, ...custom };
     const { behavior, ports, gui, id, x, y, inputs } = cfg;
-    console.debug('ports', ports);
 
     this._refNode = id;
     // this._container = null;
