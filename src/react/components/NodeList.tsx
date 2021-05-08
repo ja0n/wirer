@@ -2,8 +2,16 @@ import React from 'react';
 import NodeModel from '../../Node';
 import Node from './Node';
 import NodeContainer from './NodeContainer';
+import type { Zoom, Offset } from '../../types';
 
-export const NodeList = ({ renderNode, ...props }) => {
+type Props = {
+  nodes: NodeModel[];
+  offset: Offset;
+  zoom: Zoom;
+  renderNode: () => JSX.Element;
+}
+
+export const NodeList = ({ renderNode, ...props }: Props) => {
   const { nodes, offset, zoom } = props;
   console.debug(`NodeList - customNode: ${renderNode != null}`)
   const NodeComponent = renderNode || Node;
@@ -24,6 +32,8 @@ NodeList.defaultProps = {
   offset: { x: 0, y: 0 },
 }
 
+const noPortsConfig = Object.freeze({ flow_in: 0, flow_out: 0, data_in: 0, data_out: 0 })
+
 const deriveProps = (node: NodeModel) => ({
   wrapper: node,
   gui: node.gui,
@@ -33,7 +43,7 @@ const deriveProps = (node: NodeModel) => ({
   title: node.cfg.title,
   width: node.cfg.width,
   bgColor: node.cfg.fill,
-  ports: node.cfg.ports || {},
+  ports: node.cfg.ports || noPortsConfig,
 });
 
 export default NodeList;

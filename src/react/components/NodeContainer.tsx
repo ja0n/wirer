@@ -1,13 +1,26 @@
 import React from 'react';
-import SVGContainer from './SVGContainer';
-import { _p } from '../../utils/points';
 import { get } from 'lodash';
+import SVGContainer from './SVGContainer';
+import NodeModel from '../../Node';
+import { _p } from '../../utils/points';
+import type { Zoom, Offset } from '../../types';
 
 const reduceMax = (key) => (max, obj) => {
   const currentValue = get(obj, key);
   return currentValue > max ? currentValue : max;
 }
-class NodeContainer extends React.Component {
+
+type Props = {
+  node: NodeModel;
+  zoom: Zoom;
+  offset: Offset;
+  width?: number;
+  height?: number;
+}
+
+class NodeContainer extends React.Component<Props> {
+  ref?: SVGForeignObjectElement;
+
   componentDidUpdate () {
     this.updateDimensions();
   }
@@ -17,14 +30,14 @@ class NodeContainer extends React.Component {
       return null;
 
     const { node, zoom } = this.props;
-    const childList = [...this.ref.childNodes];
+    const childList = Array.from(this.ref.childNodes);
     node.cfg.width = childList.reduce(reduceMax('offsetWidth'), 0);
     node.cfg.height = childList.reduce(reduceMax('offsetHeight'), 0);
-    this.ref.style.width = node.cfg.width;
-    this.ref.style.height = node.cfg.height;
+    this.ref.style.width = node.cfg.width.toString();
+    this.ref.style.height = node.cfg.height.toString();
     this.ref.style.transform = `scale(${zoom})`;
-    this.ref.setAttribute('width', node.cfg.width);
-    this.ref.setAttribute('height', node.cfg.height);
+    this.ref.setAttribute('width', node.cfg.width.toString());
+    this.ref.setAttribute('height', node.cfg.height.toString());
   }
 
   render () {
@@ -38,15 +51,20 @@ class NodeContainer extends React.Component {
     }
 
     return (
-      <SVGContainer wrapper={node} x={x} y={y} offset={zOffset} zoom={zoom}
+      <SVGContainer
+        wrapper={node}
+        x={x}
+        y={y}
+        offset={zOffset}
+        zoom={zoom}
         onComponentUpdate={() => this.updateDimensions()}
       >
         <foreignObject
           ref={ref => this.ref = ref}
           className="sticky-node-html"
           style={style}
-          width={style.width}
-          height={style.height}
+          width={width}
+          height={height}
         >
           {this.props.children}
         </foreignObject>
