@@ -25,6 +25,7 @@ export default class Render {
     this.internalRender = true;
     this.gridSize = 20;
     this.gridColor = 'grey';
+    this.backgroundColor = '#CCCCCC75';
 
     const element = document.getElementById(id);
     if (element) {
@@ -159,15 +160,18 @@ export default class Render {
   }
 
   renderGrid (offset, zoom = 1) {
-    const { gridColor, gridSize } = this;
+    const { gridSize, gridColor, backgroundColor } = this;
     const zOffset = _p.multiply(offset, zoom);
+    const zGridSize = gridSize * zoom;
     const lineWidth = `${parseInt(_p.clamp(1, 1 * zoom, 10))}px`;
-    this._svg.style.backgroundPositionX = `${zOffset.x}px`;
-    this._svg.style.backgroundPositionY = `${zOffset.y}px`;
-    this._svg.style.backgroundSize = `${gridSize * zoom}px ${gridSize * zoom}px`;
-    this._svg.style.backgroundImage = `
-      linear-gradient(to right, ${gridColor} ${lineWidth}, transparent ${lineWidth}), linear-gradient(to bottom, ${gridColor} ${lineWidth}, transparent ${lineWidth})
-    `;
+    const style = {
+      backgroundColor,
+      backgroundPositionX: `${zOffset.x}px`,
+      backgroundPositionY: `${zOffset.y}px`,
+      backgroundSize: `${zGridSize}px ${zGridSize}px`,
+      backgroundImage: `linear-gradient(to right, ${gridColor} ${lineWidth}, transparent ${lineWidth}), linear-gradient(to bottom, ${gridColor} ${lineWidth}, transparent ${lineWidth})`,
+    };
+    Object.assign(this._svg.style, style);
     console.info('rengerGrid - lineWidthPx', lineWidth);
   }
 
