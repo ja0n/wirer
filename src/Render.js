@@ -159,20 +159,20 @@ export default class Render {
     this.forceUpdate();
   }
 
-  renderGrid (offset, zoom = 1) {
-    const { gridSize, gridColor, backgroundColor } = this;
+  getGridStyle () {
+    const { offset, zoom, gridSize, gridColor, backgroundColor } = this;
     const zOffset = _p.multiply(offset, zoom);
     const zGridSize = gridSize * zoom;
     const lineWidth = `${parseInt(_p.clamp(1, 1 * zoom, 10))}px`;
-    const style = {
+    console.info('getGridStyle - lineWidthPx', lineWidth);
+
+    return {
       backgroundColor,
       backgroundPositionX: `${zOffset.x}px`,
       backgroundPositionY: `${zOffset.y}px`,
       backgroundSize: `${zGridSize}px ${zGridSize}px`,
       backgroundImage: `linear-gradient(to right, ${gridColor} ${lineWidth}, transparent ${lineWidth}), linear-gradient(to bottom, ${gridColor} ${lineWidth}, transparent ${lineWidth})`,
     };
-    Object.assign(this._svg.style, style);
-    console.info('rengerGrid - lineWidthPx', lineWidth);
   }
 
   sealOrDiscard (...controlPoints) {
@@ -223,9 +223,6 @@ export default class Render {
   forceUpdate () {
     if (this.react)
       this.react.forceUpdate();
-
-    if (this._svg)
-      this.renderGrid(this.offset, this.zoom);
   }
 
   setZoom (value) {

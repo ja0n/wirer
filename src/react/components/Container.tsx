@@ -40,7 +40,6 @@ export default class Container extends React.Component<Props> {
     canvas.render.gridColor = gridColor;
     canvas.render.backgroundColor = backgroundColor;
     canvas.render.gridSize = gridSize;
-    canvas.render.renderGrid(canvas.render.offset, canvas.render.zoom);
     ref.wrapper = canvas;
     this.canvas = canvas;
 
@@ -50,14 +49,6 @@ export default class Container extends React.Component<Props> {
 
   render () {
     const { canvas, props } = this;
-    const offset = canvas?.render?.offset;
-    let style = {};
-
-    if (offset) {
-      style = {
-        backgroundPosition: `${offset.x}px ${offset.y}px`,
-      }
-    }
     const linesStyle = {
       position: 'absolute',
       top: 0,
@@ -71,7 +62,7 @@ export default class Container extends React.Component<Props> {
         <GlobalStyle />
         <ChromeStyle />
         <div className="sticky__canvas">
-          <svg style={style} className="svg-content" preserveAspectRatio="xMidYMid meet" ref={ref => this.buildUp(ref)} >
+          <svg style={canvas?.render.getGridStyle()} className="svg-content" preserveAspectRatio="xMidYMid meet" ref={ref => this.buildUp(ref)} >
             {canvas && (
               <>
                 <NodeList

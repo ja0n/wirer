@@ -151,12 +151,10 @@ export function registerEvents () {
     if (dragging && dragging.type == 'container') {
       const firstState = this._aux.mouseDown;
       this.offset = _p.add(firstState.offset, _p.subtract(_p.divide(e, zoom), firstState));
-      console.debug('offset', this.offset);
+      console.debug('Updating offset', this.offset);
       forceUpdate();
-      this.renderGrid(this.offset, zoom);
       return true;
     }
-
 
     if (dragging) {
       const wrapper = this.dragging.wrapper;
@@ -188,7 +186,6 @@ export function registerEvents () {
     console.info('MouseWheel - zoomDt', zoomDt);
     console.info('MouseWheel - zoom', this.zoom);
 
-    this.renderGrid(this.offset, this.zoom);
     this.forceUpdate();
     this.renderWires();
 
