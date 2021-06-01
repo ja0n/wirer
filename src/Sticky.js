@@ -53,8 +53,11 @@ export default class Sticky {
       this.render.removeWire(wire);
     }
 
-    if (update)
-      return this._objects.splice(index, 1);
+    if (update) {
+      const removed = this._objects.splice(index, 1)[0];
+      this.render.throttleUpdate();
+      return removed;
+    }
   }
 
   addStartNode () {

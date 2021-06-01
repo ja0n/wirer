@@ -3,6 +3,7 @@ import React from 'react';
 import SplitSection from './SplitSection';
 import Form from './Form';
 import NodeModel, { GuiConfig, PortCount } from '../../Node'
+import { StickyContext } from './Container';
 
 type Props = {
   wrapper: NodeModel;
@@ -24,12 +25,13 @@ const Node = (props: Props) => {
     onChange, wrapper,
     className
   } = props;
+  const sticky = React.useContext(StickyContext);
 
   return (
     <article style={{ backgroundColor: bgColor }} className={className}>
       <header className="node__header shine-container chrome">
         <span className="node__header-title">{title}</span>
-        <a className="node__header-delete" onClick={() => wrapper.delete()}>{'X'}</a>
+        <a className="node__header-delete" onClick={() => sticky.removeNode(wrapper, true)}>{'X'}</a>
       </header>
 
       <SplitSection wrapper={wrapper} ports={ports} zoom={zoom}>

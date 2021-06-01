@@ -4,6 +4,8 @@ import { GlobalStyle } from '../../globalStyles';
 import { ChromeStyle } from '../../themes/chrome';
 import { NodeList, Connections } from './index'
 
+export const StickyContext = React.createContext<Sticky>(null);
+
 interface Props {
   width?: number;
   height?: number;
@@ -58,30 +60,32 @@ export default class Container extends React.Component<Props> {
       pointerEvents: 'none',
     }
     return (
-      <div className="sticky__container">
-        <GlobalStyle />
-        <ChromeStyle />
-        <div className="sticky__canvas">
-          <svg style={canvas?.render.getGridStyle()} className="svg-content" preserveAspectRatio="xMidYMid meet" ref={ref => this.buildUp(ref)} >
-            {canvas && (
-              <>
-                <NodeList
-                  nodes={canvas.nodes}
-                  renderNode={props.renderNode}
-                  offset={canvas.render.offset}
-                  zoom={canvas.render.zoom}
-                />
-                <Connections
-                  canvas={canvas}
-                  connections={canvas.render.getConnections()}
-                  offset={canvas.render.offset}
-                  zoom={canvas.render.zoom}
-                />
-              </>
-            )}
-          </svg>
+      <StickyContext.Provider value={this.canvas}>
+        <div className="sticky__container">
+          <GlobalStyle />
+          <ChromeStyle />
+          <div className="sticky__canvas">
+            <svg style={canvas?.render.getGridStyle()} className="svg-content" preserveAspectRatio="xMidYMid meet" ref={ref => this.buildUp(ref)} >
+              {canvas && (
+                <>
+                  <NodeList
+                    nodes={canvas.nodes}
+                    renderNode={props.renderNode}
+                    offset={canvas.render.offset}
+                    zoom={canvas.render.zoom}
+                  />
+                  <Connections
+                    canvas={canvas}
+                    connections={canvas.render.getConnections()}
+                    offset={canvas.render.offset}
+                    zoom={canvas.render.zoom}
+                  />
+                </>
+              )}
+            </svg>
+          </div>
         </div>
-      </div>
+      </StickyContext.Provider>
     );
   }
 }
