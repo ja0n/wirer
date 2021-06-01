@@ -2,7 +2,7 @@ import _isNil from 'lodash/isNil';
 import set from 'lodash/set';
 import forEach from 'lodash/forEach';
 import Port from './Port'
-import Wire from './Wire'
+import BaseWire from './BaseWire';
 
 import { SVGContainer } from './blockBuilder';
 import { getParentSvg } from './utils/dom';
@@ -66,7 +66,7 @@ export default class Node {
   _states: { dragging: boolean };
   x: number;
   y: number;
-  wires: Wire[];
+  wires: BaseWire[];
   behavior: Function; // run
   cfg: NodeConfig; // config
   gui: GuiConfig; // inputsConfig
@@ -121,12 +121,10 @@ export default class Node {
   delete () {
     for (let wire of [...this.wires])
       wire.delete();
-
-    this._el.parentNode.removeChild(this._el);
   }
 
   updateWires (offset, zoom) {
-    this.wires.forEach( wire => wire.render(offset, zoom) );
+    // this.wires.forEach( wire => wire.render(offset, zoom) );
   }
 
   getValue (getNode, context, id?) {

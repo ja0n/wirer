@@ -34,7 +34,7 @@ export default class Container extends React.Component<Props> {
       return null;
 
     const { width, height, gridSize, gridColor, backgroundColor } = this.props;
-    const canvas = new Sticky(null, { width, height });
+    const canvas = new Sticky({ width, height });
     canvas.render.loadContainer(ref);
     canvas.render.react = this;
     canvas.render.gridColor = gridColor;

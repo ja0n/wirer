@@ -74,8 +74,8 @@ export default class Port {
       return this._el.getAttribute(key);
   }
 
-  getPoint (zoom = 1) {
-    return _p.add(_p.multiply(this.node, zoom), this);
+  getPoint (offset = { x: 0, y: 0 }, zoom = 1) {
+    return _p.add(_p.multiply(this.node, zoom), _p.multiply(offset, zoom), this);
   }
 
   isCompatible (to: Port) {

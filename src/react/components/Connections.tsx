@@ -1,11 +1,17 @@
 import React from 'react';
+import _get from 'lodash/get'
 import { uid } from 'react-uid';
 import Line from './Line';
-import _get from 'lodash/get'
+import Wire from './Wire';
 
-const Connections = ({ connections, canvas, onLoad }) => {
+
+const Connections = ({ connections, canvas, ...props }) => {
   if (canvas.render.internalRender)
-    return null;
+    return connections.map((wire) => {
+      return (
+        <Wire key={uid(wire)} wrapper={wire} zoom={canvas.render.zoom} offset={canvas.render.offset} />
+      );
+    });
 
   return connections.map((wire) => {
     const [sourcePort, targetPort] = wire.getControlPoints();
@@ -20,10 +26,10 @@ const Connections = ({ connections, canvas, onLoad }) => {
             const { svg } = line.getProps();
             wire.setupInstance(svg);
             wire.custom = !canvas.render.internalRender;
-            if (typeof(onLoad) === 'function')
-              onLoad(line, svg);
+            if (typeof(props.onLoad) === 'function')
+              props.onLoad(line, svg);
           }}
-          />
+        />
       );
     return null;
   });

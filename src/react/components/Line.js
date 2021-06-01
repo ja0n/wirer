@@ -27,8 +27,8 @@ export default class Line extends React.Component {
 
   setupInstance (ref) {
     if (ref) {
-      this.shouldInitLine();
       this.svg = ref;
+      this.shouldInitLine();
     } else {
       this.componentWillUnmount();
     }
@@ -59,6 +59,7 @@ export default class Line extends React.Component {
   initLine ({ start, end, options }) {
     const startPoint = shimPointAnchor(start);
     const endPoint = shimPointAnchor(end);
+    debugger;
 
     this.line = new LeaderLine({
       path: 'fluid',

@@ -11,13 +11,13 @@ import { toJSON } from './jsonLoader';
 // import "./styles/default.scss";
 
 export default class Sticky {
-  constructor(id, { width, height } = { width: 800, height: 600 }) {
+  constructor({ width, height } = { width: 800, height: 600 }) {
     this._uid = 0;
     this.nodeRefs = {};
     this._objects = [];
     this._wires = [];
 
-    this.render = new Render(id, { width, height, wrapper: this });
+    this.render = new Render({ width, height, wrapper: this });
     this.clearCanvas();
 
     return this;
@@ -50,11 +50,9 @@ export default class Sticky {
     if (index == -1) return;
 
     for (let wire of [...node.wires]) {
-      wire.delete();
       this.render.removeWire(wire);
     }
 
-    // TODO(ja0n): should splice wires too
     if (update)
       return this._objects.splice(index, 1);
   }
@@ -135,6 +133,7 @@ export default class Sticky {
           nodey._ports[from][index],
           nodey2._ports[to][conn.id],
         ];
+        // TODO: sealOrDiscard should be defined here
         this.render.sealOrDiscard(...cps)
       }
     });
@@ -162,10 +161,6 @@ export default class Sticky {
       const instance = this.getNode(node.id);
       this.loadPorts(instance, node.ports.out, ['out', 'in']);
       this.loadPorts(instance, node.ports.flow_out, ['flow_out', 'flow_in']);
-    }
-
-    if (this.render) {
-      this.render.renderWires();
     }
   }
 

@@ -1,40 +1,55 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import _throttle from 'lodash/throttle';
 
+import BaseWire from './BaseWire';
+import Sticky from './Sticky';
 import Wire from './Wire';
-import { createElement } from './utils/dom';
-import { registerEvents } from './domEventHandlers'
-import { NodeGraph } from './react/components';
+import { registerEvents } from './eventHandlers'
 import { _p } from './utils/points';
+import { Offset, Position, TargetElement, TargetWrappers, Zoom } from './types';
 
 const defaultConfig = { width: 800, height: 600 };
+export type Config = typeof defaultConfig & { wrapper: Sticky };
+
+type MouseDownContext = Position & { offset?: Offset; wrapper?: Position; barePos?: Position; mouse?: Position; };
+type TemporaryContext = { wire?: BaseWire; lastZoomTime?: number; mouseDown?: MouseDownContext; };
 
 // TODO:
 // change id argument approach, use 'element' from config
 // move reactDom outside
 export default class Render {
-  constructor (id, config) {
+  _svg: SVGElement & { type?: string };
+  zoom: Zoom = 1;
+  offset: Offset = { x: 0, y: 0 };
+  disableZoom = false;
+  disableDragging = false;
+  internalRender = true;
+  gridSize = 20;
+  gridColor = 'grey';
+  backgroundColor = '#CCCCCC75';
+  config: Config;
+  lastSelected?: TargetWrappers;
+  dragging?: TargetElement;
+  _state: null | string;
+  _wires: BaseWire[];
+  _aux: TemporaryContext;
+  react?: React.Component;
+
+  constructor (config) {
     this.config = { ...defaultConfig, ...config };
     this._aux = {};
     this._state = null;
     this._wires = [];
-    this.offset = { x: 0, y: 0 };
-    this.zoom = 1;
-    this.disableZoom = false;
-    this.disableDragging = false;
-    this.internalRender = true;
-    this.gridSize = 20;
-    this.gridColor = 'grey';
-    this.backgroundColor = '#CCCCCC75';
+    this.lastSelected = null;
+    this.dragging = null;
 
-    const element = document.getElementById(id);
-    if (element) {
-      this.reactDOM(element);
-    }
-
-    this._p = _p;
+    // this._p = _p;
 
     return this;
+  }
+
+  get selectedWire() { 
+    return this.lastSelected instanceof BaseWire ? this.lastSelected : null;
   }
 
   getConnections () {
@@ -52,29 +67,10 @@ export default class Render {
     registerEvents.call(this);
   }
 
-  reactDOM (element) {
-    const { wrapper, Component } = this.config;
-    const svg = createElement('svg', { class: 'svg-content', preserveAspectRatio: "xMidYMid meet" });
-    this.loadContainer(svg);
-
-    element.classList.add('sticky__canvas');
-    element.appendChild(this._svg);
-
-    ReactDOM.render(
-      <NodeGraph
-        ref={ref => { this.react = ref }}
-        getNodes={() => wrapper.nodes}
-        getOffset={() => this.offset}
-        getZoom={() => this.zoom}
-       />,
-       svg
-    );
-  }
-
-  loadContainer (svg) {
+  loadContainer (svg: SVGElement) {
     const { width, height } = this.config;
     this._svg = svg;
-    svg.type = 'container';
+    this._svg.type = 'container';
     this.matchViewBox();
     this.setCanvasSize({ width, height });
     this.registerEvents();
@@ -104,8 +100,8 @@ export default class Render {
 
   startDrag (port) {
     this.setState('dragging');
-    this._aux['wire'] = wire;
-    this.addElement(wire._el);
+    // this._aux['wire'] = wire;
+    // this.addElement(wire._el);
   }
 
   startAttach (port) {
@@ -116,7 +112,7 @@ export default class Render {
     this._aux['wire'] = wire;
 
     if (this.internalRender) {
-      this.addElement(wire._el);
+      // this.addElement(wire._el);
     }
   }
 
@@ -146,25 +142,19 @@ export default class Render {
     return true;
   }
 
-  removeWire (wire) {
+  removeWire (wire: BaseWire) {
     const index = this._wires.indexOf(wire);
-    if (index == -1) return;
-    this._wires.splice(index, 1);
-  }
-
-  renderWires () {
-    this._wires.forEach(wire => {
-      wire.render(this.offset, this.zoom);
-    });
-    this.forceUpdate();
+    if (index == -1) return null;
+    const removed = this._wires.splice(index, 1)[0];
+    removed.delete();
+    return removed;
   }
 
   getGridStyle () {
     const { offset, zoom, gridSize, gridColor, backgroundColor } = this;
     const zOffset = _p.multiply(offset, zoom);
     const zGridSize = gridSize * zoom;
-    const lineWidth = `${parseInt(_p.clamp(1, 1 * zoom, 10))}px`;
-    console.info('getGridStyle - lineWidthPx', lineWidth);
+    const lineWidth = `${parseInt(_p.clamp(1, 1 * zoom, 10).toString())}px`;
 
     return {
       backgroundColor,
@@ -224,6 +214,8 @@ export default class Render {
     if (this.react)
       this.react.forceUpdate();
   }
+
+  throttleUpdate = _throttle(this.forceUpdate, 1)
 
   setZoom (value) {
     const cameraTarget = this.getCenterPoint();

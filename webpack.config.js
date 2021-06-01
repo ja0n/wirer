@@ -25,7 +25,7 @@ module.exports = {
         loader: 'skeleton-loader',
         options: { procedure: content => `${content} export default LeaderLine` }
       },
-      { test: /\.tsx?$/, exclude: /(node_modules)/, loader: "awesome-typescript-loader" },
+      { test: /\.tsx?$/, exclude: /(node_modules)/, loader: "ts-loader" },
       { test: /\.js?$/, exclude: /(node_modules)/, loader: 'babel-loader' },
       { test: /\.js?$/, exclude: /(node_modules)/, loader: 'source-map-loader', enforce: 'pre' },
       // { test: /\.css$/, loader: "style-loader!css" },
