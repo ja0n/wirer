@@ -1,7 +1,10 @@
 import _isNil from 'lodash/isNil';
 import set from 'lodash/set';
 import forEach from 'lodash/forEach';
+import _findIndex from 'lodash/findIndex';
+import _times from 'lodash/times';
 import Port from './Port'
+import { DataPort, FlowPort } from './ports';
 import BaseWire from './BaseWire';
 
 import { SVGContainer } from './blockBuilder';
@@ -94,6 +97,11 @@ export default class Node {
     this.wires = [];
     this._states = { dragging: false };
 
+    setupPorts({ node: this, type: "data", direction: "in", length: ports.data_in })
+    setupPorts({ node: this, type: "data", direction: "out", length: ports.data_out })
+    setupPorts({ node: this, type: "flow", direction: "in", length: ports.flow_in })
+    setupPorts({ node: this, type: "flow", direction: "out", length: ports.flow_out })
+
     // TODO(ja0n): Refactor the gui|inputs|values mess
     // should value be a key inside gui objects?
     forEach(inputs, (value, id) => {
@@ -119,12 +127,16 @@ export default class Node {
   }
 
   delete () {
-    for (let wire of [...this.wires])
-      wire.delete();
+    // for (let wire of [...this.wires])
+    //   wire.delete();
   }
 
-  updateWires (offset, zoom) {
-    // this.wires.forEach( wire => wire.render(offset, zoom) );
+  getPort (type: string, id: number) {
+    return this.getPorts(type)[id];
+  }
+
+  getPorts (type: string): Port[] {
+    return this._ports[type];
   }
 
   getValue (getNode, context, id?) {
@@ -137,4 +149,29 @@ export default class Node {
     return promise.then(value => value[id])
   }
 
+}
+
+
+function setupPort ({ node, id, type, direction }: { node: Node, id: number, type: string, direction: string }) {
+  const types = {
+    'data': { constructor: DataPort, key: `${direction}` },
+    'flow': { constructor: FlowPort, key: `flow_${direction}` },
+  };
+
+  if (!types[type])
+    throw `Port of type "${type}" not found`;
+
+  const { constructor, key } = types[type];
+  const port = new constructor({ id, node, direction });
+  const currentIndex = _findIndex(node._ports[key], { id })
+  if (currentIndex != -1)
+    node._ports[key][currentIndex] = port;
+  else
+    node._ports[key].push(port);
+}
+
+function setupPorts ({ node, type, direction, length }: { node: Node, type: string, direction: string, length: number }) {
+  return _times(length, (index) => (
+    setupPort({ node, type, direction, id: index })
+  ));
 }

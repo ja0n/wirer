@@ -18,6 +18,7 @@ export default class Port {
   connections: Connection[];
   maxConnections: number;
   node: Node;
+  color?: string;
 
   constructor ({ id, type, direction, node, ref }) {
     if (!directionTypes.includes(direction))
@@ -28,16 +29,19 @@ export default class Port {
 
     Object.assign(this, { id, type, direction, node });
     Object.assign(this, { connections: [], maxConnections: 2 });
-    this.setupInstance(ref);
+    if (ref) this.setupInstance(ref);
   }
 
   setupInstance (ref) {
     this._el = ref;
-    Object.assign(this._el, {
-      wrapper: this,
-      type: 'port',
-      direction: this.direction,
-    });
+
+    if (ref) {
+      Object.assign(this._el, {
+        wrapper: this,
+        type: 'port',
+        direction: this.direction,
+      });
+    }
   }
 
   get position () {
