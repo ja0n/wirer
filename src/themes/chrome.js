@@ -6,8 +6,8 @@ const textColor = 'rgba(255, 255, 255, 0.3)';
 const backgroundColor = '#333';
 
 export const ChromeStyle = createGlobalStyle`
-  .node__header {
-    background-color: ${backgroundColor} !important;
+  .sticky-node-html .node__header {
+    background-color: ${backgroundColor};
     text-align: center;
     margin: 0 auto;
     font-weight: bold;

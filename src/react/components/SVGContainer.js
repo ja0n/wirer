@@ -5,6 +5,9 @@ class SVGContainer extends React.Component {
     const hasZoomChanged = () => {
       return this.props.zoom !== nextProps.zoom;
     }
+    const hasSelectedChanged = () => {
+      return this.props.selected !== nextProps.selected;
+    }
     const hasPositionChanged = () => {
       return this.props.x !== nextProps.x || this.props.y !== nextProps.y;
     }
@@ -16,6 +19,10 @@ class SVGContainer extends React.Component {
 
     if (!this.ref) return false;
 
+    if (hasSelectedChanged()) {
+      return true;
+    }
+
     if (hasPositionChanged()) {
       this.ref.setAttribute('x', nextProps.x);
       this.ref.setAttribute('y', nextProps.y);
@@ -23,12 +30,10 @@ class SVGContainer extends React.Component {
     }
 
     if (hasPositionChanged() || hasOffsetChanged()) {
-      this.props.wrapper.updateWires(nextProps.offset, nextProps.zoom);
       this.onComponentUpdate();
     }
 
     if (hasZoomChanged()) {
-      this.props.wrapper.updateWires(nextProps.offset, nextProps.zoom);
       this.onComponentUpdate();
     }
 

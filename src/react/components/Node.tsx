@@ -26,10 +26,14 @@ const Node = (props: Props) => {
     className
   } = props;
   const sticky = React.useContext(StickyContext);
+  let headerStyle = {};
+  if (sticky.render.lastSelected === wrapper) {
+    headerStyle = { backgroundColor: '#808080', color: 'aliceblue' };
+  }
 
   return (
     <article style={{ backgroundColor: bgColor }} className={className}>
-      <header className="node__header shine-container chrome">
+      <header className="node__header shine-container chrome" style={headerStyle}>
         <span className="node__header-title">{title}</span>
         <a className="node__header-delete" onClick={() => sticky.removeNode(wrapper, true)}>{'X'}</a>
       </header>

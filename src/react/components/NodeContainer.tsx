@@ -4,6 +4,7 @@ import SVGContainer from './SVGContainer';
 import NodeModel from '../../Node';
 import { _p } from '../../utils/points';
 import type { Zoom, Offset } from '../../types';
+import { StickyContext } from './Container';
 
 const reduceMax = (key) => (max, obj) => {
   const currentValue = get(obj, key);
@@ -20,6 +21,7 @@ type Props = {
 
 class NodeContainer extends React.Component<Props> {
   ref?: SVGForeignObjectElement;
+  static contextType = StickyContext;
 
   componentDidUpdate () {
     this.updateDimensions();
@@ -53,6 +55,7 @@ class NodeContainer extends React.Component<Props> {
     return (
       <SVGContainer
         wrapper={node}
+        selected={this.context.render.lastSelected === node}
         x={x}
         y={y}
         offset={zOffset}

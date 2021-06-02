@@ -40,6 +40,8 @@ function onMouseDown (this: Render, event: MouseEvent) {
     const { x, y } = _p.divide(mouse, this.zoom);
     // save first click event position
     this._aux.mouseDown = { x, y, offset: { ...this.offset } };
+    this.lastSelected = null;
+    this.throttleUpdate();
     return null;
   }
 
@@ -50,6 +52,7 @@ function onMouseDown (this: Render, event: MouseEvent) {
   if (target.type === 'wire') {
     console.debug('Wire selected:', target.wrapper, 'Triggered by: ', target);
     this.lastSelected = target.wrapper;
+    this.throttleUpdate();
     return null;
   }
 
@@ -94,6 +97,7 @@ function onMouseDown (this: Render, event: MouseEvent) {
     wrapper.wires.forEach(
       wire => wire._el && this._svg.appendChild(wire._el)
     );
+    this.throttleUpdate();
   }
 }
 
