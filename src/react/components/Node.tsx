@@ -8,37 +8,33 @@ import { StickyContext } from './Container';
 type Props = {
   wrapper: NodeModel;
   title: string;
-  width?: number
   bgColor: string;
-  zoom: number;
   gui?: GuiConfig;
   className?: string;
-  ports?: PortCount;
   inputs:  Record<string, any>;
   onChange: Function;
 }
 
 const Node = (props: Props) => {
   const {
-    title, width, bgColor, zoom,
-    gui, inputs, ports,
-    onChange, wrapper,
+    title, bgColor, gui,
+    inputs, onChange, wrapper,
     className
   } = props;
   const sticky = React.useContext(StickyContext);
-  let headerStyle = {};
+  const themeStyles = sticky.render.themeStyles;
+  let headerStyle = themeStyles.nodeHeader;
   if (sticky.render.lastSelected === wrapper) {
-    headerStyle = { backgroundColor: '#808080', color: 'aliceblue' };
+    headerStyle = { ...headerStyle, ...themeStyles.nodeHeaderSelected };
   }
 
   return (
-    <article style={{ backgroundColor: bgColor }} className={className}>
-      <header className="node__header shine-container chrome" style={headerStyle}>
-        <span className="node__header-title">{title}</span>
-        <a className="node__header-delete" onClick={() => sticky.removeNode(wrapper, true)}>{'X'}</a>
+    <article style={{ ...themeStyles.nodeContainer, backgroundColor: bgColor }} className={className}>
+      <header style={headerStyle} className="node__header chrome">
+        <span style={themeStyles.nodeHeaderName}>{title}</span>
+        <a style={themeStyles.nodeHeaderDelete} onClick={() => sticky.removeNode(wrapper, true)}>{'X'}</a>
       </header>
-
-      <SplitSection wrapper={wrapper} ports={ports} zoom={zoom}>
+      <SplitSection node={wrapper}>
         <Form
           gui={gui}
           values={inputs}

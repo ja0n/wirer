@@ -2,6 +2,8 @@ import BaseWire from "./BaseWire";
 import Port from "./Port";
 import Node from "./Node";
 
+export type NodeModel = Node;
+
 export type Zoom = number;
 
 export type Position = { x: number; y: number; };

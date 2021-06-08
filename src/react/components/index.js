@@ -1,6 +1,6 @@
 export { default as Container } from './Container'
 export { default as NodeList } from './NodeList'
-export { default as SplitPorts } from './SplitPorts'
+export { default as splitPorts } from './splitPorts'
 export { default as NodeGraph } from './NodeGraph'
 export { default as NodeContainer } from './NodeContainer'
 export { default as SVGContainer } from './SVGContainer'

@@ -8,7 +8,7 @@
     "start": "webpack --config webpack.config.js",
     "start:dev": "webpack-dev-server --config webpack.config.js",
     "storybook": "start-storybook -s ./examples -p 6006",
-    "build-storybook": "build-storybook",
+    "build-storybook": "build-storybook -s examples",
     "deploy-storybook": "storybook-to-ghpages"
   },
   "repository": {

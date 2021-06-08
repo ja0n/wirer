@@ -1,8 +1,8 @@
 import React from 'react';
 import Sticky from '../../Sticky';
-import { GlobalStyle } from '../../globalStyles';
 import { ChromeStyle } from '../../themes/chrome';
 import { NodeList, Connections } from './index'
+import { themeStyles } from '../themeStyles';
 
 export const StickyContext = React.createContext<Sticky>(null);
 
@@ -42,6 +42,7 @@ export default class Container extends React.Component<Props> {
     canvas.render.gridColor = gridColor;
     canvas.render.backgroundColor = backgroundColor;
     canvas.render.gridSize = gridSize;
+    canvas.render.themeStyles = themeStyles;
     ref.wrapper = canvas;
     this.canvas = canvas;
 
@@ -51,6 +52,7 @@ export default class Container extends React.Component<Props> {
 
   render () {
     const { canvas, props } = this;
+    const themeStyles = canvas?.render.themeStyles;
     const linesStyle = {
       position: 'absolute',
       top: 0,
@@ -61,11 +63,14 @@ export default class Container extends React.Component<Props> {
     }
     return (
       <StickyContext.Provider value={this.canvas}>
-        <div className="sticky__container">
-          <GlobalStyle />
+        <div>
           <ChromeStyle />
-          <div className="sticky__canvas">
-            <svg style={canvas?.render.getGridStyle()} className="svg-content" preserveAspectRatio="xMidYMid meet" ref={ref => this.buildUp(ref)} >
+          <div style={themeStyles?.stickyCanvas}>
+            <svg
+              style={{ ...themeStyles?.svgContent, ...canvas?.render.getGridStyle() }}
+              preserveAspectRatio="xMidYMid meet"
+              ref={ref => this.buildUp(ref)}
+            >
               {canvas && (
                 <>
                   <NodeList

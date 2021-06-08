@@ -1,6 +1,8 @@
 import React from 'react';
 import invoke from 'lodash/invoke';
 import { GuiConfig } from '../../Node'
+import { StickyContext } from './Container';
+import { themeStyles } from '../themeStyles';
 
 type Props = {
   gui: GuiConfig;
@@ -35,23 +37,29 @@ export const Form = ({ gui, values, onChange }: Props) => (
 );
 
 const Input = ({ label, type, value, onChange }) => {
-  // onChange({ target: input });
+  const sticky = React.useContext(StickyContext);
+  const themeStyles = sticky.render.themeStyles;
 
   return (
-    <label>
+    <label style={themeStyles.nodeInputLabel}>
       <span>{label}</span>
-      <input type={type} defaultValue={value} onChange={onChange} />
+      <input
+        type={type}
+        defaultValue={value}
+        onChange={onChange}
+        style={{ ...themeStyles.nodeInput, ...themeStyles.nodeInputPadding }}
+      />
     </label>
   )
 };
 
 const Select = ({ label, options, value, onChange }) => {
-  // onChange({ target: select });
+  const sticky = React.useContext(StickyContext);
 
   return (
-    <label>
-      {label}
-      <select defaultValue={value} onChange={onChange}>
+    <label style={themeStyles.nodeInputLabel}>
+      <span>{label}</span>
+      <select defaultValue={value} onChange={onChange} style={themeStyles.nodeInput}>
         {options.map(value => (
           <option key={value} defaultValue={value}>{value.toString()}</option>
         ))}

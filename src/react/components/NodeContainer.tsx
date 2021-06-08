@@ -45,8 +45,8 @@ class NodeContainer extends React.Component<Props> {
   render () {
     const { node, width, height, zoom, offset } = this.props;
     const { x, y } = _p.multiply(_p.add(node, offset), zoom);
-    const zOffset = _p.multiply(offset, 1);
     const style = {
+      ...this.context.render.themeStyles.nodeWrapper,
       transform: `scale(${zoom})`,
       width: Math.max(node.cfg.width || width, 60),
       height: Math.max(node.cfg.height || height, 60),
@@ -58,7 +58,7 @@ class NodeContainer extends React.Component<Props> {
         selected={this.context.render.lastSelected === node}
         x={x}
         y={y}
-        offset={zOffset}
+        offset={offset}
         zoom={zoom}
         onComponentUpdate={() => this.updateDimensions()}
       >

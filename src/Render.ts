@@ -7,6 +7,7 @@ import Wire from './Wire';
 import { registerEvents } from './eventHandlers'
 import { _p } from './utils/points';
 import { Offset, Position, TargetElement, TargetWrappers, Zoom } from './types';
+import { themeStyles } from './react/themeStyles';
 
 const defaultConfig = { width: 800, height: 600 };
 export type Config = typeof defaultConfig & { wrapper: Sticky };
@@ -34,6 +35,7 @@ export default class Render {
   _wires: BaseWire[];
   _aux: TemporaryContext;
   react?: React.Component;
+  themeStyles: Record<keyof typeof themeStyles, React.CSSProperties>;
 
   constructor (config) {
     this.config = { ...defaultConfig, ...config };

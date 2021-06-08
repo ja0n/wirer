@@ -20,7 +20,7 @@ export const NodeList = ({ renderNode, ...props }: Props) => {
     <React.Fragment>
       {nodes.map(node => (
         <NodeContainer key={node._id} node={node} offset={offset} zoom={zoom}>
-          <NodeComponent {...deriveProps(node)} zoom={zoom} />
+          <NodeComponent {...deriveProps(node)} />
         </NodeContainer>
       ))}
     </React.Fragment>
@@ -32,8 +32,6 @@ NodeList.defaultProps = {
   offset: { x: 0, y: 0 },
 }
 
-const noPortsConfig = Object.freeze({ flow_in: 0, flow_out: 0, data_in: 0, data_out: 0 })
-
 const deriveProps = (node: NodeModel) => ({
   wrapper: node,
   gui: node.gui,
@@ -43,7 +41,6 @@ const deriveProps = (node: NodeModel) => ({
   title: node.cfg.title,
   width: node.cfg.width,
   bgColor: node.cfg.fill,
-  ports: node.cfg.ports || noPortsConfig,
 });
 
 export default NodeList;
