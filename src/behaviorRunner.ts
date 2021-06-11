@@ -12,7 +12,7 @@ async function* behaviorRunner (instance: Wirer, context?: Record<any, any>) {
 
   console.debug('Start node found:', node);
 
-  const getNode = (...args) => instance.getNode(...args);
+  const getNode = instance.getNode.bind(instance)
 
   let step = 0;
   do {

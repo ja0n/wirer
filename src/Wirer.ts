@@ -4,13 +4,19 @@ import _find from 'lodash/find';
 
 import Node from './Node';
 import Render from './Render';
+import BaseWire from './BaseWire';
 import standardNodes from './nodes/standard';
 import behaviorRunner from './behaviorRunner';
 import { toJSON } from './jsonLoader';
 
-// import "./styles/default.scss";
+export default class Wirer {
+  static _refNodes: {};
+  _uid: number;
+  _objects: Node[];
+  _wires: BaseWire[];
+  nodeRefs: {};
+  render: Render;
 
-export default class Sticky {
   constructor({ width, height } = { width: 800, height: 600 }) {
     this._uid = 0;
     this.nodeRefs = {};
@@ -27,11 +33,11 @@ export default class Sticky {
     return this._objects;
   }
 
-  addNodes(nodes) {
+  addNodes(nodes: Node[]) {
     for (let node of nodes) {
       // TODO: use uuid4
       if (node._id == null)
-        node._id = this._uid++;
+        node._id = (this._uid++).toString();
       // this._objects = [...this._objects, node];
       this._objects.push(node);
     }
@@ -40,11 +46,11 @@ export default class Sticky {
       this.render.react.forceUpdate();
   }
 
-  addNode(obj) {
-    this.addNodes([obj]);
+  addNode(node: Node) {
+    this.addNodes([node]);
   }
 
-  removeNode(node, update) {
+  removeNode(node: Node, update?: boolean) {
     let index = this._objects.indexOf(node);
 
     if (index == -1) return;
@@ -78,7 +84,7 @@ export default class Sticky {
     this.render.forceUpdate();
   }
 
-  _formatNodeRef (name, cfg) {
+  static _formatNodeRef (name, cfg) {
     // TODO(ja0n); split behavior to a middleware architecture
     const behavior = typeof(cfg.behavior) !== 'function'
       ? new Function('getNode', cfg.behavior)
@@ -92,15 +98,15 @@ export default class Sticky {
   }
 
   registerNode(name, cfg) {
-    this.nodeRefs[name] = this._formatNodeRef(name, cfg);
+    this.nodeRefs[name] = Wirer._formatNodeRef(name, cfg);
   }
 
   static registerNode(name, cfg) {
-    this.prototype._refNodes[name] = this._formatNodeRef(name, cfg);
+    this._refNodes[name] = this._formatNodeRef(name, cfg);
   }
 
   getNodeRef (name) {
-    return this.nodeRefs[name] || this._refNodes[name];
+    return this.nodeRefs[name] || Wirer._refNodes[name];
   }
 
   createNode(name, data = {}) {
@@ -113,7 +119,7 @@ export default class Sticky {
   }
 
   static createNode(name, data = {}) {
-    const cfg = this.prototype._refNodes[name];
+    const cfg = this._refNodes[name];
 
     if (!cfg)
       throw "Node not registered";
@@ -121,10 +127,10 @@ export default class Sticky {
     return new Node({ ...cfg, ...data });
   }
 
-  getNode (id) {
+  getNode (id: string) {
     if (_isNil(id))
       return null;
-    return _find(this._objects, { '_id': id });
+    return this._objects.find(node => node._id == id);
   }
 
   loadPorts (nodey, ports, [from, to]) {
@@ -143,7 +149,8 @@ export default class Sticky {
   }
 
   toJSON () {
-    return toJSON(this._objects, this._refNodes);
+    // FIXME: export both internal _refNodes and instance nodeRefs
+    return toJSON(this._objects, Wirer._refNodes);
   }
 
   loadJSON (data) {
@@ -155,7 +162,7 @@ export default class Sticky {
       instance._id = id;
       instance.x = x;
       instance.y = y;
-      instance.value = value;
+      // instance.value = value;
       this.addNode(instance);
     }
 
@@ -188,4 +195,4 @@ export default class Sticky {
   }
 }
 
-Sticky.prototype._refNodes = standardNodes || {};
+Wirer._refNodes = standardNodes || {};
