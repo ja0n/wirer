@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
     "jsx": "react",
-    "outDir": "./built",
+    "outDir": "./dist",
+    "declaration": true,
     "allowJs": true,
-    // better ie 11 integration
-    "target": "es2015",
     // Search under node_modules for non-relative imports.
     "moduleResolution": "node",
     // Don't emit; allow Babel to transform files.
-    "noEmit": true,
+    // "noEmit": true,
     // Disallow features that require cross-file information for emit.
     "isolatedModules": true,
     // Import non-ES modules as default imports.
