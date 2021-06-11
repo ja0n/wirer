@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import Sticky from '../src/Sticky';
+import Wirer from '../src/Wirer';
 import { Container, Connections, Wire, Line } from '../src/react/components';
 
 describe('Connections Component', () => {
@@ -8,7 +8,7 @@ describe('Connections Component', () => {
   })
   test('it is respecting wire managing', () => {
     let wrapper, container;
-    let canvas: Sticky;
+    let canvas: Wirer;
 
     // no offset and no zoom
     wrapper = mount(

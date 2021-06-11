@@ -1,2 +1,2 @@
-import Sticky from './Sticky';
-export default Sticky
+import Wirer from './Wirer';
+export default Wirer

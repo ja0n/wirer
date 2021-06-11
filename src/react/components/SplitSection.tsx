@@ -1,14 +1,14 @@
 import React from 'react';
 import { NodeModel, Zoom } from '../../types';
-import { StickyContext } from './Container';
+import { WirerContext } from './Container';
 import splitPorts from './splitPorts';
 
 const SplitSection = ({ children, node }: { children: React.ReactChild; node: NodeModel }) => {
   const [inputPorts, outputPorts] = splitPorts({ node });
-  const sticky = React.useContext(StickyContext);
-  const themeStyles = sticky.render.themeStyles;
+  const wirer = React.useContext(WirerContext);
+  const themeStyles = wirer.render.themeStyles;
   return (
-    <section className="sticky-node-section" style={themeStyles.nodeSection}>
+    <section className="wirer-node-section" style={themeStyles.nodeSection}>
       <aside className="left" style={{ ...themeStyles.nodeSectionAside, ...themeStyles.nodeSectionAsideLeft}}>
         {inputPorts}
       </aside>

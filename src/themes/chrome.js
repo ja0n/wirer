@@ -6,7 +6,7 @@ const textColor = 'rgba(255, 255, 255, 0.3)';
 const backgroundColor = '#333';
 
 export const ChromeStyle = createGlobalStyle`
-  .sticky-node-html .node__header {
+  .wirer-node-html .node__header {
     background-color: ${backgroundColor};
     text-align: center;
     margin: 0 auto;

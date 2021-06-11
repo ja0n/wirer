@@ -28,7 +28,7 @@ export function htmlNodeBuilder (wrapper, cfg) {
   const svg = SVGContainer(wrapper);
   var attrs = {
     width: Math.max(60, width),
-    class: 'sticky-node-html',
+    class: 'wirer-node-html',
     id: 'main'
   }
   const foreign = createElement('foreignObject', { ...attrs });
@@ -71,7 +71,7 @@ export default function blockBuilder(wrapper, cfg) {
     ry,
     'stroke-width': strokeWidth,
     style: `fill: ${fill}; stroke: ${stroke}; opacity: ${opacity};`,
-    class: 'sticky-node',
+    class: 'wirer-node',
     id: 'main'
   }
 
@@ -83,7 +83,7 @@ export default function blockBuilder(wrapper, cfg) {
   svg.appendChild(rect);
   svg.appendChild(text);
 
-  const foreign = createElement('foreignObject', { class: 'sticky-gui', x: 15, y: 40 });
+  const foreign = createElement('foreignObject', { class: 'wirer-gui', x: 15, y: 40 });
   const guiElement = buildForm(gui, ({ id, value }) => {
     svg.wrapper.inputs[id] = value;
   });

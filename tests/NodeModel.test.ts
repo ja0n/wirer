@@ -1,13 +1,13 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import Sticky from '../src/Sticky';
+import Wirer from '../src/Wirer';
 import { Container, Connections, Wire, Line } from '../src/react/components';
 
 describe('Connections Component', () => {
   test('last line selected behavior', () => {
   })
   test('it is respecting wire managing', () => {
-    let canvas = new Sticky();
+    let canvas = new Wirer();
 
     // no offset and no zoom
     canvas.clearCanvas(false);

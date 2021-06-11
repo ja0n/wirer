@@ -1,4 +1,4 @@
-var canvas = new Sticky.default('test', { width: 1200, height: 800 });
+var canvas = new Wirer.default('test', { width: 1200, height: 800 });
 
 const initialNodes = ['SourceNumber', 'SourceNumber', 'Alert', 'Sum', 'Operation', 'Operation', 'If', 'SourceString'];
 

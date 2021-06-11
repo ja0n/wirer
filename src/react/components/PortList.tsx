@@ -1,7 +1,7 @@
 import React from 'react';
 import NodeModel from '../../Node';
 import PortModel from '../../Port';
-import { StickyContext } from './Container';
+import { WirerContext } from './Container';
 
 import { _p } from '../../utils/points';
 type Props = { node: NodeModel, type: string, direction: string };
@@ -18,8 +18,8 @@ const PortList = ({ node, type, direction }: Props) => {
 };
 
 const Port = ({ port }: { port: PortModel }) => {
-  const sticky = React.useContext(StickyContext);
-  const themeStyles = sticky.render.themeStyles;
+  const wirer = React.useContext(WirerContext);
+  const themeStyles = wirer.render.themeStyles;
   const circleStyles = {...themeStyles.nodePortCircle, r: 8, fill: port.color };
 
   return (

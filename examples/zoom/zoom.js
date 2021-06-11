@@ -1,4 +1,4 @@
-var canvas = new Sticky.default('test', { width: 200, height: 200 });
+var canvas = new Wirer.default('test', { width: 200, height: 200 });
 
 canvas.render.disableDragging = true;
 canvas.loadJSON(flowsJSON[0]);

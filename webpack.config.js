@@ -4,12 +4,12 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: 'development',
-  entry: './src/Sticky',
+  entry: './src/Wirer',
   devtool: 'source-map',
   output: {
     path: __dirname + '/dist',
-    filename: 'sticky.js',
-    library: 'Sticky',
+    filename: 'wirer.js',
+    library: 'Wirer',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },

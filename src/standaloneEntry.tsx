@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom';
 import { createElement } from './utils/dom';
 import { NodeGraph } from './react/components';
 import { Config } from './Render';
-import Sticky from './Sticky';
+import Wirer from './Wirer';
 
 
-function StickyStandalone (id: string, config: Config) {
+function WirerStandalone (id: string, config: Config) {
   // const { wrapper, Component } = this.config;
-  const manager = new Sticky(config);
+  const manager = new Wirer(config);
   const svg = createElement('svg', { class: 'svg-content', preserveAspectRatio: "xMidYMid meet" });
   this.loadContainer(svg);
 
   const element = document.getElementById(id);
-  element.classList.add('sticky__canvas');
+  element.classList.add('wirer__canvas');
   element.appendChild(this._svg);
 
   ReactDOM.render(

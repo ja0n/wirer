@@ -1,12 +1,12 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import Sticky from '../src/Sticky';
+import Wirer from '../src/Wirer';
 import { Container, NodeContainer } from '../src/react/components';
 
 describe('Container Component', () => {
   test('it is respecting node managing', () => {
     let wrapper, container;
-    let canvas: Sticky;
+    let canvas: Wirer;
 
     // no offset and no zoom
     wrapper = mount(
@@ -41,7 +41,7 @@ describe('Container Component', () => {
 
   test('grid is calculated based on zoom and offset', () => {
     let wrapper;
-    let canvas: Sticky;
+    let canvas: Wirer;
 
     // no offset and no zoom
     wrapper = mount(

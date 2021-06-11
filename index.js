@@ -1,1 +1,1 @@
-export { default } from 'src/Sticky';
+export { default } from 'src/Wirer';

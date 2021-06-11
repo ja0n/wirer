@@ -1,5 +1,5 @@
 {
-  "name": "sticky",
+  "name": "wirer",
   "version": "0.0.1",
   "description": "wirable logic bricks",
   "main": "index.js",
@@ -13,10 +13,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ja0n/sticky.git"
+    "url": "git+https://github.com/ja0n/wirer.git"
   },
   "keywords": [
-    "sticky",
+    "wirer",
     "logic",
     "brick",
     "wire",
@@ -26,9 +26,9 @@
   "author": "ja0n",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ja0n/sticky/issues"
+    "url": "https://github.com/ja0n/wirer/issues"
   },
-  "homepage": "https://github.com/ja0n/sticky#readme",
+  "homepage": "https://github.com/ja0n/wirer#readme",
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.1",

@@ -1,7 +1,7 @@
 import React from 'react';
 import invoke from 'lodash/invoke';
 import { GuiConfig } from '../../Node'
-import { StickyContext } from './Container';
+import { WirerContext } from './Container';
 import { themeStyles } from '../themeStyles';
 
 type Props = {
@@ -37,8 +37,8 @@ export const Form = ({ gui, values, onChange }: Props) => (
 );
 
 const Input = ({ label, type, value, onChange }) => {
-  const sticky = React.useContext(StickyContext);
-  const themeStyles = sticky.render.themeStyles;
+  const wirer = React.useContext(WirerContext);
+  const themeStyles = wirer.render.themeStyles;
 
   return (
     <label style={themeStyles.nodeInputLabel}>
@@ -54,7 +54,7 @@ const Input = ({ label, type, value, onChange }) => {
 };
 
 const Select = ({ label, options, value, onChange }) => {
-  const sticky = React.useContext(StickyContext);
+  const wirer = React.useContext(WirerContext);
 
   return (
     <label style={themeStyles.nodeInputLabel}>

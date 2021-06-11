@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const themeStyles: Record<string, React.CSSProperties> = {
-  stickyCanvas: {
+  wirerCanvas: {
     fontSize: "14px",
     display: "inline-block",
     fontFamily: "'Work Sans', sans-serif",

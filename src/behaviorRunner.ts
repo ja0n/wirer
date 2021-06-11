@@ -1,8 +1,8 @@
 import _find from 'lodash/find';
 import _get from 'lodash/get';
-import Sticky from './Sticky';
+import Wirer from './Wirer';
 
-async function* behaviorRunner (instance: Sticky, context?: Record<any, any>) {
+async function* behaviorRunner (instance: Wirer, context?: Record<any, any>) {
   let node = _find(instance._objects, { _refNode: 'start' });
   const internalContext = { ...context };
 

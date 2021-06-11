@@ -2,7 +2,7 @@ import React from 'react';
 import _throttle from 'lodash/throttle';
 
 import BaseWire from './BaseWire';
-import Sticky from './Sticky';
+import Wirer from './Wirer';
 import Wire from './Wire';
 import { registerEvents } from './eventHandlers'
 import { _p } from './utils/points';
@@ -10,7 +10,7 @@ import { Offset, Position, TargetElement, TargetWrappers, Zoom } from './types';
 import { themeStyles } from './react/themeStyles';
 
 const defaultConfig = { width: 800, height: 600 };
-export type Config = typeof defaultConfig & { wrapper: Sticky };
+export type Config = typeof defaultConfig & { wrapper: Wirer };
 
 type MouseDownContext = Position & { offset?: Offset; wrapper?: Position; barePos?: Position; mouse?: Position; };
 type TemporaryContext = { wire?: BaseWire; lastZoomTime?: number; mouseDown?: MouseDownContext; };

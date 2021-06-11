@@ -1,11 +1,11 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import Sticky from '../src/Sticky';
+import Wirer from '../src/Wirer';
 import { NodeContainer, SVGContainer } from '../src/react/components';
 
 describe('NodeContainer Component', () => {
   test('position is calculated based on zoom and offset', () => {
-    let canvas = new Sticky(null);
+    let canvas = new Wirer(null);
     const start = canvas.createNode('start', { x: 100, y: 100 });
     let wrapper, container, props;
 
@@ -72,7 +72,7 @@ describe('NodeContainer Component', () => {
     // expect(sealed).toBeTruthy();
     // const connections = wrapper.find('.leader-line');
 
-    // const connections = wrapper.find('.sticky-node-html');
+    // const connections = wrapper.find('.wirer-node-html');
     // expect(svgContainers).toHaveLength(4);
   });
 

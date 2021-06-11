@@ -4,7 +4,7 @@ import SVGContainer from './SVGContainer';
 import NodeModel from '../../Node';
 import { _p } from '../../utils/points';
 import type { Zoom, Offset } from '../../types';
-import { StickyContext } from './Container';
+import { WirerContext } from './Container';
 
 const reduceMax = (key) => (max, obj) => {
   const currentValue = get(obj, key);
@@ -21,7 +21,7 @@ type Props = {
 
 class NodeContainer extends React.Component<Props> {
   ref?: SVGForeignObjectElement;
-  static contextType = StickyContext;
+  static contextType = WirerContext;
 
   componentDidUpdate () {
     this.updateDimensions();
@@ -64,7 +64,7 @@ class NodeContainer extends React.Component<Props> {
       >
         <foreignObject
           ref={ref => this.ref = ref}
-          className="sticky-node-html"
+          className="wirer-node-html"
           style={style}
           width={width}
           height={height}

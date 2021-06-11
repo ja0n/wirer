@@ -3,7 +3,7 @@ import React from 'react';
 import SplitSection from './SplitSection';
 import Form from './Form';
 import NodeModel, { GuiConfig, PortCount } from '../../Node'
-import { StickyContext } from './Container';
+import { WirerContext } from './Container';
 
 type Props = {
   wrapper: NodeModel;
@@ -21,10 +21,10 @@ const Node = (props: Props) => {
     inputs, onChange, wrapper,
     className
   } = props;
-  const sticky = React.useContext(StickyContext);
-  const themeStyles = sticky.render.themeStyles;
+  const wirer = React.useContext(WirerContext);
+  const themeStyles = wirer.render.themeStyles;
   let headerStyle = themeStyles.nodeHeader;
-  if (sticky.render.lastSelected === wrapper) {
+  if (wirer.render.lastSelected === wrapper) {
     headerStyle = { ...headerStyle, ...themeStyles.nodeHeaderSelected };
   }
 
@@ -32,7 +32,7 @@ const Node = (props: Props) => {
     <article style={{ ...themeStyles.nodeContainer, backgroundColor: bgColor }} className={className}>
       <header style={headerStyle} className="node__header chrome">
         <span style={themeStyles.nodeHeaderName}>{title}</span>
-        <a style={themeStyles.nodeHeaderDelete} onClick={() => sticky.removeNode(wrapper, true)}>{'X'}</a>
+        <a style={themeStyles.nodeHeaderDelete} onClick={() => wirer.removeNode(wrapper, true)}>{'X'}</a>
       </header>
       <SplitSection node={wrapper}>
         <Form

@@ -1,10 +1,10 @@
 import React from 'react';
-import Sticky from '../../Sticky';
+import Wirer from '../../Wirer';
 import { ChromeStyle } from '../../themes/chrome';
 import { NodeList, Connections } from './index'
 import { themeStyles } from '../themeStyles';
 
-export const StickyContext = React.createContext<Sticky>(null);
+export const WirerContext = React.createContext<Wirer>(null);
 
 interface Props {
   width?: number;
@@ -12,12 +12,12 @@ interface Props {
   gridSize?: number;
   gridColor?: string;
   backgroundColor?: string;
-  onLoad?: (canvas?: Sticky) => void;
+  onLoad?: (canvas?: Wirer) => void;
   renderNode?: () => JSX.Element;
 }
 
 export default class Container extends React.Component<Props> {
-  canvas?: Sticky;
+  canvas?: Wirer;
 
   static defaultProps = {
     width: 800,
@@ -36,7 +36,7 @@ export default class Container extends React.Component<Props> {
       return null;
 
     const { width, height, gridSize, gridColor, backgroundColor } = this.props;
-    const canvas = new Sticky({ width, height });
+    const canvas = new Wirer({ width, height });
     canvas.render.loadContainer(ref);
     canvas.render.react = this;
     canvas.render.gridColor = gridColor;
@@ -62,10 +62,10 @@ export default class Container extends React.Component<Props> {
       pointerEvents: 'none',
     }
     return (
-      <StickyContext.Provider value={this.canvas}>
+      <WirerContext.Provider value={this.canvas}>
         <div>
           <ChromeStyle />
-          <div style={themeStyles?.stickyCanvas}>
+          <div style={themeStyles?.wirerCanvas}>
             <svg
               style={{ ...themeStyles?.svgContent, ...canvas?.render.getGridStyle() }}
               preserveAspectRatio="xMidYMid meet"
@@ -90,7 +90,7 @@ export default class Container extends React.Component<Props> {
             </svg>
           </div>
         </div>
-      </StickyContext.Provider>
+      </WirerContext.Provider>
     );
   }
 }

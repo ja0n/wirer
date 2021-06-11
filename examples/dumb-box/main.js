@@ -1,5 +1,5 @@
 var game = new DumbBox('canvas', { controls: false });
-var canvas = new Sticky.default('test');
+var canvas = new Wirer.default('test');
 var sum = [];
 var nodeConfig = {
   'PushUp': {
