@@ -10,20 +10,24 @@ async function* behaviorRunner (instance: Wirer, context?: Record<any, any>) {
     throw new Error('Start node not found')
   }
 
-  console.debug('Start node found:', node);
+  console.debug(`Start node found: ${node}`);
 
   const getNode = instance.getNode.bind(instance)
 
   let step = 0;
   do {
     const refNode = instance.getNodeRef(node._refNode);
+    console.debug('Step', ++step, node.toString());
     // TODO(ja0n): merge { getNode, context } into one parameter structure
     const nodeBehavior = refNode.behavior.call(node, getNode, internalContext)
     const flowPort = await Promise.resolve(nodeBehavior);
     const nextNodeId = _get(node._ports, ['flow_out', flowPort, 'connections', 0, 'nodeId'], null);
     node = getNode(nextNodeId);
-    console.debug('Step', ++step, refNode);
-    console.debug('Next Step', flowPort, node);
+    if (node) {
+      console.debug(`Next Step from port ${flowPort}: ${node}`);
+    } else {
+      console.debug('Final Step reached');
+    }
     yield { node, context };
   } while (node);
 

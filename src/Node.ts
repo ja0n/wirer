@@ -117,6 +117,8 @@ export default class Node {
   get main () { return this._el.querySelector('#main'); }
   get _svg () { return getParentSvg(this._el); }
 
+  toString () { return `<${[this._id, this._refNode].join(', ')}>`; }
+
   setupElement () {
     this._el = SVGContainer(this);
   }
