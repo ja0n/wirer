@@ -37,7 +37,7 @@ const deriveProps = (node: NodeModel) => ({
   gui: node.gui,
   inputs: node.inputs,
   // values: node.values,
-  onChange: node.onChange,
+  onChange: (...args) => node.onChange.call(node, ...args),
   title: node.cfg.title,
   width: node.cfg.width,
   bgColor: node.cfg.fill,

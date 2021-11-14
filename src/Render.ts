@@ -37,7 +37,7 @@ export default class Render {
   react?: React.Component;
   themeStyles: Record<keyof typeof themeStyles, React.CSSProperties>;
 
-  constructor (config) {
+  constructor (config: Config) {
     this.config = { ...defaultConfig, ...config };
     this._aux = {};
     this._state = null;

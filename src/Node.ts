@@ -43,7 +43,7 @@ export type PortMap = {
 }
 
 export type GuiConfig = {
-  [key: string]: { label: string, type: string, options?: string[]}
+  [key: string]: { label: string, type: string, options?: (string|boolean|number)[]}
 }
 
 const defaultConfig = {
@@ -124,7 +124,6 @@ export default class Node {
   }
 
   onChange ({ id, value }) {
-    set(this.inputs, [id], value);
     this.inputs = { ...this.inputs, [id]: value };
   }
 

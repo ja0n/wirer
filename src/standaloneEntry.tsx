@@ -10,11 +10,11 @@ function WirerStandalone (id: string, config: Config) {
   // const { wrapper, Component } = this.config;
   const manager = new Wirer(config);
   const svg = createElement('svg', { class: 'svg-content', preserveAspectRatio: "xMidYMid meet" });
-  this.loadContainer(svg);
+  manager.render.loadContainer(svg);
 
   const element = document.getElementById(id);
   element.classList.add('wirer__canvas');
-  element.appendChild(this._svg);
+  element.appendChild(svg);
 
   ReactDOM.render(
     <NodeGraph
