@@ -6,6 +6,7 @@ import Node from './Node';
 import Render from './Render';
 import BaseWire from './BaseWire';
 import standardNodes from './nodes/standard';
+import nodeJsNodes from './nodes/nodejs';
 import behaviorRunner from './behaviorRunner';
 import { toJSON } from './jsonLoader';
 
@@ -195,4 +196,5 @@ export default class Wirer {
   }
 }
 
-Wirer._refNodes = standardNodes || {};
+// TODO: load nodejs nodes dinamically
+Wirer._refNodes = { ...standardNodes, ...nodeJsNodes };
