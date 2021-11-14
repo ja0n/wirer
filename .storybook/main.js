@@ -1,7 +1,8 @@
 const custom = require('../webpack.config.js');
 
 module.exports = {
-  stories: ['../stories/*.stories.js', '../src/**/*.stories.js'],
+  addons: ['@storybook/addon-essentials'],
+  stories: ['../stories/*.stories.@(js|tsx|mdx)', '../src/**/*.stories.@(js|tsx|mdx)'],
   core: {
     builder: "webpack5",
   },
