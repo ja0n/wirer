@@ -67,8 +67,10 @@
   },
   "dependencies": {
     "@storybook/core": "^6.3.2",
+    "firmata-io": "^2.3.0",
     "leader-line": "ja0n/leader-line",
     "lodash": "^4.17.21",
+    "node-fetch": "^3.2.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-uid": "^2.3.1",
