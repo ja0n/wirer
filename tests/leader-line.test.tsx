@@ -1,25 +1,31 @@
+import React from 'react';
+import { mount } from 'enzyme';
 import { Container } from '../src/react/components';
 
 class SVGPathElement extends SVGElement {}
-window.SVGPathElement = SVGPathElement;
 
 class SVGRectElement extends SVGElement {}
-window.SVGRectElement = SVGRectElement;
 
 class SVGCircleElement extends SVGElement {}
-window.SVGCircleElement = SVGCircleElement;
 
 class SVGEllipseElement extends SVGElement {}
-window.SVGEllipseElement = SVGEllipseElement;
 
 class SVGLineElement extends SVGElement {}
-window.SVGLineElement = SVGLineElement;
 
 class SVGPolylineElement extends SVGElement {}
-window.SVGPolylineElement = SVGPolylineElement;
 
 class SVGPolygonElement extends SVGElement {}
-window.SVGPolygonElement = SVGPolygonElement;
+
+// Mock needed SVGElements to render
+Object.assign(window, {
+  SVGPathElement,
+  SVGRectElement,
+  SVGCircleElement,
+  SVGEllipseElement,
+  SVGLineElement,
+  SVGPolylineElement,
+  SVGPolygonElement,
+})
 
 describe('LeaderLine support', () => {
   test('leader-line', () => {

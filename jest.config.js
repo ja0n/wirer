@@ -1,6 +1,6 @@
 module.exports = {
   preset: "ts-jest",
-  setupFilesAfterEnv: ["jest-enzyme"],
+  setupFilesAfterEnv: ["<rootDir>tests/setupTests.js"],
   testEnvironment: "enzyme",
   coverageReporters: [
     "html"

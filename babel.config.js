@@ -11,7 +11,7 @@ module.exports = api => {
     ],
     "plugins": [
       "add-module-exports",
-      ["@babel/plugin-proposal-class-properties", { "loose": true }]
+      ["@babel/plugin-proposal-class-properties"]
     ]
   };
 };

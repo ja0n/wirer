@@ -3,9 +3,11 @@ import { mount } from 'enzyme';
 import Wirer from '../src/Wirer';
 import { NodeContainer, SVGContainer } from '../src/react/components';
 
+// TODO: Add tests related to WirerContext
+
 describe('NodeContainer Component', () => {
   test('position is calculated based on zoom and offset', () => {
-    let canvas = new Wirer(null);
+    let canvas = new Wirer();
     const start = canvas.createNode('start', { x: 100, y: 100 });
     let wrapper, container, props;
 

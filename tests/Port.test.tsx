@@ -1,9 +1,12 @@
+import React from 'react';
+import { mount } from 'enzyme';
 import { Container } from '../src/react/components';
+import Wirer from '../src/Wirer';
 
 describe('Port Class', () => {
 
   test('attach', () => {
-    let canvas = null;
+    let canvas: Wirer = null;
     const wrapper = mount(
       <Container
         onLoad={ref => {

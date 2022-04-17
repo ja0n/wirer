@@ -46,7 +46,7 @@ class NodeContainer extends React.Component<Props> {
     const { node, width, height, zoom, offset } = this.props;
     const { x, y } = _p.multiply(_p.add(node, offset), zoom);
     const style = {
-      ...this.context.render.themeStyles.nodeWrapper,
+      ...this.context?.render.themeStyles.nodeWrapper,
       transform: `scale(${zoom})`,
       width: Math.max(node.cfg.width || width, 60),
       height: Math.max(node.cfg.height || height, 60),
@@ -55,7 +55,7 @@ class NodeContainer extends React.Component<Props> {
     return (
       <SVGContainer
         wrapper={node}
-        selected={this.context.render.lastSelected === node}
+        selected={this.context?.render.lastSelected === node}
         x={x}
         y={y}
         offset={offset}
