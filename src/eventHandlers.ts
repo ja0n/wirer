@@ -110,8 +110,8 @@ function onMouseUp (this: Render, event: MouseEvent) {
     if (target.type === 'port') {
       this.endAttach(target);
     } else {
-      this.setState(null)
       this._aux['wire'] = null;
+      this.setState(null)
     }
     this.throttleUpdate();
   }

@@ -9,6 +9,7 @@ import BaseWire from './BaseWire';
 
 import { SVGContainer } from './blockBuilder';
 import { getParentSvg } from './utils/dom';
+import Wirer from './Wirer';
 
 export type NodeConfig = {
   id?: string;
@@ -22,11 +23,15 @@ export type NodeConfig = {
   fill?: string;
   stroke?: string;
   gui?: GuiConfig;
-  behavior?: Function;
   icon?: string;
   inputs?: Record<string, any>
   ports?: PortCount;
+  behavior?: (this: Node, findById: Wirer['getNode'], context: Record<any, any>) => any;
+  onAttach?: (node: Node, data: AttachData) => any;
+  onInputChange?: (node: Node, change: { id, value }) => any;
 };
+
+export type AttachData = { from: Port, to: Port };
 
 export type PortCount = {
   flow_in: number;
@@ -62,8 +67,11 @@ const defaultConfig = {
 };
 
 export default class Node {
+  wirer: Wirer;
   _id?: string;
   _ports: PortMap;
+  // TODO: split dynamic ports
+  // _extraPorts: PortMap;
   _refNode: string;
   _el: HTMLElement | SVGAElement; // _domElement || _element
   _states: { dragging: boolean };
@@ -74,6 +82,7 @@ export default class Node {
   cfg: NodeConfig; // config
   gui: GuiConfig; // inputsConfig
   inputs: Record<string, any>;
+  instance?: any;
 
   constructor (custom: NodeConfig = {}) {
     const cfg = { ...defaultConfig, ...custom };
@@ -97,10 +106,10 @@ export default class Node {
     this.wires = [];
     this._states = { dragging: false };
 
-    setupPorts({ node: this, type: "data", direction: "in", length: ports.data_in })
-    setupPorts({ node: this, type: "data", direction: "out", length: ports.data_out })
-    setupPorts({ node: this, type: "flow", direction: "in", length: ports.flow_in })
-    setupPorts({ node: this, type: "flow", direction: "out", length: ports.flow_out })
+    this.setupPorts({ type: "data", direction: "in", length: ports.data_in })
+    this.setupPorts({ type: "data", direction: "out", length: ports.data_out })
+    this.setupPorts({ type: "flow", direction: "in", length: ports.flow_in })
+    this.setupPorts({ type: "flow", direction: "out", length: ports.flow_out })
 
     // TODO(ja0n): Refactor the gui|inputs|values mess
     // should value be a key inside gui objects?
@@ -123,8 +132,16 @@ export default class Node {
     this._el = SVGContainer(this);
   }
 
-  onChange ({ id, value }) {
+  onChange (change: { id: string, value: any }) {
+    const { id, value } = change;
+    this.cfg.onInputChange?.(this, change);
     this.inputs = { ...this.inputs, [id]: value };
+  }
+
+  onAttach (data: AttachData) {
+    if (this.cfg.onAttach) {
+      return this.cfg.onAttach(this, data);
+    }
   }
 
   delete () {
@@ -132,12 +149,24 @@ export default class Node {
     //   wire.delete();
   }
 
-  getPort (type: string, id: number) {
+  getPort (type: string, id: string) {
     return this.getPorts(type)[id];
   }
 
   getPorts (type: string): Port[] {
     return this._ports[type];
+  }
+
+  async getPortValue (type = 'in', index = 0, connection = 0, context = {}) {
+    const portConn = this._ports[type][index].connections[connection];
+    const portNode = portConn && this.wirer.getNode(portConn.nodeId);
+    const getNode = this.wirer.getNode.bind(this.wirer)
+
+    if (portNode) {
+      return await portNode.getValue(getNode, context, portConn.id);
+    }
+
+    return null;
   }
 
   getValue (getNode, context, id?) {
@@ -150,29 +179,48 @@ export default class Node {
     return promise.then(value => value[id])
   }
 
+  removePorts (ports: Port[]) {
+    for (let port of ports) this.removePort(port);
+  }
+
+  removePort (port: Port) {
+    const wires = this.wires.filter(w => w.controlPoints.includes(port));
+    for (let wire of wires) {
+      wire.delete();
+      this.wirer.render.removeWire(wire);
+    }
+  }
+
+  setupPorts ({ type, direction, length }: { type: string, direction: string, length: number }, offset = 0) {
+    const { key } = getPortMeta(type, direction);
+    // discard surplus ports on port configuration change
+    this.removePorts(this._ports[key].slice(length + offset));
+    this._ports[key].splice(length + offset)
+
+    _times(length, (index) => {
+      this.setupPort({ type, direction, id: index + offset });
+    });
+    this._ports = { ...this._ports };
+  }
+
+  setupPort ({ id, type, direction }: { id: number, type: string, direction: string }, hard = false) {
+    const { constructor, key } = getPortMeta(type, direction);
+    const port = new constructor({ node: this, id, direction });
+    const currentIndex = _findIndex(this._ports[key], { id })
+    if (currentIndex != -1) {
+      if (hard) this._ports[key][currentIndex] = port;
+    } else {
+      this._ports[key].push(port);
+    }
+  }
 }
 
-
-function setupPort ({ node, id, type, direction }: { node: Node, id: number, type: string, direction: string }) {
+function getPortMeta (type: string, direction: string) {
   const types = {
     'data': { constructor: DataPort, key: `${direction}` },
     'flow': { constructor: FlowPort, key: `flow_${direction}` },
   };
-
   if (!types[type])
     throw `Port of type "${type}" not found`;
-
-  const { constructor, key } = types[type];
-  const port = new constructor({ id, node, direction });
-  const currentIndex = _findIndex(node._ports[key], { id })
-  if (currentIndex != -1)
-    node._ports[key][currentIndex] = port;
-  else
-    node._ports[key].push(port);
-}
-
-function setupPorts ({ node, type, direction, length }: { node: Node, type: string, direction: string, length: number }) {
-  return _times(length, (index) => (
-    setupPort({ node, type, direction, id: index })
-  ));
+  return types[type];
 }

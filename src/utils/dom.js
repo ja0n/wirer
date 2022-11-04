@@ -5,7 +5,7 @@ export const colors = [
 ];
 
 export function getParentSvg(el) {
-  if (!el.parentNode) return null;
+  if (!el?.parentNode) return null;
   if (el.parentNode.nodeName === 'svg')
     return el.parentNode;
   return getParentSvg(el.parentNode);

@@ -16,7 +16,7 @@ export default class Port {
   direction: DirectionName;
   type: PortName;
   connections: Connection[];
-  maxConnections: number;
+  maxConnections: number = 1;
   node: Node;
   color?: string;
 
@@ -28,7 +28,7 @@ export default class Port {
       throw "type must be 'data' or 'flow'";
 
     Object.assign(this, { id, type, direction, node });
-    Object.assign(this, { connections: [], maxConnections: 2 });
+    Object.assign(this, { connections: [] });
     if (ref) this.setupInstance(ref);
   }
 
@@ -61,10 +61,17 @@ export default class Port {
   }
 
   get available () {
+    if (this.maxConnections === null) {
+      return true;
+    }
     return this.connections.length < this.maxConnections;
   }
 
   getBBoxes () {
+    if (!this._el) {
+      return [new DOMRect(), new DOMRect()];
+    }
+
     const portSVG = getParentSvg(this._el);
     const nodeSVG = this.node._el;
 
@@ -94,14 +101,20 @@ export default class Port {
     return this.connections.find(makeFinder(to.node._id, to.id))
   }
 
+  pushConnection (to: Port) {
+    this.connections.push({ nodeId: to.node._id, id: to.id });
+  }
+
   attach (to: Port) {
     if (this.hasConnection(to)) {
       return false
     }
     if (this.canAttach(to)) {
-      this.connections.push({ nodeId: to.node._id, id: to.id });
-      to.connections.push({ nodeId: this.node._id, id: this.id });
-      // console.debug('Port attaching', { port: this, to });
+      this.pushConnection(to)
+      to.pushConnection(this)
+      this.node.onAttach({ from: this, to });
+      to.node.onAttach({ from: this, to });
+      console.debug('Port attaching', { from: this, 'to': to });
       return true;
     }
     return false;
