@@ -2,20 +2,23 @@ import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
 import _find from 'lodash/find';
 
-import Node from './Node';
+import Node, { NodeConfig } from './Node';
 import Render from './Render';
 import BaseWire from './BaseWire';
 import standardNodes from './nodes/standard';
+import prototypeNodes from './nodes/prototype';
 import nodeJsNodes from './nodes/nodejs';
 import behaviorRunner from './behaviorRunner';
 import { toJSON } from './jsonLoader';
 
+type NodeRefs = Record<string, NodeConfig>;
+
 export default class Wirer {
-  static _refNodes: {};
+  static _refNodes: NodeRefs;
+  nodeRefs: NodeRefs;
   _uid: number;
   _objects: Node[];
   _wires: BaseWire[];
-  nodeRefs: {};
   render: Render;
 
   constructor({ width, height } = { width: 800, height: 600 }) {
@@ -40,6 +43,7 @@ export default class Wirer {
       if (node._id == null)
         node._id = (this._uid++).toString();
       // this._objects = [...this._objects, node];
+      node.wirer = this;
       this._objects.push(node);
     }
 
@@ -110,13 +114,17 @@ export default class Wirer {
     return this.nodeRefs[name] || Wirer._refNodes[name];
   }
 
-  createNode(name, data = {}) {
-    const cfg = this.getNodeRef(name);
+  createNode(name, data?: NodeConfig) {
+    const nodeRef = this.getNodeRef(name);
 
-    if (!cfg)
+    if (!nodeRef)
       throw `Node '${name}' not registered`;
 
-    return new Node({ ...cfg, ...data });
+    return new Node({
+      ...nodeRef,
+      ...data,
+      inputs: Object.assign({}, nodeRef.inputs, data?.inputs)
+    });
   }
 
   static createNode(name, data = {}) {
@@ -134,7 +142,7 @@ export default class Wirer {
     return this._objects.find(node => node._id == id);
   }
 
-  loadPorts (nodey, ports, [from, to]) {
+  loadPorts (nodey: Node, ports, [from, to]) {
     ports.forEach((port, index) => {
       for (let conn of port) {
         // TODO: Fix 'node' and 'nodeId' difference
@@ -144,7 +152,11 @@ export default class Wirer {
           nodey2._ports[to][conn.id],
         ];
         // TODO: sealOrDiscard should be defined here
-        this.render.sealOrDiscard(...cps)
+        try {
+          this.render.sealOrDiscard(...cps);
+        } catch {
+          console.debug('Failed to load connection', nodey, conn);
+        }
       }
     });
   }
@@ -180,7 +192,7 @@ export default class Wirer {
     this.loadJSON(flow);
   }
 
-  async run (context) {
+  async run (context?) {
     const runner = behaviorRunner(this, context)
     let result = await runner.next();
 
@@ -197,4 +209,8 @@ export default class Wirer {
 }
 
 // TODO: load nodejs nodes dinamically
-Wirer._refNodes = { ...standardNodes, ...nodeJsNodes };
+Wirer._refNodes = {
+   ...standardNodes,
+   ...nodeJsNodes,
+   ...prototypeNodes,
+};

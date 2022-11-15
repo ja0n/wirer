@@ -1,0 +1,2188 @@
+{
+  "name": "CanvasRenderingContext2D",
+  "prototype": {
+    "canvas": {
+      "path": [
+        "canvas"
+      ],
+      "name": "canvas",
+      "type": "HTMLCanvasElement",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 163,
+      "typeKind": 174
+    },
+    "globalAlpha": {
+      "path": [
+        "globalAlpha"
+      ],
+      "name": "globalAlpha",
+      "type": "number",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "NumberKeyword",
+      "kind": 163,
+      "typeKind": 144
+    },
+    "globalCompositeOperation": {
+      "path": [
+        "globalCompositeOperation"
+      ],
+      "name": "globalCompositeOperation",
+      "type": "string",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "StringKeyword",
+      "kind": 163,
+      "typeKind": 147
+    },
+    "drawImage": {
+      "path": [
+        "drawImage"
+      ],
+      "name": "drawImage",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "drawImage",
+            "image"
+          ],
+          "name": "image",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        },
+        {
+          "path": [
+            "drawImage",
+            "sx"
+          ],
+          "name": "sx",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "drawImage",
+            "sy"
+          ],
+          "name": "sy",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "drawImage",
+            "sw"
+          ],
+          "name": "sw",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "drawImage",
+            "sh"
+          ],
+          "name": "sh",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "drawImage",
+            "dx"
+          ],
+          "name": "dx",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "drawImage",
+            "dy"
+          ],
+          "name": "dy",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "drawImage",
+            "dw"
+          ],
+          "name": "dw",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "drawImage",
+            "dh"
+          ],
+          "name": "dh",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "beginPath": {
+      "path": [
+        "beginPath"
+      ],
+      "name": "beginPath",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": []
+    },
+    "clip": {
+      "path": [
+        "clip"
+      ],
+      "name": "clip",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "clip",
+            "path"
+          ],
+          "name": "path",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        },
+        {
+          "path": [
+            "clip",
+            "fillRule"
+          ],
+          "name": "fillRule",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        }
+      ]
+    },
+    "fill": {
+      "path": [
+        "fill"
+      ],
+      "name": "fill",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "fill",
+            "path"
+          ],
+          "name": "path",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        },
+        {
+          "path": [
+            "fill",
+            "fillRule"
+          ],
+          "name": "fillRule",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        }
+      ]
+    },
+    "isPointInPath": {
+      "path": [
+        "isPointInPath"
+      ],
+      "name": "isPointInPath",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "BooleanKeyword",
+      "kind": 165,
+      "typeKind": 131,
+      "parameters": [
+        {
+          "path": [
+            "isPointInPath",
+            "path"
+          ],
+          "name": "path",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        },
+        {
+          "path": [
+            "isPointInPath",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "isPointInPath",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "isPointInPath",
+            "fillRule"
+          ],
+          "name": "fillRule",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        }
+      ]
+    },
+    "isPointInStroke": {
+      "path": [
+        "isPointInStroke"
+      ],
+      "name": "isPointInStroke",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "BooleanKeyword",
+      "kind": 165,
+      "typeKind": 131,
+      "parameters": [
+        {
+          "path": [
+            "isPointInStroke",
+            "path"
+          ],
+          "name": "path",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        },
+        {
+          "path": [
+            "isPointInStroke",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "isPointInStroke",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "stroke": {
+      "path": [
+        "stroke"
+      ],
+      "name": "stroke",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "stroke",
+            "path"
+          ],
+          "name": "path",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        }
+      ]
+    },
+    "fillStyle": {
+      "path": [
+        "fillStyle"
+      ],
+      "name": "fillStyle",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "UnionType",
+      "kind": 163,
+      "typeKind": 183
+    },
+    "strokeStyle": {
+      "path": [
+        "strokeStyle"
+      ],
+      "name": "strokeStyle",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "UnionType",
+      "kind": 163,
+      "typeKind": 183
+    },
+    "createLinearGradient": {
+      "path": [
+        "createLinearGradient"
+      ],
+      "name": "createLinearGradient",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 165,
+      "typeKind": 174,
+      "parameters": [
+        {
+          "path": [
+            "createLinearGradient",
+            "x0"
+          ],
+          "name": "x0",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "createLinearGradient",
+            "y0"
+          ],
+          "name": "y0",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "createLinearGradient",
+            "x1"
+          ],
+          "name": "x1",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "createLinearGradient",
+            "y1"
+          ],
+          "name": "y1",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "createPattern": {
+      "path": [
+        "createPattern"
+      ],
+      "name": "createPattern",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "UnionType",
+      "kind": 165,
+      "typeKind": 183,
+      "parameters": [
+        {
+          "path": [
+            "createPattern",
+            "image"
+          ],
+          "name": "image",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        },
+        {
+          "path": [
+            "createPattern",
+            "repetition"
+          ],
+          "name": "repetition",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "UnionType",
+          "kind": 161,
+          "typeKind": 183
+        }
+      ]
+    },
+    "createRadialGradient": {
+      "path": [
+        "createRadialGradient"
+      ],
+      "name": "createRadialGradient",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 165,
+      "typeKind": 174,
+      "parameters": [
+        {
+          "path": [
+            "createRadialGradient",
+            "x0"
+          ],
+          "name": "x0",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "createRadialGradient",
+            "y0"
+          ],
+          "name": "y0",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "createRadialGradient",
+            "r0"
+          ],
+          "name": "r0",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "createRadialGradient",
+            "x1"
+          ],
+          "name": "x1",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "createRadialGradient",
+            "y1"
+          ],
+          "name": "y1",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "createRadialGradient",
+            "r1"
+          ],
+          "name": "r1",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "filter": {
+      "path": [
+        "filter"
+      ],
+      "name": "filter",
+      "type": "string",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "StringKeyword",
+      "kind": 163,
+      "typeKind": 147
+    },
+    "createImageData": {
+      "path": [
+        "createImageData"
+      ],
+      "name": "createImageData",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 165,
+      "typeKind": 174,
+      "parameters": [
+        {
+          "path": [
+            "createImageData",
+            "imagedata"
+          ],
+          "name": "imagedata",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        }
+      ]
+    },
+    "getImageData": {
+      "path": [
+        "getImageData"
+      ],
+      "name": "getImageData",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 165,
+      "typeKind": 174,
+      "parameters": [
+        {
+          "path": [
+            "getImageData",
+            "sx"
+          ],
+          "name": "sx",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "getImageData",
+            "sy"
+          ],
+          "name": "sy",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "getImageData",
+            "sw"
+          ],
+          "name": "sw",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "getImageData",
+            "sh"
+          ],
+          "name": "sh",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "putImageData": {
+      "path": [
+        "putImageData"
+      ],
+      "name": "putImageData",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "putImageData",
+            "imagedata"
+          ],
+          "name": "imagedata",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        },
+        {
+          "path": [
+            "putImageData",
+            "dx"
+          ],
+          "name": "dx",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "putImageData",
+            "dy"
+          ],
+          "name": "dy",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "putImageData",
+            "dirtyX"
+          ],
+          "name": "dirtyX",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "putImageData",
+            "dirtyY"
+          ],
+          "name": "dirtyY",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "putImageData",
+            "dirtyWidth"
+          ],
+          "name": "dirtyWidth",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "putImageData",
+            "dirtyHeight"
+          ],
+          "name": "dirtyHeight",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "imageSmoothingEnabled": {
+      "path": [
+        "imageSmoothingEnabled"
+      ],
+      "name": "imageSmoothingEnabled",
+      "type": "boolean",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "BooleanKeyword",
+      "kind": 163,
+      "typeKind": 131
+    },
+    "imageSmoothingQuality": {
+      "path": [
+        "imageSmoothingQuality"
+      ],
+      "name": "imageSmoothingQuality",
+      "type": "ImageSmoothingQuality",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 163,
+      "typeKind": 174
+    },
+    "arc": {
+      "path": [
+        "arc"
+      ],
+      "name": "arc",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "arc",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "arc",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "arc",
+            "radius"
+          ],
+          "name": "radius",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "arc",
+            "startAngle"
+          ],
+          "name": "startAngle",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "arc",
+            "endAngle"
+          ],
+          "name": "endAngle",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "arc",
+            "anticlockwise"
+          ],
+          "name": "anticlockwise",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "BooleanKeyword",
+          "kind": 161,
+          "typeKind": 131
+        }
+      ]
+    },
+    "arcTo": {
+      "path": [
+        "arcTo"
+      ],
+      "name": "arcTo",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "arcTo",
+            "x1"
+          ],
+          "name": "x1",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "arcTo",
+            "y1"
+          ],
+          "name": "y1",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "arcTo",
+            "x2"
+          ],
+          "name": "x2",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "arcTo",
+            "y2"
+          ],
+          "name": "y2",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "arcTo",
+            "radius"
+          ],
+          "name": "radius",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "bezierCurveTo": {
+      "path": [
+        "bezierCurveTo"
+      ],
+      "name": "bezierCurveTo",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "bezierCurveTo",
+            "cp1x"
+          ],
+          "name": "cp1x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "bezierCurveTo",
+            "cp1y"
+          ],
+          "name": "cp1y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "bezierCurveTo",
+            "cp2x"
+          ],
+          "name": "cp2x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "bezierCurveTo",
+            "cp2y"
+          ],
+          "name": "cp2y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "bezierCurveTo",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "bezierCurveTo",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "closePath": {
+      "path": [
+        "closePath"
+      ],
+      "name": "closePath",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": []
+    },
+    "ellipse": {
+      "path": [
+        "ellipse"
+      ],
+      "name": "ellipse",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "ellipse",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "ellipse",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "ellipse",
+            "radiusX"
+          ],
+          "name": "radiusX",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "ellipse",
+            "radiusY"
+          ],
+          "name": "radiusY",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "ellipse",
+            "rotation"
+          ],
+          "name": "rotation",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "ellipse",
+            "startAngle"
+          ],
+          "name": "startAngle",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "ellipse",
+            "endAngle"
+          ],
+          "name": "endAngle",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "ellipse",
+            "anticlockwise"
+          ],
+          "name": "anticlockwise",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "BooleanKeyword",
+          "kind": 161,
+          "typeKind": 131
+        }
+      ]
+    },
+    "lineTo": {
+      "path": [
+        "lineTo"
+      ],
+      "name": "lineTo",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "lineTo",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "lineTo",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "moveTo": {
+      "path": [
+        "moveTo"
+      ],
+      "name": "moveTo",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "moveTo",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "moveTo",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "quadraticCurveTo": {
+      "path": [
+        "quadraticCurveTo"
+      ],
+      "name": "quadraticCurveTo",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "quadraticCurveTo",
+            "cpx"
+          ],
+          "name": "cpx",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "quadraticCurveTo",
+            "cpy"
+          ],
+          "name": "cpy",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "quadraticCurveTo",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "quadraticCurveTo",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "rect": {
+      "path": [
+        "rect"
+      ],
+      "name": "rect",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "rect",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "rect",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "rect",
+            "w"
+          ],
+          "name": "w",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "rect",
+            "h"
+          ],
+          "name": "h",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "lineCap": {
+      "path": [
+        "lineCap"
+      ],
+      "name": "lineCap",
+      "type": "CanvasLineCap",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 163,
+      "typeKind": 174
+    },
+    "lineDashOffset": {
+      "path": [
+        "lineDashOffset"
+      ],
+      "name": "lineDashOffset",
+      "type": "number",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "NumberKeyword",
+      "kind": 163,
+      "typeKind": 144
+    },
+    "lineJoin": {
+      "path": [
+        "lineJoin"
+      ],
+      "name": "lineJoin",
+      "type": "CanvasLineJoin",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 163,
+      "typeKind": 174
+    },
+    "lineWidth": {
+      "path": [
+        "lineWidth"
+      ],
+      "name": "lineWidth",
+      "type": "number",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "NumberKeyword",
+      "kind": 163,
+      "typeKind": 144
+    },
+    "miterLimit": {
+      "path": [
+        "miterLimit"
+      ],
+      "name": "miterLimit",
+      "type": "number",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "NumberKeyword",
+      "kind": 163,
+      "typeKind": 144
+    },
+    "getLineDash": {
+      "path": [
+        "getLineDash"
+      ],
+      "name": "getLineDash",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "ArrayType",
+      "kind": 165,
+      "typeKind": 179,
+      "parameters": []
+    },
+    "setLineDash": {
+      "path": [
+        "setLineDash"
+      ],
+      "name": "setLineDash",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "setLineDash",
+            "segments"
+          ],
+          "name": "segments",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "ArrayType",
+          "kind": 161,
+          "typeKind": 179
+        }
+      ]
+    },
+    "clearRect": {
+      "path": [
+        "clearRect"
+      ],
+      "name": "clearRect",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "clearRect",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "clearRect",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "clearRect",
+            "w"
+          ],
+          "name": "w",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "clearRect",
+            "h"
+          ],
+          "name": "h",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "fillRect": {
+      "path": [
+        "fillRect"
+      ],
+      "name": "fillRect",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "fillRect",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "fillRect",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "fillRect",
+            "w"
+          ],
+          "name": "w",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "fillRect",
+            "h"
+          ],
+          "name": "h",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "strokeRect": {
+      "path": [
+        "strokeRect"
+      ],
+      "name": "strokeRect",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "strokeRect",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "strokeRect",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "strokeRect",
+            "w"
+          ],
+          "name": "w",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "strokeRect",
+            "h"
+          ],
+          "name": "h",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "shadowBlur": {
+      "path": [
+        "shadowBlur"
+      ],
+      "name": "shadowBlur",
+      "type": "number",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "NumberKeyword",
+      "kind": 163,
+      "typeKind": 144
+    },
+    "shadowColor": {
+      "path": [
+        "shadowColor"
+      ],
+      "name": "shadowColor",
+      "type": "string",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "StringKeyword",
+      "kind": 163,
+      "typeKind": 147
+    },
+    "shadowOffsetX": {
+      "path": [
+        "shadowOffsetX"
+      ],
+      "name": "shadowOffsetX",
+      "type": "number",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "NumberKeyword",
+      "kind": 163,
+      "typeKind": 144
+    },
+    "shadowOffsetY": {
+      "path": [
+        "shadowOffsetY"
+      ],
+      "name": "shadowOffsetY",
+      "type": "number",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "NumberKeyword",
+      "kind": 163,
+      "typeKind": 144
+    },
+    "restore": {
+      "path": [
+        "restore"
+      ],
+      "name": "restore",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": []
+    },
+    "save": {
+      "path": [
+        "save"
+      ],
+      "name": "save",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": []
+    },
+    "fillText": {
+      "path": [
+        "fillText"
+      ],
+      "name": "fillText",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "fillText",
+            "text"
+          ],
+          "name": "text",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "StringKeyword",
+          "kind": 161,
+          "typeKind": 147
+        },
+        {
+          "path": [
+            "fillText",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "fillText",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "fillText",
+            "maxWidth"
+          ],
+          "name": "maxWidth",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "measureText": {
+      "path": [
+        "measureText"
+      ],
+      "name": "measureText",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 165,
+      "typeKind": 174,
+      "parameters": [
+        {
+          "path": [
+            "measureText",
+            "text"
+          ],
+          "name": "text",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "StringKeyword",
+          "kind": 161,
+          "typeKind": 147
+        }
+      ]
+    },
+    "strokeText": {
+      "path": [
+        "strokeText"
+      ],
+      "name": "strokeText",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "strokeText",
+            "text"
+          ],
+          "name": "text",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "StringKeyword",
+          "kind": 161,
+          "typeKind": 147
+        },
+        {
+          "path": [
+            "strokeText",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "strokeText",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "strokeText",
+            "maxWidth"
+          ],
+          "name": "maxWidth",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "direction": {
+      "path": [
+        "direction"
+      ],
+      "name": "direction",
+      "type": "CanvasDirection",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 163,
+      "typeKind": 174
+    },
+    "font": {
+      "path": [
+        "font"
+      ],
+      "name": "font",
+      "type": "string",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "StringKeyword",
+      "kind": 163,
+      "typeKind": 147
+    },
+    "textAlign": {
+      "path": [
+        "textAlign"
+      ],
+      "name": "textAlign",
+      "type": "CanvasTextAlign",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 163,
+      "typeKind": 174
+    },
+    "textBaseline": {
+      "path": [
+        "textBaseline"
+      ],
+      "name": "textBaseline",
+      "type": "CanvasTextBaseline",
+      "ownSyntaxKind": "PropertySignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 163,
+      "typeKind": 174
+    },
+    "getTransform": {
+      "path": [
+        "getTransform"
+      ],
+      "name": "getTransform",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "TypeReference",
+      "kind": 165,
+      "typeKind": 174,
+      "parameters": []
+    },
+    "resetTransform": {
+      "path": [
+        "resetTransform"
+      ],
+      "name": "resetTransform",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": []
+    },
+    "rotate": {
+      "path": [
+        "rotate"
+      ],
+      "name": "rotate",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "rotate",
+            "angle"
+          ],
+          "name": "angle",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "scale": {
+      "path": [
+        "scale"
+      ],
+      "name": "scale",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "scale",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "scale",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "setTransform": {
+      "path": [
+        "setTransform"
+      ],
+      "name": "setTransform",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "setTransform",
+            "transform"
+          ],
+          "name": "transform",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        }
+      ]
+    },
+    "transform": {
+      "path": [
+        "transform"
+      ],
+      "name": "transform",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "transform",
+            "a"
+          ],
+          "name": "a",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "transform",
+            "b"
+          ],
+          "name": "b",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "transform",
+            "c"
+          ],
+          "name": "c",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "transform",
+            "d"
+          ],
+          "name": "d",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "transform",
+            "e"
+          ],
+          "name": "e",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "transform",
+            "f"
+          ],
+          "name": "f",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "translate": {
+      "path": [
+        "translate"
+      ],
+      "name": "translate",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "translate",
+            "x"
+          ],
+          "name": "x",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        },
+        {
+          "path": [
+            "translate",
+            "y"
+          ],
+          "name": "y",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "NumberKeyword",
+          "kind": 161,
+          "typeKind": 144
+        }
+      ]
+    },
+    "drawFocusIfNeeded": {
+      "path": [
+        "drawFocusIfNeeded"
+      ],
+      "name": "drawFocusIfNeeded",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "drawFocusIfNeeded",
+            "path"
+          ],
+          "name": "path",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        },
+        {
+          "path": [
+            "drawFocusIfNeeded",
+            "element"
+          ],
+          "name": "element",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        }
+      ]
+    },
+    "scrollPathIntoView": {
+      "path": [
+        "scrollPathIntoView"
+      ],
+      "name": "scrollPathIntoView",
+      "type": "function",
+      "ownSyntaxKind": "MethodSignature",
+      "typeSyntaxKind": "VoidKeyword",
+      "kind": 165,
+      "typeKind": 113,
+      "parameters": [
+        {
+          "path": [
+            "scrollPathIntoView",
+            "path"
+          ],
+          "name": "path",
+          "type": "parameter",
+          "ownSyntaxKind": "Parameter",
+          "typeSyntaxKind": "TypeReference",
+          "kind": 161,
+          "typeKind": 174
+        }
+      ]
+    }
+  }
+}
