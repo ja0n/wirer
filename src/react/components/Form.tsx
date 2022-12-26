@@ -59,9 +59,9 @@ const Select = ({ label, options, value, onChange }) => {
   return (
     <label style={themeStyles.nodeInputLabel}>
       <span>{label}</span>
-      <select defaultValue={value} onChange={onChange} style={themeStyles.nodeInput}>
-        {options.map(value => (
-          <option key={value} defaultValue={value}>{value.toString()}</option>
+      <select value={value} onChange={onChange} style={themeStyles.nodeInput}>
+        {options.map(option => (
+          <option key={option} value={option}>{option.toString()}</option>
         ))}
       </select>
     </label>
