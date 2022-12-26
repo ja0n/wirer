@@ -70,6 +70,7 @@
   "dependencies": {
     "@storybook/core": "^6.3.2",
     "firmata-io": "^2.3.0",
+    "istanbul-lib-report": "^3.0.0",
     "leader-line": "ja0n/leader-line",
     "lodash": "^4.17.21",
     "node-fetch": "^3.2.3",
