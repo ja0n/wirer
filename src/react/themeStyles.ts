@@ -89,6 +89,7 @@ export const themeStyles: Record<string, React.CSSProperties> = {
     minHeight: "40px",
     minWidth: "14px",
     margin: "10px 0",
+    gap: "10px",
   },
   nodeSectionAsideLeft: {
     position: "relative",
