@@ -55,6 +55,7 @@ class NodeContainer extends React.Component<Props> {
     return (
       <SVGContainer
         wrapper={node}
+        ports={node._ports}
         selected={this.context?.render.lastSelected === node}
         x={x}
         y={y}

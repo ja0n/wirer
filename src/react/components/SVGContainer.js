@@ -23,6 +23,14 @@ class SVGContainer extends React.Component {
       return true;
     }
 
+    if (this.props.gui !== nextProps.gui) {
+      return true;
+    }
+
+    if (this.props.ports !== nextProps.ports) {
+      return true;
+    }
+
     if (hasPositionChanged()) {
       this.ref.setAttribute('x', nextProps.x);
       this.ref.setAttribute('y', nextProps.y);
