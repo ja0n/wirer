@@ -1,11 +1,7 @@
-import React from 'react';
-import { mount } from 'enzyme';
+import { prototypeMap } from '../src/nodes/prototype';
 import Wirer from '../src/Wirer';
-import { Container, Connections, Wire, Line } from '../src/react/components';
 
-describe('Connections Component', () => {
-  test('last line selected behavior', () => {
-  })
+describe('Wirer', () => {
   test('it is respecting wire managing', () => {
     let canvas = new Wirer();
 
@@ -43,4 +39,61 @@ describe('Connections Component', () => {
     expect(sealed).toBeFalsy();
     expect(canvas.render._wires).toHaveLength(2);
   });
+
+  test('prototype nodes behavior', () => {
+    let canvas = new Wirer();
+    canvas.clearCanvas(false);
+    expect(canvas.nodes).toHaveLength(0);
+
+    const getInstance = canvas.createNode('getInstance', { x: 10, y: 10 });
+    const actInstance = canvas.createNode('actInstance', { x: 200, y: 100 });
+    const number1 = canvas.createNode('SourceNumber', { x: 100, y: 100, inputs: { number: 100 } });
+    const number2 = canvas.createNode('SourceNumber', { x: 100, y: 200, inputs: { number: 200 } });
+
+
+    canvas.addNodes([
+      getInstance, actInstance, number1, number2
+    ]);
+
+    actInstance.onChange({ id: 'method', value: 'strokeRect' });
+    const prototypeData = prototypeMap['CanvasRenderingContext2D'];
+    let parametersCount = prototypeData.prototype['strokeRect'].parameters.length;
+
+    // assert that number of port is matching, excluding the instance one
+    expect(parametersCount).toBe(actInstance._ports.in.length - 1)
+    canvas.render.sealOrDiscard(getInstance.getPort('out', 0), actInstance.getPort('in', 0));
+    canvas.render.sealOrDiscard(number1.getPort('out', 0), actInstance.getPort('in', 1));
+    canvas.render.sealOrDiscard(number1.getPort('out', 0), actInstance.getPort('in', 2));
+    canvas.render.sealOrDiscard(number2.getPort('out', 0), actInstance.getPort('in', 3));
+    canvas.render.sealOrDiscard(number2.getPort('out', 0), actInstance.getPort('in', 4));
+    expect(canvas.render.getConnections().length).toBe(5);
+    expect(actInstance.wires.length).toBe(5);
+    expect(actInstance._ports.in[0].connections.length).toBe(1);
+    expect(actInstance._ports.in[1].connections.length).toBe(1);
+    expect(actInstance._ports.in[2].connections.length).toBe(1);
+    expect(actInstance._ports.in[3].connections.length).toBe(1);
+    expect(actInstance._ports.in[4].connections.length).toBe(1);
+    expect(number1.wires.length).toBe(2);
+    expect(number2.wires.length).toBe(2);
+    expect(number1._ports.out[0].connections.length).toBe(2);
+    expect(number2._ports.out[0].connections.length).toBe(2);
+
+    const methodName = 'closePath'
+    actInstance.onChange({ id: 'method', value: methodName });
+    parametersCount = prototypeData.prototype[methodName].parameters.length;
+    expect(parametersCount).toBe(actInstance._ports.in.length - 1)
+
+    // assert connections were properly removed after changing port configuration
+    expect(canvas.render.getConnections().length).toBe(1);
+    expect(actInstance.wires.length).toBe(1);
+    expect(actInstance._ports.in[0].connections.length).toBe(0);
+    expect(actInstance._ports.in[1].connections.length).toBe(0);
+    expect(actInstance._ports.in[2].connections.length).toBe(0);
+    expect(actInstance._ports.in[3].connections.length).toBe(0);
+    expect(actInstance._ports.in[4].connections.length).toBe(0);
+    expect(number1.wires.length).toBe(0);
+    expect(number2.wires.length).toBe(0);
+    expect(number1._ports.out[0].connections.length).toBe(0);
+    expect(number2._ports.out[0].connections.length).toBe(0);
+  })
 });
