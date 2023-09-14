@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wirer.js example - Zoom</title>
+    <link href="themes/default.css" rel="stylesheet">
+    <style>
+    .svg-container {
+      /*height: auto;*/
+      /*display: inline-block;*/
+      /*width: ;*/
+      /*height: 500px;*/
+    }
+
+    .wirer-node {
+      stroke: black;
+      cursor: move;
+    }
+    .wirer-node:hover {
+      stroke: red;
+    }
+
+    .wirer-gui {
+      width: 200px;
+
+    }
+    .wirer-gui body {
+      margin: 0;
+    }
+
+    .wirer-gui label {
+      display: flex;
+    }
+
+    .wirer-gui input, select {
+      width: 60%;
+      display: inline-block;
+    }
+
+    .button-list {
+      left: 100%;
+      display: flex;
+    }
+
+    .button-list ul {
+      min-width: 180px;
+    }
+
+    </style>
+    <script src="/webpack-dev-server.js"></script>
+    <script src="/wirer.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="test"></div>
+      <div class="button-list">
+        <ul>
+          <li><button class="zoom" type="button" data-value="0.5">Zoom 0.5x</button></li>
+          <li><button class="zoom" type="button" data-value="0.7">Zoom 0.7x</button></li>
+          <li><button class="zoom" type="button" data-value="1">Zoom 1x</button></li>
+          <li><button class="zoom" type="button" data-value="2">Zoom 2x</button></li>
+          <li><button class="zoom" type="button" data-value="3">Zoom 3x</button></li>
+          <li><button class="zoom" type="button" data-value="4">Zoom 4x</button></li>
+        </ul>
+        <ul>
+          <li><button class="center" type="button" data-value="[0, 0]">Center [0, 0]</button></li>
+          <li><button class="center" type="button" data-value="[100, -100]">Center [100, -100]</button></li>
+          <li><button class="center" type="button" data-value="[-100, -100]">Center [-100, -100]</button></li>
+          <li><button class="center" type="button" data-value="[-100, 100]">Center [-100, 100]</button></li>
+          <li><button class="center" type="button" data-value="[100, 100]">Center [100, 100]</button></li>
+        </ul>
+        <ul>
+          <li><button class="reset" type="button" data-value="4">Reset</button></li>
+        </ul>
+      </ul>
+
+      <ul class="button-list">
+      </ul>
+    </div>
+    <script src="./flows.js"></script>
+    <script src="./zoom.js"></script>
+  </body>
+</html>
