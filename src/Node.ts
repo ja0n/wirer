@@ -149,7 +149,7 @@ export default class Node {
     //   wire.delete();
   }
 
-  getPort (type: string, id: string) {
+  getPort (type: string, id: string | number) {
     return this.getPorts(type)[id];
   }
 
@@ -157,8 +157,20 @@ export default class Node {
     return this._ports[type];
   }
 
+  getPortValueSync (type = 'in', index = 0, connection = 0, context = {}) {
+    const portConn = this.getPort(type, index).connections[connection];
+    const portNode = portConn && this.wirer.getNode(portConn.nodeId);
+    const getNode = this.wirer.getNode.bind(this.wirer)
+
+    if (portNode) {
+      return portNode.behavior(getNode, context)[portConn.id];
+    }
+
+    return null;
+  }
+
   async getPortValue (type = 'in', index = 0, connection = 0, context = {}) {
-    const portConn = this._ports[type][index].connections[connection];
+    const portConn = this.getPort(type, index).connections[connection];
     const portNode = portConn && this.wirer.getNode(portConn.nodeId);
     const getNode = this.wirer.getNode.bind(this.wirer)
 

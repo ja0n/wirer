@@ -28,7 +28,7 @@ const nodeMap: Record<string, NodeConfig> = {
     inputs: {
       'instance': instanceOptions[0],
     },
-    async behavior (findById, { canvasElement }) {
+    behavior (findById, { canvasElement }) {
       const instanceType = this.inputs['instance'];
       if (!this.instance && canvasElement) {
         this.instance = canvasElement.getContext('2d');
@@ -66,8 +66,14 @@ const nodeMap: Record<string, NodeConfig> = {
       return 0;
     },
     onInputChange (node, change) {
+      let instanceData = node.getPortValueSync('in', 0, 0);
+
+      if (!(instanceData instanceof InstanceData)) {
+        return null;
+      }
+
       if (change.id == 'method') {
-        const prototype = prototypeMap['CanvasRenderingContext2D'].prototype;
+        const prototype = prototypeMap[instanceData.instanceType].prototype;
         const methodData = prototype[change.value];
         // node.removePorts(node._ports.in.slice(1));
         // node.removePorts(node._ports.out);
@@ -83,22 +89,31 @@ const nodeMap: Record<string, NodeConfig> = {
     },
     onAttach (node, { from, to }) {
       let portIndex = node._ports.in.indexOf(from);
+
       if (portIndex == -1) {
         portIndex = node._ports.in.indexOf(to);
       }
 
-      if (portIndex == 0) {
-        // TODO: use instanceType from instanceData
-        // const instanceData = await node.getPortValue('in', 0);
-        const options = Object.keys(prototypeMap['CanvasRenderingContext2D'].prototype);
-        node.gui = {
-          method: { label: 'method', type: 'select', options },
-        }
-        if (this.inputs['method'] === undefined) {
-          this.inputs = options[0];
-        }
-        this.onInputChange(node, { id: 'method', value: this.inputs['method'] });
+      // first index is the instance port
+      if (portIndex != 0) {
+        return null;
       }
+
+      let instanceData = node.getPortValueSync('in', 0, 0);
+
+      if (!(instanceData instanceof InstanceData)) {
+        return null;
+      }
+
+      const options = Object.keys(prototypeMap[instanceData.instanceType].prototype);
+      node.gui = {
+        method: { label: 'method', type: 'select', options },
+      }
+
+      if (this.inputs['method'] === undefined) {
+        this.inputs = options[0];
+      }
+      this.onInputChange(node, { id: 'method', value: this.inputs['method'] });
     }
   },
 };
