@@ -29,7 +29,7 @@ storiesOf('Custom Node', module)
     const Node = ({ title, bgColor, wrapper, ports }) => (
       <article style={{ backgroundColor: bgColor }}>
         <header> {title} </header>
-        <SplitSection wrapper={wrapper} ports={ports}>
+        <SplitSection node={wrapper} ports={ports}>
           <span role="img">🐣</span>
         </SplitSection>
       </article>
